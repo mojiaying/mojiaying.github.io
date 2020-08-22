@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Spring is perhaps the best of the compoment-based frameworks that emerged (出现) at the turn of the 21st century. It vastly improves the way that developers write and deliver infrastructure code in Java">
+<meta name="keywords" content="The Spring Series">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Series Part 1, What is Spring">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring is perhaps the best of the compoment-based frameworks that emerged (出现) at the turn of the 21st century. It vastly improves the way that developers write and deliver infrastructure code in Java">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Series Part 1, What is Spring">
+<meta name="twitter:description" content="Spring is perhaps the best of the compoment-based frameworks that emerged (出现) at the turn of the 21st century. It vastly improves the way that developers write and deliver infrastructure code in Java">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Spring Series Part 1, What is Spring</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/19/JavaWorld/Spring Series Part 2, Spring MVC/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/06/JavaWorld/Doubly-linked lists and circular-linked lists, and their algorithms/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&text=Spring Series Part 1, What is Spring"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&is_video=false&description=Spring Series Part 1, What is Spring"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring Series Part 1, What is Spring&body=Check out this article: http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&name=Spring Series Part 1, What is Spring&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dependency-injection-and-inversion-of-control"><span class="toc-number">1.</span> <span class="toc-text">Dependency injection and inversion of control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-1-Spring-dependency-injection"><span class="toc-number">2.</span> <span class="toc-text">Example 1: Spring dependency injection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-1-Object-relations-in-plain-old-Java"><span class="toc-number">2.1.</span> <span class="toc-text">Listing 1. Object relations in plain old Java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-2-Creating-a-Car-with-the-Engine-interface"><span class="toc-number">2.2.</span> <span class="toc-text">Listing 2. Creating a Car with the Engine interface</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Modeling-classes-and-objects-in-Spring"><span class="toc-number">3.</span> <span class="toc-text">Modeling classes and objects in Spring</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-3-Example-of-using-the-Inject-annotation-in-Spring"><span class="toc-number">3.1.</span> <span class="toc-text">Listing 3. Example of using the @Inject annotation in Spring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-4-Component-annotation"><span class="toc-number">3.2.</span> <span class="toc-text">Listing 4. @Component annotation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoupling-解耦-as-a-design-principle"><span class="toc-number">4.</span> <span class="toc-text">Decoupling (解耦) as a design principle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview-of-the-Spring-framework"><span class="toc-number">5.</span> <span class="toc-text">Overview of the Spring framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Starting-up-a-new-project-Spring-Boot"><span class="toc-number">6.</span> <span class="toc-text">Starting up a new project: Spring Boot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-5-Main-class-with-Spring-Boot"><span class="toc-number">6.1.</span> <span class="toc-text">Listing 5. Main class with Spring Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-6-Starter-pom-xml"><span class="toc-number">6.2.</span> <span class="toc-text">Listing 6. Starter pom.xml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-Spring-Web-as-a-dependency"><span class="toc-number">7.</span> <span class="toc-text">Adding Spring Web as a dependency</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-7-Adding-Spring-Web-to-a-project"><span class="toc-number">7.1.</span> <span class="toc-text">Listing 7. Adding Spring Web to a project</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-2-Building-RESTful-endpoints-with-Spring-Web"><span class="toc-number">8.</span> <span class="toc-text">Example 2. Building RESTful endpoints with Spring Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-8-Spring-MVC-Rest-controller"><span class="toc-number">8.1.</span> <span class="toc-text">Listing 8. Spring MVC Rest controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Controller-annotation"><span class="toc-number">8.2.</span> <span class="toc-text">The @Controller annotation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Request-annotations"><span class="toc-number">8.3.</span> <span class="toc-text">The @Request annotations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REST-and-JSON-response"><span class="toc-number">8.4.</span> <span class="toc-text">REST and JSON response</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-3-Spring-with-JDBC"><span class="toc-number">9.</span> <span class="toc-text">Example #3: Spring with JDBC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-9-Adding-a-Maven-dependency-to-the-H2-DB"><span class="toc-number">9.1.</span> <span class="toc-text">Listing 9. Adding a Maven dependency to the H2 DB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-10-H2-in-memory-config"><span class="toc-number">9.2.</span> <span class="toc-text">Listing 10. H2 in-memory config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-component-classes"><span class="toc-number">9.3.</span> <span class="toc-text">Service component classes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-11-Service-component"><span class="toc-number">9.4.</span> <span class="toc-text">Listing 11. Service component</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-12-Injetcing-MyService-into-the-controller"><span class="toc-number">9.5.</span> <span class="toc-text">Listing 12. Injetcing MyService into the controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-JdbcTemplate-class"><span class="toc-number">10.</span> <span class="toc-text">The JdbcTemplate class</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-13-Repository-data-class"><span class="toc-number">10.1.</span> <span class="toc-text">Listing 13. Repository data class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">11.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Spring Series Part 1, What is Spring
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-19T03:00:01.000Z" itemprop="datePublished">2020-04-19</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/JavaWorld/">JavaWorld</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/The-Spring-Series/">The Spring Series</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Spring is perhaps the best of the compoment-based frameworks that emerged (出现) at the turn of the 21st century. It vastly improves the way that developers write and deliver infrastructure code in Java-based applications. Since it inception (开端), Spring has been recognized as a leading framework for enterprise Java development. As an end-to-end application framework, Spring mirrors some of the Java EE capabilities, but it offers a combination (结合) of features and programming conventions (约定) you won’t find elsewhere.</p>
+<p>This article introduces Spring and its core programming philosophy (理念) and methodology (方法论): Inverstion of control and dependency injection. You’ll also get started with Spring annotations and a couple of hands-on coding examples.</p>
+<h2 id="Dependency-injection-and-inversion-of-control"><a href="#Dependency-injection-and-inversion-of-control" class="headerlink" title="Dependency injection and inversion of control"></a>Dependency injection and inversion of control</h2><p>Spring’s core idea is that instead of managing object relationships yourself, you offload them to the framework. Inversion of control (IOC) is the methodology used to manage object relationships. Dependency injection is the machanism (机制) for implementing IOC. Since these two concepts are related but different, let’s consider them more closely:</p>
+<ul>
+<li><strong>Inversion of control (IOC)</strong> does jsut what its name says: it inverst the traditional hierarchy of control for fulfilling object relationships. Instead of relying on application code to define how objects relate to each other, relationships are definded by the framework. As a methodology, IOC introduces consistency and predictability to object relations, but it does require you, as the developer, to give up some fine-grained control.</li>
+<li><strong>Dependency injection (DI)</strong> is a machanism where the framework “injects” dependencies into your app. It’s the practial implementation of IOC. Dependency injection hinges (关键) on polymorphism (多态性), in the sense that it allows the fulfillment (满足) of a reference type to change based on configurations in the framework. The framework injects variable references rather than having them manually fulfilled in application code.</li>
+</ul>
+<blockquote>
+<p>JSR-330<br>Like much in the Java world, what began as an in-the-wild innovation, Spring, has been in part absorbed by standard specification. In this case, JSR-330 is the Java standard. This nice thing about the JSR-330 spec is you can use it elsewhere, and will see it in use elsewhere, beyond Spring. You can use it without using Spring. However, Spring brings a whole lot more to the table.</p>
+</blockquote>
+<h2 id="Example-1-Spring-dependency-injection"><a href="#Example-1-Spring-dependency-injection" class="headerlink" title="Example 1: Spring dependency injection"></a>Example 1: Spring dependency injection</h2><p>Inversion of control and dependency injection are best understood by using them, so we’ll start with a quick programming example.</p>
+<p>Say you’re modelling a car. If you’re modeling in plain old Java, you might have an interface member on the Car class to reference an Engine interface, as shown in Listing 1.</p>
+<h3 id="Listing-1-Object-relations-in-plain-old-Java"><a href="#Listing-1-Object-relations-in-plain-old-Java" class="headerlink" title="Listing 1. Object relations in plain old Java"></a>Listing 1. Object relations in plain old Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Engine</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Engine engine;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Engine <span class="title">getEngine</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEngine</span><span class="params">(Engine engine)</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Listing 1 contains an interface for an Engine type, and a class for the concrete Car type, Which references the Engine. (Note that in a real programming scenario these would be in separate files.) Now you’re creating a Car instance, you’d set the association as shown in Listing 2.</p>
+<h3 id="Listing-2-Creating-a-Car-with-the-Engine-interface"><a href="#Listing-2-Creating-a-Car-with-the-Engine-interface" class="headerlink" title="Listing 2. Creating a Car with the Engine interface"></a>Listing 2. Creating a Car with the Engine interface</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line">Car newCar = <span class="keyword">new</span> Car();</span><br><span class="line">Engine sixCylEngine = <span class="keyword">new</span> InlineSixCylinderEngine();</span><br><span class="line">newCar.setEngine(sixCylEngine);</span><br><span class="line"><span class="comment">// do stuff with the car</span></span><br></pre></td></tr></table></figure>
+<p>Note that you create the Car object first. You then create a new object that fulfills the Engine interface, and assign it manually to the Car object. That is how object associations work in plain old Java.</p>
+<h2 id="Modeling-classes-and-objects-in-Spring"><a href="#Modeling-classes-and-objects-in-Spring" class="headerlink" title="Modeling classes and objects in Spring"></a>Modeling classes and objects in Spring</h2><p>Now let’s look at the same example in Spring. Here, you could do something like what’s shown in Listing 3. You start with the Car class, but in this case you add an annotation to it: <code>@Inject</code>.</p>
+<h3 id="Listing-3-Example-of-using-the-Inject-annotation-in-Spring"><a href="#Listing-3-Example-of-using-the-Inject-annotation-in-Spring" class="headerlink" title="Listing 3. Example of using the @Inject annotation in Spring"></a>Listing 3. Example of using the @Inject annotation in Spring</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Engine engine;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Using the <code>@Inject</code> annotation (or <code>@Autowired</code>, if you prefer) tells Spring to search the context and automatically inject an object into the reference, based on a set of rules.</p>
+<p>Next, consider the <code>@Component</code> annotation, shown in Listing 4.</p>
+<h3 id="Listing-4-Component-annotation"><a href="#Listing-4-Component-annotation" class="headerlink" title="Listing 4. @Component annotation"></a>Listing 4. @Component annotation</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InlineSixCylinderEngine</span> <span class="keyword">implements</span> <span class="title">Engine</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Annotation a class with <code>@Component</code> tells Spring that it is available for fulfilling injections. In this case, the InlineSixCyEngine would be injected because it is availalbe and satisfies the interface requirement of the association. In Spring, this is called an “autowired” injection. (See below for more about Spring’s <code>@Autowired</code> annotation.)</p>
+<h2 id="Decoupling-解耦-as-a-design-principle"><a href="#Decoupling-解耦-as-a-design-principle" class="headerlink" title="Decoupling (解耦) as a design principle"></a>Decoupling (解耦) as a design principle</h2><p>Inversion of control with dependency injection removes a source of concrete dependency from your code. Nowhere in the program is there a hard-codede reference to the Engine implementation. This is an example of decoupling as a software design principle. Decoupling application code from implementation makes your code easier to manage and maintain. The application knows less about how its parts fit together, but it’s much eaiser to make changes at any point in the application lifecycle.</p>
+<blockquote>
+<p>@Autowired vs @Inject<br>@Autowired and @Inject do the same thing. However, @Inject is the Java standard annotation, whereas @Autowired is specific to Spring. They both serve the same purpose of telling the DI engine to inject the field or method with a matching object. You can use either one in Spring.</p>
+</blockquote>
+<h2 id="Overview-of-the-Spring-framework"><a href="#Overview-of-the-Spring-framework" class="headerlink" title="Overview of the Spring framework"></a>Overview of the Spring framework</h2><p>Now that you’ve seen some Spring code, let’s take an overview of the framework and its components. As you can see, the framework consists of four main modules, which are broken into packages. Spring gives you a fair amount of flexibility with the modules you’ll use: </p>
+<ul>
+<li>Core container<ul>
+<li>Core</li>
+<li>Bean</li>
+<li>Context</li>
+<li>Expression Language</li>
+</ul>
+</li>
+<li>Aspect-oriented programming (AOP)<ul>
+<li>AOP</li>
+<li>Aspects</li>
+<li>Instrumentation</li>
+</ul>
+</li>
+<li>Data access and integration<ul>
+<li>JDBC</li>
+<li>JPA/ORM</li>
+<li>JMS</li>
+<li>Transactions</li>
+</ul>
+</li>
+<li>Web<ul>
+<li>Web/REST</li>
+<li>Servlet</li>
+<li>Struts</li>
+</ul>
+</li>
+</ul>
+<p>Rather than cover everthing here, let’s get started with two of the more commonly used Spring features.</p>
+<h2 id="Starting-up-a-new-project-Spring-Boot"><a href="#Starting-up-a-new-project-Spring-Boot" class="headerlink" title="Starting up a new project: Spring Boot"></a>Starting up a new project: Spring Boot</h2><p>We’ll use Spring Boot to create an example project, which we’ll use to demo Spring features. Spring Boot makes starting new projects much easier, as you’ll seee for yourself. To begin, take a look at the main class shown below. In Spring Boot, we can take a main class with a <code>main()</code> method, and then choose to run it standalone, or package for deployment in a container like Tomcat.</p>
+<h3 id="Listing-5-Main-class-with-Spring-Boot"><a href="#Listing-5-Main-class-with-Spring-Boot" class="headerlink" title="Listing 5. Main class with Spring Boot"></a>Listing 5. Main class with Spring Boot</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line">pulbic <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note two things about the above code: First, all of the work is abstracted into the framework. The main class boots up the app, but it doesn’t konw anything about how the app works or delivers its functionality. Second, the <code>SpringApplication.run()</code> does the actual job of booting the app and passing in the Application class itself. Again, the work the app does is not apparent here.</p>
+<p>The <code>@SpringBootApplication</code> annotation wraps up a few standard annotations and tells Spring to look at the package where the main calss exists for components. In our previous example, with the car and engine, this would allow Spring to find all classes annotated with <code>@Component</code> and <code>@Inject</code>. The process itself, called component scanning, is highly customizable.</p>
+<p>You can build the app with the standard <code>mvn clane install</code>, and you can run it with the Spring Boot goal (<code>mvn spring-boot:run</code>). Before doing that, let’s look at this application’s pom.xml file.</p>
+<h3 id="Listing-6-Starter-pom-xml"><a href="#Listing-6-Starter-pom-xml" class="headerlink" title="Listing 6. Starter pom.xml"></a>Listing 6. Starter pom.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.javaworld<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>what-is-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Note two important features in the above code:</p>
+<ol>
+<li>The partent element relies on the spring-boot-starter-parent proejct. This parent proejct defines a number of useful defaults, such as the default compiler level of JDK 1.8. For the most part, you can just trust that it knows what it’s doing. As an example, you can omit the version number for many common dependencies, and SpringBootParent will set the versions to be compatible. When you bump up the parent’s version number, the dependency versions and defaults will also change.</li>
+<li>The spring-boot-maven-plugin allows for the executable JAR/WAR packging and in-plcae run (via the <code>mvn spring-boot:run</code> command).</li>
+</ol>
+<h2 id="Adding-Spring-Web-as-a-dependency"><a href="#Adding-Spring-Web-as-a-dependency" class="headerlink" title="Adding Spring Web as a dependency"></a>Adding Spring Web as a dependency</h2><p>So far, we’ve been able to use spring-boot to limit how much work we put in to get an app up and running. Now let’s add a dependency and see how quickly we cacn get something in a broswer.</p>
+<h3 id="Listing-7-Adding-Spring-Web-to-a-project"><a href="#Listing-7-Adding-Spring-Web-to-a-project" class="headerlink" title="Listing 7. Adding Spring Web to a project"></a>Listing 7. Adding Spring Web to a project</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Note<br>Spring will automatically detect what files have changed and compile accordingly. You can just execute <code>mvn spirng-boot:run</code> to pickup changes.</p>
+</blockquote>
+<p>Now that we’ve got a baisc project setup, we’re ready for our two examples.</p>
+<h2 id="Example-2-Building-RESTful-endpoints-with-Spring-Web"><a href="#Example-2-Building-RESTful-endpoints-with-Spring-Web" class="headerlink" title="Example 2. Building RESTful endpoints with Spring Web"></a>Example 2. Building RESTful endpoints with Spring Web</h2><p>We’ve used spring-boot-starter-web to bring in serveral dependencies that are useful for building web applications. Next we’ll create a route handler for a URL path. Spring’s web support is part of the Spring MVC (Model-View-Controller) module, but don’t let that worry you: Spring Web has full and effective support for building RESTful endpoints, as well.</p>
+<p>The class whose job it is to field URL requests is known as a controller, as shown in Listing 8.</p>
+<h3 id="Listing-8-Spring-MVC-Rest-controller"><a href="#Listing-8-Spring-MVC-Rest-controller" class="headerlink" title="Listing 8. Spring MVC Rest controller"></a>Listing 8. Spring MVC Rest controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GreetingController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMethod</span>(value = <span class="string">"/hi"</span>, method = RequestMethod.GET) </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hi</span><span class="params">(@RequestParam(name = <span class="string">"name"</span>, required = <span class="keyword">false</span>, defaultValue = <span class="string">"JavaWorld"</span>)</span> String name, Model model) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello "</span> + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="The-Controller-annotation"><a href="#The-Controller-annotation" class="headerlink" title="The @Controller annotation"></a>The @Controller annotation</h3><p>The @Controller annotation identifies a class as a controller. A class narked as a controller is also automatically identified as a component class, which makes it a candidate for auto-wiring. Wherever this controller is needed, it will be plugged into the framework. In this case, we’ll plug it into the MVC system to handle requests.</p>
+<p>The controller is a specialized kind of component. It support the @RequestMapping and @ResponseBody annotations that you see on the <code>hi()</code> method. These annotations tell the framework how to map URL requests to the app.</p>
+<p>At this point, you can run the app with <code>mvn spring-boot:run</code>. When you hit the <code>/hi</code> URL, you’ll get a response like “Hello JavaWorld”.</p>
+<p>Notice how Spring has taken the basics of autowiring components, and delivered a whole web framework. With Spring, you don’t have to explicitly connect anything togetehr!</p>
+<h3 id="The-Request-annotations"><a href="#The-Request-annotations" class="headerlink" title="The @Request annotations"></a>The @Request annotations</h3><p>The @RequestMapping allows you to define a handler for a URL path. Options include defining the HTTP method you want, which is what we’ve done in this case. Leaving RequestMethod off would instruct the program to handle all HTTP method types.</p>
+<p>The @RequestParam argument annotation allows us to map the request parameters directly into the method signature, including requiring certain params and defining default values as we’ve done here. We can even map a request body to a class with the @RequestBody argument annotation.</p>
+<h3 id="REST-and-JSON-response"><a href="#REST-and-JSON-response" class="headerlink" title="REST and JSON response"></a>REST and JSON response</h3><p>If you are creating a REST endpoint and you want to return JSON from the method, you can annotate the method with @ResponseBody. The response will then be automatically packaged as JSON. In this case you’ll return an object from the method.</p>
+<blockquote>
+<p>Using MVC with Spring Web<br>Similar to Struts, the Spring Web module can easily be used for a true model-view-controller setup. In this case, you would return a mapping in the given templating (like Thymeleaf), and Spring would resolve the mapping, provide the model you pass to it, and render the response. </p>
+</blockquote>
+<h2 id="Example-3-Spring-with-JDBC"><a href="#Example-3-Spring-with-JDBC" class="headerlink" title="Example #3: Spring with JDBC"></a>Example #3: Spring with JDBC</h2><p>Now let’s do something more intertesting with our request hanlder: let’s return some data from a database. For the purpose of this example, we’ll use the H2 database. Thankfully, Spring Boot supports the in-memory H2 DB out of the box.</p>
+<p>You can add the H2 DB to your app by including it in your pom.xml, as shown in Lisinting 9. We’ll also add a dependency to spring-boot-starter-jdbc. This brings in what we need to control JDBC with Spring.</p>
+<h3 id="Listing-9-Adding-a-Maven-dependency-to-the-H2-DB"><a href="#Listing-9-Adding-a-Maven-dependency-to-the-H2-DB" class="headerlink" title="Listing 9. Adding a Maven dependency to the H2 DB"></a>Listing 9. Adding a Maven dependency to the H2 DB</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.h2database<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>h2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Next, you’ll want to configure the database. This is done with a spring.database.properties file, which is located in the <code>/resources</code> directory. Listing 10 shows how we can use H2 with the in-memory mode activated.</p>
+<h3 id="Listing-10-H2-in-memory-config"><a href="#Listing-10-H2-in-memory-config" class="headerlink" title="Listing 10. H2 in-memory config"></a>Listing 10. H2 in-memory config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driverClassName=org.hsqldb.jdbc.JDBCDriver</span><br><span class="line">url=jdbc:hsqldb:mem:myDb</span><br><span class="line">username=sa</span><br><span class="line">password=sa</span><br></pre></td></tr></table></figure>
+<h3 id="Service-component-classes"><a href="#Service-component-classes" class="headerlink" title="Service component classes"></a>Service component classes</h3><p>Now, we can start using the database. It’s that easy. However, basic software design tells us never to access the data layer via the view layer. In this case, we don’t want to access the JDBC support via the view controller. We need a service component. In Spring Web, we use the @Service annoation to create a service class. Like the @Controller annoation, using the @Service annotation designates a class as a kink of @Component. That means Spring will add it to the DI context, and you can autowire it into your controller.</p>
+<blockquote>
+<p>Annotating components<br>Spring offers a few ways to annotate components. The most baisc way to indicate that a class is available for auto-wriring is via the @Component annotation. The @Service annotation does the same thing, but indicates a specific type of class. You could use the @Bean annotation to designate a method that would serve the purpose of creating a bean to be autowired.</p>
+</blockquote>
+<p>Lising 11 shows a simple Service Component.</p>
+<h3 id="Listing-11-Service-component"><a href="#Listing-11-Service-component" class="headerlink" title="Listing 11. Service component"></a>Listing 11. Service component</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span>(<span class="string">"myService"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getGreeting</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hey There"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addSong</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (name.length() &gt; <span class="number">15</span>)&#123;</span><br><span class="line">		  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getSongs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ArrayList();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now we can access the service class from the controller. In listing 12, we’ll injetc it.</p>
+<h3 id="Listing-12-Injetcing-MyService-into-the-controller"><a href="#Listing-12-Injetcing-MyService-into-the-controller" class="headerlink" title="Listing 12. Injetcing MyService into the controller"></a>Listing 12. Injetcing MyService into the controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GreetingController</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Inject</span></span><br><span class="line">  <span class="keyword">private</span> MyService myService;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/hi"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hi</span><span class="params">(@RequestParam(name=<span class="string">"name"</span>, required=<span class="keyword">false</span>, defaultValue=<span class="string">"JavaWorld"</span>)</span> String name, Model model) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> myService.getGreeting() + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now the Controller is makring use of the Service class. Notice how Spring is allowing us to define a layered architecture using the same DI system. We can do the same in defining a data layer that the service class can use, and leverage Spring’s support for a variety of datastores and datastore access approaches at the same time.</p>
+<p>We can annotate our data layer class with @Repository, as seen in Listing 13, and the inject it into the service class. In the same way @Service allowed us to define the service layer, we are now defining the data layer in a decoupled way.</p>
+<h2 id="The-JdbcTemplate-class"><a href="#The-JdbcTemplate-class" class="headerlink" title="The JdbcTemplate class"></a>The JdbcTemplate class</h2><p>The data layer will require more than the service layer, because it will be talking to the database. Spring eases this primarily by providing the JdbcTemplate class.</p>
+<h3 id="Listing-13-Repository-data-class"><a href="#Listing-13-Repository-data-class" class="headerlink" title="Listing 13. Repository data class"></a>Listing 13. Repository data class</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDataObject</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addName</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">    jdbcTemplate.execute(<span class="string">"DROP TABLE names IF EXISTS"</span>);</span><br><span class="line">    jdbcTemplate.execute(<span class="string">"CREATE TABLE names("</span>id SERIAL, <span class="function">name <span class="title">VARCHAR</span><span class="params">(<span class="number">255</span>)</span>)")</span>;</span><br><span class="line">    jdbcTemplate.update(<span class="string">"INSERT INTO names (name) VALUES (?)"</span>, name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Spring will automatically use the in-memory H2 DB we’ve configured. Notice how jdbcTemplate has eliminated all the boilerplate and error-handling code from this class. While this is a simplified example of accessing the database, it gives you an idea of how SPring works both to connect your application layers, and facilitates the use of other required services.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Spring is one of the most advanced and compelete application development framewors for Java, bar none. It makes setting up an application easier, allows you to easily bring in the dependencies you need as the application grows, and is fully capable ofremping up the high-volume, production-grade use.</p>
+<p>It’s tough to argue using Spring in a new Java application. The Spring platform is maintained and advanced with vigor, and virtually any task you might need to undertake is doable with Spring. Using this platform will spare you considerable heavy lifting, and will help ensure your application design is robust and flexible. If you can use Spring to ease your development path, then do it.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dependency-injection-and-inversion-of-control"><span class="toc-number">1.</span> <span class="toc-text">Dependency injection and inversion of control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-1-Spring-dependency-injection"><span class="toc-number">2.</span> <span class="toc-text">Example 1: Spring dependency injection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-1-Object-relations-in-plain-old-Java"><span class="toc-number">2.1.</span> <span class="toc-text">Listing 1. Object relations in plain old Java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-2-Creating-a-Car-with-the-Engine-interface"><span class="toc-number">2.2.</span> <span class="toc-text">Listing 2. Creating a Car with the Engine interface</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Modeling-classes-and-objects-in-Spring"><span class="toc-number">3.</span> <span class="toc-text">Modeling classes and objects in Spring</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-3-Example-of-using-the-Inject-annotation-in-Spring"><span class="toc-number">3.1.</span> <span class="toc-text">Listing 3. Example of using the @Inject annotation in Spring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-4-Component-annotation"><span class="toc-number">3.2.</span> <span class="toc-text">Listing 4. @Component annotation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoupling-解耦-as-a-design-principle"><span class="toc-number">4.</span> <span class="toc-text">Decoupling (解耦) as a design principle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview-of-the-Spring-framework"><span class="toc-number">5.</span> <span class="toc-text">Overview of the Spring framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Starting-up-a-new-project-Spring-Boot"><span class="toc-number">6.</span> <span class="toc-text">Starting up a new project: Spring Boot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-5-Main-class-with-Spring-Boot"><span class="toc-number">6.1.</span> <span class="toc-text">Listing 5. Main class with Spring Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-6-Starter-pom-xml"><span class="toc-number">6.2.</span> <span class="toc-text">Listing 6. Starter pom.xml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-Spring-Web-as-a-dependency"><span class="toc-number">7.</span> <span class="toc-text">Adding Spring Web as a dependency</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-7-Adding-Spring-Web-to-a-project"><span class="toc-number">7.1.</span> <span class="toc-text">Listing 7. Adding Spring Web to a project</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-2-Building-RESTful-endpoints-with-Spring-Web"><span class="toc-number">8.</span> <span class="toc-text">Example 2. Building RESTful endpoints with Spring Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-8-Spring-MVC-Rest-controller"><span class="toc-number">8.1.</span> <span class="toc-text">Listing 8. Spring MVC Rest controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Controller-annotation"><span class="toc-number">8.2.</span> <span class="toc-text">The @Controller annotation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Request-annotations"><span class="toc-number">8.3.</span> <span class="toc-text">The @Request annotations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REST-and-JSON-response"><span class="toc-number">8.4.</span> <span class="toc-text">REST and JSON response</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-3-Spring-with-JDBC"><span class="toc-number">9.</span> <span class="toc-text">Example #3: Spring with JDBC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-9-Adding-a-Maven-dependency-to-the-H2-DB"><span class="toc-number">9.1.</span> <span class="toc-text">Listing 9. Adding a Maven dependency to the H2 DB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-10-H2-in-memory-config"><span class="toc-number">9.2.</span> <span class="toc-text">Listing 10. H2 in-memory config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-component-classes"><span class="toc-number">9.3.</span> <span class="toc-text">Service component classes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-11-Service-component"><span class="toc-number">9.4.</span> <span class="toc-text">Listing 11. Service component</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-12-Injetcing-MyService-into-the-controller"><span class="toc-number">9.5.</span> <span class="toc-text">Listing 12. Injetcing MyService into the controller</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-JdbcTemplate-class"><span class="toc-number">10.</span> <span class="toc-text">The JdbcTemplate class</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Listing-13-Repository-data-class"><span class="toc-number">10.1.</span> <span class="toc-text">Listing 13. Repository data class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">11.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&text=Spring Series Part 1, What is Spring"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&is_video=false&description=Spring Series Part 1, What is Spring"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring Series Part 1, What is Spring&body=Check out this article: http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&title=Spring Series Part 1, What is Spring"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/19/JavaWorld/Spring Series Part 1, What is Spring/&name=Spring Series Part 1, What is Spring&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

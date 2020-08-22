@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这里分别介绍了 Nginx 的源码目录和安装目录。 安装目录 auto 目录有 4 个子目录：cc、lib、os、types。cc 目录用于编译，os 目录用于对所在操作系统判定。其它所有文件都是为了辅助confiration 脚本执行的时候去判定我们 Nginx 支持哪些模块、当前操作系统的哪些特性可以供给 Nginx 使用。  CHANNGES 文件就是 Nginx 每个版本中提供了哪些特性，">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 目录介绍">
+<meta property="og:url" content="http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这里分别介绍了 Nginx 的源码目录和安装目录。 安装目录 auto 目录有 4 个子目录：cc、lib、os、types。cc 目录用于编译，os 目录用于对所在操作系统判定。其它所有文件都是为了辅助confiration 脚本执行的时候去判定我们 Nginx 支持哪些模块、当前操作系统的哪些特性可以供给 Nginx 使用。  CHANNGES 文件就是 Nginx 每个版本中提供了哪些特性，">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/001.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/002.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/003.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/004.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/005.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/006.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/007.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/008.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/021.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/022.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/023.png">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx 目录介绍">
+<meta name="twitter:description" content="这里分别介绍了 Nginx 的源码目录和安装目录。 安装目录 auto 目录有 4 个子目录：cc、lib、os、types。cc 目录用于编译，os 目录用于对所在操作系统判定。其它所有文件都是为了辅助confiration 脚本执行的时候去判定我们 Nginx 支持哪些模块、当前操作系统的哪些特性可以供给 Nginx 使用。  CHANNGES 文件就是 Nginx 每个版本中提供了哪些特性，">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/04/Nginx%20教程/2.%20Nginx%20目录介绍/001.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Nginx 目录介绍</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/14/Redis 教程/安装 Redis/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/03/Java8 新特性/新时间与日期 API/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&text=Nginx 目录介绍"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&is_video=false&description=Nginx 目录介绍"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Nginx 目录介绍&body=Check out this article: http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&name=Nginx 目录介绍&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装目录"><span class="toc-number">1.</span> <span class="toc-text">安装目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装目录介绍"><span class="toc-number">2.</span> <span class="toc-text">安装目录介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#configure-详解"><span class="toc-number">3.</span> <span class="toc-text">configure 详解</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Nginx 目录介绍
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-03T16:00:00.000Z" itemprop="datePublished">2019-07-04</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Nginx-教程/">Nginx 教程</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Nginx/">Nginx</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这里分别介绍了 Nginx 的源码目录和安装目录。</p>
+<h2 id="安装目录"><a href="#安装目录" class="headerlink" title="安装目录"></a>安装目录</h2><p><img src="001.png" alt="Nginx 目录"></p>
+<p><code>auto</code> 目录有 4 个子目录：<code>cc</code>、<code>lib</code>、<code>os</code>、<code>types</code>。<code>cc</code> 目录用于编译，<code>os</code> 目录用于对所在操作系统判定。其它所有文件都是为了辅助<code>confiration</code> 脚本执行的时候去判定我们 Nginx 支持哪些模块、当前操作系统的哪些特性可以供给 Nginx 使用。</p>
+<p><img src="002.png" alt="auto 目录"></p>
+<p><code>CHANNGES</code> 文件就是 Nginx 每个版本中提供了哪些特性，有哪些bugfix。</p>
+<p>因为作者是一个俄罗斯人，所有它也有一个俄语版的 <code>CHANNGES.ru</code>。</p>
+<p><img src="003.png" alt="CHANGES 文件"></p>
+<p><code>conf</code> 目录里面存储私人文件。因为在我们安装 Nginx 后，为了方便运维去配置，会把 <code>conf</code> 目录里面的私人文件拷贝到安装目录。</p>
+<p><code>configure</code> 脚本用来生成中间文件，是执行编译前的一个必备工作。</p>
+<p><code>contrib</code> 目录提供了 2 个脚本和vim 工具。</p>
+<p>比如，我们在没有使用 vim 工具打开 nginx 配置文件，会发现 Nginx 语法没有在 vim 中高亮显示。</p>
+<p><img src="004.png" alt="Nginx 配置文件无高亮语法"></p>
+<p>这时候我们把 vim 工具拷贝到我们自己的工作目录中，再查看配置文件，会发现已经有了 Nginx 语法高亮显示了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r contrib/vim/* ~/.vim/</span><br></pre></td></tr></table></figure>
+<p><img src="005.png" alt="Nginx 配置文件高亮语法"></p>
+<p><code>html</code> 目录提供了 2 个标准的 html 文件，一个是发现 <code>500</code> 错误的时候可以重定向到这个文件，另外一个是默认的 nginx 欢迎界面。</p>
+<p><img src="006.png" alt="html 目录"></p>
+<p><code>man</code> 目录里面是 Linux 对 Nginx 的帮助文件，打开之后我们可以看到最基本的 Nginx 帮助和配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> man/</span><br><span class="line">man ./nginx.8</span><br></pre></td></tr></table></figure>
+<p><img src="007.png" alt="man 帮助文件"></p>
+<p><code>src</code> 目录存放 Nginx 的源代码。</p>
+<p><img src="008.png" alt="src 目录"></p>
+<h2 id="安装目录介绍"><a href="#安装目录介绍" class="headerlink" title="安装目录介绍"></a>安装目录介绍</h2><p><img src="021.png" alt="安装目录"></p>
+<p><code>conf</code> 目录存在着从源码目录拷贝而来的 Nginx 配置文件。</p>
+<p><img src="022.png" alt="conf 目录"></p>
+<p><code>sbin</code> 字目录存放着 Nginx 的二进制文件。</p>
+<p><img src="023.png" alt="sbin 目录"></p>
+<h2 id="configure-详解"><a href="#configure-详解" class="headerlink" title="configure 详解"></a>configure 详解</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装目录"><span class="toc-number">1.</span> <span class="toc-text">安装目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装目录介绍"><span class="toc-number">2.</span> <span class="toc-text">安装目录介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#configure-详解"><span class="toc-number">3.</span> <span class="toc-text">configure 详解</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&text=Nginx 目录介绍"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&is_video=false&description=Nginx 目录介绍"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Nginx 目录介绍&body=Check out this article: http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&title=Nginx 目录介绍"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/04/Nginx 教程/2. Nginx 目录介绍/&name=Nginx 目录介绍&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

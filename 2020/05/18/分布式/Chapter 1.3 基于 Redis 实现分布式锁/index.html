@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="本篇文章主要介绍基于 Redis 如何实现分布式锁。 setnx + expire 命令Redis 的 setnx 命令 setnx key value 将 key 设置为 value，当键不存在时，才能成功，若键存在，什么也不做，成功返回 1，失败返回 0。setnx 实际上就是 SET IF NOT EXISTS 的缩写。 因为分布式锁还需要超时机制，所以我们利用 expire 命令来设置，所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 1.3 基础 Redis 实现分布式锁">
+<meta property="og:url" content="http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇文章主要介绍基于 Redis 如何实现分布式锁。 setnx + expire 命令Redis 的 setnx 命令 setnx key value 将 key 设置为 value，当键不存在时，才能成功，若键存在，什么也不做，成功返回 1，失败返回 0。setnx 实际上就是 SET IF NOT EXISTS 的缩写。 因为分布式锁还需要超时机制，所以我们利用 expire 命令来设置，所">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 1.3 基础 Redis 实现分布式锁">
+<meta name="twitter:description" content="本篇文章主要介绍基于 Redis 如何实现分布式锁。 setnx + expire 命令Redis 的 setnx 命令 setnx key value 将 key 设置为 value，当键不存在时，才能成功，若键存在，什么也不做，成功返回 1，失败返回 0。setnx 实际上就是 SET IF NOT EXISTS 的缩写。 因为分布式锁还需要超时机制，所以我们利用 expire 命令来设置，所">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Chapter 1.3 基础 Redis 实现分布式锁</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/18/分布式/Chapter 1.4 三种方案对比/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/18/分布式/Chapter 1.2 基于 MySQL 实现分布式锁/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&text=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&is_video=false&description=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Chapter 1.3 基础 Redis 实现分布式锁&body=Check out this article: http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&name=Chapter 1.3 基础 Redis 实现分布式锁&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#setnx-expire-命令"><span class="toc-number">1.</span> <span class="toc-text">setnx + expire 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Lua-脚本"><span class="toc-number">2.</span> <span class="toc-text">使用 Lua 脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set-key-value-命令"><span class="toc-number">3.</span> <span class="toc-text">set key value 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redlock-算法"><span class="toc-number">4.</span> <span class="toc-text">Redlock 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redisson-实现"><span class="toc-number">5.</span> <span class="toc-text">Redisson 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个简易的分布式锁"><span class="toc-number">6.</span> <span class="toc-text">一个简易的分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义注解"><span class="toc-number">6.0.1.</span> <span class="toc-text">自定义注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOP-拦截器实现"><span class="toc-number">6.0.2.</span> <span class="toc-text">AOP 拦截器实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-实现分布式锁核心类"><span class="toc-number">6.0.3.</span> <span class="toc-text">Redis 实现分布式锁核心类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TestController-测试"><span class="toc-number">6.0.4.</span> <span class="toc-text">TestController 测试</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Chapter 1.3 基础 Redis 实现分布式锁
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-17T16:00:13.000Z" itemprop="datePublished">2020-05-18</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/分布式/">分布式</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>本篇文章主要介绍基于 Redis 如何实现分布式锁。</p>
+<h2 id="setnx-expire-命令"><a href="#setnx-expire-命令" class="headerlink" title="setnx + expire 命令"></a>setnx + expire 命令</h2><p>Redis 的 <strong>setnx</strong> 命令 <strong>setnx key value</strong> 将 key 设置为 value，当键不存在时，才能成功，若键存在，什么也不做，成功返回 1，失败返回 0。<strong>setnx</strong> 实际上就是 SET IF NOT EXISTS 的缩写。</p>
+<p>因为分布式锁还需要超时机制，所以我们利用 <strong>expire</strong> 命令来设置，所以利用 <strong>setnx</strong> + <strong>expire</strong> 命令的核心代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(String key, String requset, <span class="keyword">int</span> timeout)</span> </span>&#123;</span><br><span class="line">    Long result = jedis.setnx(key, requset);</span><br><span class="line">    <span class="comment">// result = 1时，设置成功，否则设置失败</span></span><br><span class="line">    <span class="keyword">if</span> (result == <span class="number">1L</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> jedis.expire(key, timeout) == <span class="number">1L</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上上面的步骤是有问题的，<strong>setnx</strong> 和 <strong>expire</strong> 是分开的两步操作，不具有原子性，如果执行完第一条指令应用异常或者重启了，锁将无法过期。</p>
+<p>一种改善方案就是使用 Lua 脚本来保证原子性（包含 <strong>setnx</strong> 和 <strong>expire</strong> 两条指令）。</p>
+<h2 id="使用-Lua-脚本"><a href="#使用-Lua-脚本" class="headerlink" title="使用 Lua 脚本"></a>使用 Lua 脚本</h2><p>使用 Lua 脚本，包含 <strong>setnx</strong> 和 <strong>expire</strong> 两条指令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock_with_lua</span><span class="params">(String key, String UniqueId, <span class="keyword">int</span> seconds)</span> </span>&#123;</span><br><span class="line">    String lua_scripts = <span class="string">"if redis.call('setnx',KEYS[1],ARGV[1]) == 1 then"</span> +</span><br><span class="line">            <span class="string">"redis.call('expire',KEYS[1],ARGV[2]) return 1 else return 0 end"</span>;</span><br><span class="line">    List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    List&lt;String&gt; values = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    keys.add(key);</span><br><span class="line">    values.add(UniqueId);</span><br><span class="line">    values.add(String.valueOf(seconds));</span><br><span class="line">    Object result = jedis.eval(lua_scripts, keys, values);</span><br><span class="line">    <span class="comment">//判断是否成功</span></span><br><span class="line">    <span class="keyword">return</span> result.equals(<span class="number">1L</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="set-key-value-命令"><a href="#set-key-value-命令" class="headerlink" title="set key value 命令"></a>set key value 命令</h2><p>Redis 在 2.6.12 版本开始，为 <strong>set</strong> 命令增加一系列选项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET key value [EX seconds] [PX milliseconds][NX|XX]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>EX: 设定过期时间，单位为秒</p>
+</li>
+<li><p>PX: 设定过期时间，单位为毫秒</p>
+</li>
+<li><p>NX: 仅当 key 不存在时设置值</p>
+</li>
+<li><p>XX: 仅当 key 存在时设置值</p>
+</li>
+</ul>
+<p><strong>set</strong> 命令的 NX 选项，就等同于 <strong>setnx</strong> 命令，代码过程如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock_with_set</span><span class="params">(String key, String UniqueId, <span class="keyword">int</span> seconds)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"OK"</span>.equals(jedis.set(key, UniqueId, <span class="string">"NX"</span>, <span class="string">"EX"</span>, seconds));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>value 必须要具有唯一性，我们可以用 UUID 来做，设置随机字符串保证唯一性，至于为什么要保证唯一性？假如 value 不是随机字符串，而是一个固定值，那么就可能存在下面的问题：</p>
+<ol>
+<li>客户端 1 获取锁成功</li>
+<li>客户端 1 在某个操作上阻塞了太长时间</li>
+<li>设置的 key 过期了，锁自动释放了</li>
+<li>客户端 2 获取到了对应同一个资源的锁</li>
+<li>客户端 1 从阻塞中恢复过来，因为 value 值一样，所以执行释放锁操作时就会释放掉客户端 2 持有的锁，这样就会造成问题</li>
+</ol>
+<p>所以通常来说，在释放锁时，我们需要对value进行验证。也就是说我们在获取锁的时候需要设置一个 value，不能直接用 <strong>del key</strong> 这种粗暴的方式，因为直接 <strong>del key</strong> 任何客户端都可以进行解锁了，所以解锁时，我们需要判断锁是否是自己的，基于 value 值来判断，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">releaseLock_with_lua</span><span class="params">(String key,String value)</span> </span>&#123;</span><br><span class="line">    String luaScript = <span class="string">"if redis.call('get',KEYS[1]) == ARGV[1] then "</span> +</span><br><span class="line">            <span class="string">"return redis.call('del',KEYS[1]) else return 0 end"</span>;</span><br><span class="line">    <span class="keyword">return</span> jedis.eval(luaScript, </span><br><span class="line">                      Collections.singletonList(key), </span><br><span class="line">                      Collections.singletonList(value)).equals(<span class="number">1L</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用Lua脚本的方式，尽量保证原子性。</p>
+<p>使用 <strong>set key value</strong> 命令看上去很 OK，实际上在 Redis 集群的时候也会出现问题，比如说 A 客户端在 Redis 的 master 节点上拿到了锁，但是这个加锁的 key 还没有同步到 slave 节点，master 故障，发生故障转移，一个 slave 节点升级为 master 节点，B 客户端也可以获取同个 key 的锁，但客户端 A 也已经拿到锁了，这就导致多个客户端都拿到锁。</p>
+<p>所以针对Redis集群这种情况，还有其他方案</p>
+<h2 id="Redlock-算法"><a href="#Redlock-算法" class="headerlink" title="Redlock 算法"></a>Redlock 算法</h2><p>Redis 作者 antirez 基于分布式环境下提出了一种更高级的分布式锁的实现 Redlock。</p>
+<p>假设有 5 个独立的 Redis 节点（注意这里的节点可以是 5 个 Redis 单 master 实例，也可以是 5 个 Redis Cluster 集群，但并不是有 5 个主节点的 cluster 集群）：</p>
+<ol>
+<li><p>获取当前 Unix 时间，以毫秒为单位</p>
+</li>
+<li><p>依次尝试从 5 个实例，使用相同的 key 和具有唯一性的 value（例如 UUID ）获取锁，当向 Redis 请求获取锁时，客户端应该设置一个网络连接和响应超时时间，这个超时时间应用小于锁的失效时间，例如你的锁自动失效时间为 10s，则超时时间应该在 5 ~ 50 毫秒之间，这样可以避免服务器端 Redis 已经挂掉的情况下，客户端还在死死地等待响应结果。如果服务端没有在规定时间内响应，客户端应该尽快尝试去另外一个 Redis 实例请求获取锁</p>
+</li>
+<li><p>客户端使用当前时间减去开始获取锁时间（步骤 1 记录的时间）就得到获取锁使用的时间，当且仅当从大多数（N / 2 + 1，这里是 3 个节点）的 Redis 节点都取到锁，并且使用的时间小于锁失败时间时，锁才算获取成功</p>
+</li>
+<li><p>如果取到了锁，key 的真正有效时间等于有效时间减去获取锁所使用的时间（步骤 3 计算的结果）</p>
+</li>
+<li><p>如果某些原因，获取锁失败（没有在至少 N / 2 + 1 个 Redis 实例取到锁或者取锁时间已经超过了有效时间），客户端应该在所有的 Redis 实例上进行解锁（即便某些 Redis 实例根本就没有加锁成功，防止某些节点获取到锁但是客户端没有得到响应而导致接下来的一段时间不能被重新获取锁）</p>
+</li>
+</ol>
+<p>具体实现参考： <a href="https://mp.weixin.qq.com/s?__biz=MzU5ODUwNzY1Nw==&amp;mid=2247484155&amp;idx=1&amp;sn=0c73f45f2f641ba0bf4399f57170ac9b&amp;scene=21#wechat_redirect">Redlock：Redis分布式锁最牛逼的实现</a></p>
+<h2 id="Redisson-实现"><a href="#Redisson-实现" class="headerlink" title="Redisson 实现"></a>Redisson 实现</h2><p>对于 Java 用户而言，我们经常使用 Jedis，Jedis 是 Redis 的 Java 客户端，除了 Jedis 之外，Redisson 也是 Java 的客户端，Jedis 是阻塞式 I/O，而 Redisson 底层使用 Netty 可以实现非阻塞 I/O，该客户端封装了锁的，继承了 J.U.C 的 <strong>Lock</strong> 接口，所以我们可以像使用 <strong>ReentrantLock</strong> 一样使用 Redisson，具体使用过程如下。</p>
+<p>首先加入POM依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.10.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用 Redisson，代码如下（与使用 <strong>ReentrantLock</strong> 类似）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 配置文件</span></span><br><span class="line">Config config = <span class="keyword">new</span> Config();</span><br><span class="line">config.useSingleServer()</span><br><span class="line">        .setAddress(<span class="string">"redis://127.0.0.1:6379"</span>)</span><br><span class="line">        .setPassword(RedisConfig.PASSWORD)</span><br><span class="line">        .setDatabase(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//2. 构造RedissonClient</span></span><br><span class="line">RedissonClient redissonClient = Redisson.create(config);</span><br><span class="line"></span><br><span class="line"><span class="comment">//3. 设置锁定资源名称</span></span><br><span class="line">RLock lock = redissonClient.getLock(<span class="string">"redlock"</span>);</span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"获取锁成功，实现业务逻辑"</span>);</span><br><span class="line">    Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="一个简易的分布式锁"><a href="#一个简易的分布式锁" class="headerlink" title="一个简易的分布式锁"></a>一个简易的分布式锁</h2><p>下面利用 SpringBoot + Jedis + AOP 的组合来实现一个简易的分布式锁。</p>
+<h4 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h4><p>自定义一个注解，被注解的方法会执行获取分布式锁的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RedisLock &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 业务键</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">key</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 锁的过期秒数,默认是5秒</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">expire</span><span class="params">()</span> <span class="keyword">default</span> 5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 尝试加锁，最多等待时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">waitTime</span><span class="params">()</span> <span class="keyword">default</span> Long.MIN_VALUE</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 锁的超时时间单位</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">TimeUnit <span class="title">timeUnit</span><span class="params">()</span> <span class="keyword">default</span> TimeUnit.SECONDS</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AOP-拦截器实现"><a href="#AOP-拦截器实现" class="headerlink" title="AOP 拦截器实现"></a>AOP 拦截器实现</h4><p>在AOP中我们去执行获取分布式锁和释放分布式锁的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockMethodAspect</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JedisUtil jedisUtil;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisLockHelper redisLockHelper;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(LockMethodAspect.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"@annotation(com.redis.lock.annotation.RedisLock)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">        Jedis jedis = jedisUtil.getJedis();</span><br><span class="line">        MethodSignature signature = (MethodSignature) joinPoint.getSignature();</span><br><span class="line">        Method method = signature.getMethod();</span><br><span class="line"></span><br><span class="line">        RedisLock redisLock = method.getAnnotation(RedisLock.class);</span><br><span class="line">        String value = UUID.randomUUID().toString();</span><br><span class="line">        String key = redisLock.key();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> islock = redisLockHelper.lock(jedis,</span><br><span class="line">                                                        key, </span><br><span class="line">                                                        value, </span><br><span class="line">                                                        redisLock.expire(), </span><br><span class="line">                                                        redisLock.timeUnit());</span><br><span class="line">            logger.info(<span class="string">"isLock : &#123;&#125;"</span>,islock);</span><br><span class="line">            <span class="keyword">if</span> (!islock) &#123;</span><br><span class="line">                logger.error(<span class="string">"获取锁失败"</span>);</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"获取锁失败"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable throwable) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"系统异常"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  <span class="keyword">finally</span> &#123;</span><br><span class="line">            logger.info(<span class="string">"释放锁"</span>);</span><br><span class="line">            redisLockHelper.unlock(jedis,key, value);</span><br><span class="line">            jedis.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Redis-实现分布式锁核心类"><a href="#Redis-实现分布式锁核心类" class="headerlink" title="Redis 实现分布式锁核心类"></a>Redis 实现分布式锁核心类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisLockHelper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> sleepTime = <span class="number">100</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 直接使用setnx + expire方式获取分布式锁</span></span><br><span class="line"><span class="comment">     * 非原子性</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeout</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock_setnx</span><span class="params">(Jedis jedis,String key, String value, <span class="keyword">int</span> timeout)</span> </span>&#123;</span><br><span class="line">        Long result = jedis.setnx(key, value);</span><br><span class="line">        <span class="comment">// result = 1时，设置成功，否则设置失败</span></span><br><span class="line">        <span class="keyword">if</span> (result == <span class="number">1L</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> jedis.expire(key, timeout) == <span class="number">1L</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用Lua脚本，脚本中使用setnex+expire命令进行加锁操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jedis</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> UniqueId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> seconds</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">Lock_with_lua</span><span class="params">(Jedis jedis,String key, String UniqueId, <span class="keyword">int</span> seconds)</span> </span>&#123;</span><br><span class="line">        String lua_scripts = <span class="string">"if redis.call('setnx',KEYS[1],ARGV[1]) == 1 then"</span> +</span><br><span class="line">                <span class="string">"redis.call('expire',KEYS[1],ARGV[2]) return 1 else return 0 end"</span>;</span><br><span class="line">        List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;String&gt; values = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        keys.add(key);</span><br><span class="line">        values.add(UniqueId);</span><br><span class="line">        values.add(String.valueOf(seconds));</span><br><span class="line">        Object result = jedis.eval(lua_scripts, keys, values);</span><br><span class="line">        <span class="comment">//判断是否成功</span></span><br><span class="line">        <span class="keyword">return</span> result.equals(<span class="number">1L</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在Redis的2.6.12及以后中,使用 set key value [NX] [EX] 命令</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeout</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(Jedis jedis,String key, String value, <span class="keyword">int</span> timeout, TimeUnit timeUnit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> seconds = timeUnit.toSeconds(timeout);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"OK"</span>.equals(jedis.set(key, value, <span class="string">"NX"</span>, <span class="string">"EX"</span>, seconds));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 自定义获取锁的超时时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jedis</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeout</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> waitTime</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeUnit</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> InterruptedException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock_with_waitTime</span><span class="params">(Jedis jedis,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      String key, </span></span></span><br><span class="line"><span class="function"><span class="params">                                      String value, </span></span></span><br><span class="line"><span class="function"><span class="params">                                      <span class="keyword">int</span> timeout, </span></span></span><br><span class="line"><span class="function"><span class="params">                                      <span class="keyword">long</span> waitTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      TimeUnit timeUnit)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> seconds = timeUnit.toSeconds(timeout);</span><br><span class="line">        <span class="keyword">while</span> (waitTime &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            String result = jedis.set(key, value, <span class="string">"nx"</span>, <span class="string">"ex"</span>, seconds);</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"OK"</span>.equals(result)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            waitTime -= sleepTime;</span><br><span class="line">            Thread.sleep(sleepTime);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 错误的解锁方法—直接删除key</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock_with_del</span><span class="params">(Jedis jedis,String key)</span> </span>&#123;</span><br><span class="line">        jedis.del(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用Lua脚本进行解锁操纵，解锁的时候验证value值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jedis</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">unlock</span><span class="params">(Jedis jedis,String key,String value)</span> </span>&#123;</span><br><span class="line">        String luaScript = <span class="string">"if redis.call('get',KEYS[1]) == ARGV[1] then "</span> +</span><br><span class="line">                <span class="string">"return redis.call('del',KEYS[1]) else return 0 end"</span>;</span><br><span class="line">        <span class="keyword">return</span> jedis.eval(luaScript, </span><br><span class="line">                          Collections.singletonList(key), </span><br><span class="line">                          Collections.singletonList(value)).equals(<span class="number">1L</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TestController-测试"><a href="#TestController-测试" class="headerlink" title="TestController 测试"></a>TestController 测试</h4><p>定义一个 <strong>TestController</strong> 来测试我们实现的分布式锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RedisLock</span>(key = <span class="string">"redis_lock"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/index"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#setnx-expire-命令"><span class="toc-number">1.</span> <span class="toc-text">setnx + expire 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Lua-脚本"><span class="toc-number">2.</span> <span class="toc-text">使用 Lua 脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set-key-value-命令"><span class="toc-number">3.</span> <span class="toc-text">set key value 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redlock-算法"><span class="toc-number">4.</span> <span class="toc-text">Redlock 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redisson-实现"><span class="toc-number">5.</span> <span class="toc-text">Redisson 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个简易的分布式锁"><span class="toc-number">6.</span> <span class="toc-text">一个简易的分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义注解"><span class="toc-number">6.0.1.</span> <span class="toc-text">自定义注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOP-拦截器实现"><span class="toc-number">6.0.2.</span> <span class="toc-text">AOP 拦截器实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-实现分布式锁核心类"><span class="toc-number">6.0.3.</span> <span class="toc-text">Redis 实现分布式锁核心类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TestController-测试"><span class="toc-number">6.0.4.</span> <span class="toc-text">TestController 测试</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&text=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&is_video=false&description=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Chapter 1.3 基础 Redis 实现分布式锁&body=Check out this article: http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&title=Chapter 1.3 基础 Redis 实现分布式锁"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/18/分布式/Chapter 1.3 基于 Redis 实现分布式锁/&name=Chapter 1.3 基础 Redis 实现分布式锁&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

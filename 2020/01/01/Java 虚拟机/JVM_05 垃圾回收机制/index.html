@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="JVM的垃圾回收机制名称解释 YGC 对新生代堆进行gc。频率比较高，因为大部分对象的存活寿命较短，在新生代里被回收。性能耗费较小。 FGC 全堆范围的gc。默认堆空间使用到达80%(可调整)的时候会触发fgc。以我们生产环境为例，一般比较少会触发fgc，有时10天或一周左右会有一次。  什么时候执行YGC和FGCa.edn空间不足,执行 young gcb.old空间不足，perm空间不足，调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM_05 垃圾回收机制">
+<meta property="og:url" content="http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JVM的垃圾回收机制名称解释 YGC 对新生代堆进行gc。频率比较高，因为大部分对象的存活寿命较短，在新生代里被回收。性能耗费较小。 FGC 全堆范围的gc。默认堆空间使用到达80%(可调整)的时候会触发fgc。以我们生产环境为例，一般比较少会触发fgc，有时10天或一周左右会有一次。  什么时候执行YGC和FGCa.edn空间不足,执行 young gcb.old空间不足，perm空间不足，调用">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133044525-1749754709.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133054775-540568584.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133101400-240030919.png">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM_05 垃圾回收机制">
+<meta name="twitter:description" content="JVM的垃圾回收机制名称解释 YGC 对新生代堆进行gc。频率比较高，因为大部分对象的存活寿命较短，在新生代里被回收。性能耗费较小。 FGC 全堆范围的gc。默认堆空间使用到达80%(可调整)的时候会触发fgc。以我们生产环境为例，一般比较少会触发fgc，有时10天或一周左右会有一次。  什么时候执行YGC和FGCa.edn空间不足,执行 young gcb.old空间不足，perm空间不足，调用">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133044525-1749754709.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>JVM_05 垃圾回收机制</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/01/Java 虚拟机/JVM_06 垃圾回收器/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/01/Java 虚拟机/JVM_04 内存模型/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&text=JVM_05 垃圾回收机制"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&is_video=false&description=JVM_05 垃圾回收机制"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JVM_05 垃圾回收机制&body=Check out this article: http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&name=JVM_05 垃圾回收机制&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM的垃圾回收机制"><span class="toc-number">1.</span> <span class="toc-text">JVM的垃圾回收机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#名称解释"><span class="toc-number">2.</span> <span class="toc-text">名称解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么时候执行YGC和FGC"><span class="toc-number">3.</span> <span class="toc-text">什么时候执行YGC和FGC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何确认垃圾"><span class="toc-number">4.</span> <span class="toc-text">如何确认垃圾</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引用计数法"><span class="toc-number">4.0.1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可达性分析"><span class="toc-number">4.0.2.</span> <span class="toc-text">可达性分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回收算法"><span class="toc-number">5.</span> <span class="toc-text">回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标记-清除算法"><span class="toc-number">5.0.1.</span> <span class="toc-text">标记-清除算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#复制算法（Copying）"><span class="toc-number">5.0.2.</span> <span class="toc-text">复制算法（Copying）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标记-整理算法（Mark-Compact）"><span class="toc-number">5.0.3.</span> <span class="toc-text">标记-整理算法（Mark-Compact）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分代收集算法（Generational-Collection）"><span class="toc-number">5.0.4.</span> <span class="toc-text">分代收集算法（Generational Collection）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">6.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC"><span class="toc-number">7.</span> <span class="toc-text">GC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#确认垃圾"><span class="toc-number">7.0.1.</span> <span class="toc-text">确认垃圾</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回收算法-1"><span class="toc-number">7.0.2.</span> <span class="toc-text">回收算法</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JVM_05 垃圾回收机制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-31T16:00:05.000Z" itemprop="datePublished">2020-01-01</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java-虚拟机/">Java 虚拟机</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="JVM的垃圾回收机制"><a href="#JVM的垃圾回收机制" class="headerlink" title="JVM的垃圾回收机制"></a>JVM的垃圾回收机制</h2><h2 id="名称解释"><a href="#名称解释" class="headerlink" title="名称解释"></a>名称解释</h2><ol>
+<li>YGC 对新生代堆进行gc。频率比较高，因为大部分对象的存活寿命较短，在新生代里被回收。性能耗费较小。</li>
+<li>FGC 全堆范围的gc。默认堆空间使用到达80%(可调整)的时候会触发fgc。以我们生产环境为例，一般比较少会触发fgc，有时10天或一周左右会有一次。</li>
+</ol>
+<h2 id="什么时候执行YGC和FGC"><a href="#什么时候执行YGC和FGC" class="headerlink" title="什么时候执行YGC和FGC"></a>什么时候执行YGC和FGC</h2><p>a.edn空间不足,执行 young gc<br>b.old空间不足，perm空间不足，调用方法System.gc() ，ygc时的悲观策略, dump live的内存信息时(jmap –dump:live)，都会执行full gc</p>
+<h2 id="如何确认垃圾"><a href="#如何确认垃圾" class="headerlink" title="如何确认垃圾"></a>如何确认垃圾</h2><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>一个对象如果没有任何与之关联的引用，则说明对象不太可能再被用到，那么这个对象就是可回收对象。这种方式即是引用计数法。</p>
+<p>这种方式的问题是无法解决循环引用的问题。</p>
+<h4 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h4><p>通过一系列的“GC roots”对象作为起点搜索。如果在“GC roots”和一个对象之间没有可达路径，则称该对象是不可达的。要注意的是，不可达对象不等价于可回收对象，不可达对象变为可回收对象至少要经过两次标记过程。两次标记后仍然是可回收对象，则将面临回收。</p>
+<p>所谓“GC roots”，或者说 Tracing GC 的“根集合”，就是一组必须活跃的引用。例如说，这些引用可能包括：</p>
+<ol>
+<li>所有Java线程当前活跃的栈帧里指向GC堆里的对象的引用；换句话说，当前所有正在被调用的方法的引用类型的参数/局部变量/临时值。</li>
+<li>VM的一些静态数据结构里指向GC堆里的对象的引用，例如说HotSpot VM里的Universe里有很多这样的引用。</li>
+<li>JNI handles，包括global handles和local handles（看情况）</li>
+<li>所有当前被加载的Java类（看情况）</li>
+<li>Java类的引用类型静态变量（看情况）</li>
+<li>Java类的运行时常量池里的引用类型常量（String或Class类型）（看情况）</li>
+<li>String常量池（StringTable）里的引用</li>
+</ol>
+<p>比较常见的将对象视为可回收对象的原因：</p>
+<ol>
+<li>显式地将对象的唯一强引用指向新的对象</li>
+<li>显式地将对象的唯一强引用赋值为Null</li>
+<li>局部引用所指向的对象（如，方法内对象）</li>
+</ol>
+<h2 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h2><h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h4><p>首先标记出所有需要回收的对象，使用可达性分析算法判断一个对象是否为可回收，在标记完成后统一回收所有被标记的对象。</p>
+<p><img src="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133044525-1749754709.png" alt=""></p>
+<p>优缺点：</p>
+<ol>
+<li>效率问题，标记和清除两个阶段的效率都不高。</li>
+<li>空间问题，标记清除后会产生大量不连续的内存碎片，以后需要给大对象分配内存时，会提前触发一次垃圾回收动作。</li>
+</ol>
+<h4 id="复制算法（Copying）"><a href="#复制算法（Copying）" class="headerlink" title="复制算法（Copying）"></a>复制算法（Copying）</h4><p>将内存分为两等块，每次使用其中一块。当这一块内存用完后，就将还存活的对象复制到另外一个块上，然后再把已使用过的内存空间一次清理掉。</p>
+<p><img src="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133054775-540568584.png" alt=""></p>
+<p>优缺点：<br>1、无内存碎片问题，实现简单，时间效率高。<br>2、空间利用率低，可用内存缩小为原来的一半。</p>
+<p>适合于每次回收时大量对象死去只有少量存活的情况，如年轻代中。</p>
+<h4 id="标记-整理算法（Mark-Compact）"><a href="#标记-整理算法（Mark-Compact）" class="headerlink" title="标记-整理算法（Mark-Compact）"></a>标记-整理算法（Mark-Compact）</h4><p>标记过程与标记 - 清除算法一样，但之后让所有存活的对象移向一端，然后直接清理掉边界以外的内存。</p>
+<p><img src="https://images2015.cnblogs.com/blog/568153/201707/568153-20170713133101400-240030919.png" alt=""></p>
+<p>适合对象存活率高的情况，如老年代中。无需考虑内存碎片问题。</p>
+<h4 id="分代收集算法（Generational-Collection）"><a href="#分代收集算法（Generational-Collection）" class="headerlink" title="分代收集算法（Generational Collection）"></a>分代收集算法（Generational Collection）</h4><p>根据对象存活周期将堆分为新生代和老年代，然后根据各年代特点选择适当的回收算法。</p>
+<p>新生代基本上对象都是朝生暮死的，生存时间很短暂，因此可采用复制算法，只需要复制少量的对象就可以完成垃圾收集。</p>
+<p>老年代中的对象存活率高，也没有额外的空间进行分配担保，因此必须使用标记-整理或者标记-清除算法进行回收，只需要清除少量对象即可完成垃圾收集。</p>
+<p>JVM什么时候会触发YGC，什么时候触发FGC？</p>
+<p>JVM如何内存调优、内存泄漏如何排查</p>
+<p><a href="https://www.cnblogs.com/z-sm/p/6243378.html">https://www.cnblogs.com/z-sm/p/6243378.html</a></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><p>谈谈 Java GC</p>
+<p>GC 触发条件</p>
+<p>GC 原理</p>
+<p>JVM垃圾回收算法和垃圾回收器有哪些，最新的JDK采用什么算法。</p>
+<p>JVM 的垃圾回收机制和垃圾收集器</p>
+<p>说一下GC吧，什么时候进行Full GC呢？</p>
+<p>jvm GC原理，JVM怎么回收内存</p>
+<p>Java对象的回收方式，回收算法。</p>
+<p>JVM有哪些回收算法，对应的收集器有哪些？</p>
+<p>Minor GC与Full GC分别发生在什么时候</p>
+<p>GC的三种三种收集方法：标记清除，标记整理，复制算法的原理与特点，分别用于什么地方，如果让你优化收集算法，有什么思路</p>
+<h4 id="确认垃圾"><a href="#确认垃圾" class="headerlink" title="确认垃圾"></a>确认垃圾</h4><p>GC 可达性分析中哪些算是GC ROOT？</p>
+<p>GC的两种判定方法：引用计数器和引用链</p>
+<h4 id="回收算法-1"><a href="#回收算法-1" class="headerlink" title="回收算法"></a>回收算法</h4><p>JAVA的垃圾回收，标记算法和复制算法的区别，用在什么场合？</p>
+<p>GC回收算法,及实现原理?</p>
+<p>垃圾收集算法</p>
+<p>JVM的垃圾回收算法有哪些</p>
+<p>JVM GC算法有哪些，目前的JDK版本采用什么回收算法</p>
+<p>有哪些回收算法，对应的收集器有哪些？</p>
+<p>Java对象的回收方式，回收算法。</p>
+<p>Java内存分代模型，GC算法，JVM常见的启动参数； CMS算法的过程。</p>
+<p>说一下GC吧，什么时候进行Full GC呢？</p>
+<p>内存泄漏与内存溢出的区别</p>
+<p>GC、G1 和 ZGC 的区别</p>
+<p>JAVA的垃圾回收，标记算法和复制算法的区别，用在什么场合？</p>
+<p>JVM中的老年代在什么情况下会触发GC？</p>
+<p>jvm虚拟机老年代什么情况下会发生gc，给你一个场景，一台4核8G的服务器，每隔两个小时就要出现一次老年代gc，现在有日志，怎么分析是哪里出了问题</p>
+<p>java GC算法，什么时候会触发minor gc，什么时候会触发full gc？</p>
+<p>新生代和老年代的回收机制。</p>
+<p>什么时候fullGC？</p>
+<p>目前的JDK使用的是什么垃圾回收算法，为什么要用这个算法？</p>
+<p>GC垃圾收集算法、GC垃圾收集器有哪些，以及新生代老生代 分别用什么算法</p>
+<p>讲一下JVM的分代回收以及具体算法</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM的垃圾回收机制"><span class="toc-number">1.</span> <span class="toc-text">JVM的垃圾回收机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#名称解释"><span class="toc-number">2.</span> <span class="toc-text">名称解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么时候执行YGC和FGC"><span class="toc-number">3.</span> <span class="toc-text">什么时候执行YGC和FGC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何确认垃圾"><span class="toc-number">4.</span> <span class="toc-text">如何确认垃圾</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引用计数法"><span class="toc-number">4.0.1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可达性分析"><span class="toc-number">4.0.2.</span> <span class="toc-text">可达性分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回收算法"><span class="toc-number">5.</span> <span class="toc-text">回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标记-清除算法"><span class="toc-number">5.0.1.</span> <span class="toc-text">标记-清除算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#复制算法（Copying）"><span class="toc-number">5.0.2.</span> <span class="toc-text">复制算法（Copying）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标记-整理算法（Mark-Compact）"><span class="toc-number">5.0.3.</span> <span class="toc-text">标记-整理算法（Mark-Compact）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分代收集算法（Generational-Collection）"><span class="toc-number">5.0.4.</span> <span class="toc-text">分代收集算法（Generational Collection）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">6.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC"><span class="toc-number">7.</span> <span class="toc-text">GC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#确认垃圾"><span class="toc-number">7.0.1.</span> <span class="toc-text">确认垃圾</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回收算法-1"><span class="toc-number">7.0.2.</span> <span class="toc-text">回收算法</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&text=JVM_05 垃圾回收机制"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&is_video=false&description=JVM_05 垃圾回收机制"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JVM_05 垃圾回收机制&body=Check out this article: http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&title=JVM_05 垃圾回收机制"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/01/Java 虚拟机/JVM_05 垃圾回收机制/&name=JVM_05 垃圾回收机制&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

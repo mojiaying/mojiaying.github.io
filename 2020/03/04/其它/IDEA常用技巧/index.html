@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="测试 取消idea默认打开工程path : Appearance &amp;amp; Behavior &amp;gt; System Settingsvalue: Reopen last project on startupaa 关闭参数提示path : Editor &amp;gt; General &amp;gt; Apperancevalue: Show parameter name hintpath : Editor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA常用技巧">
+<meta property="og:url" content="http://yoursite.com/2020/03/04/其它/IDEA常用技巧/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="测试 取消idea默认打开工程path : Appearance &amp;amp; Behavior &amp;gt; System Settingsvalue: Reopen last project on startupaa 关闭参数提示path : Editor &amp;gt; General &amp;gt; Apperancevalue: Show parameter name hintpath : Editor">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IDEA常用技巧">
+<meta name="twitter:description" content="测试 取消idea默认打开工程path : Appearance &amp;amp; Behavior &amp;gt; System Settingsvalue: Reopen last project on startupaa 关闭参数提示path : Editor &amp;gt; General &amp;gt; Apperancevalue: Show parameter name hintpath : Editor">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>IDEA常用技巧</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/05/JavaWorld/Advanced features Part 1, Static classes and inner classes in Java/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/29/其它/Git常用操作/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&text=IDEA常用技巧"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&is_video=false&description=IDEA常用技巧"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IDEA常用技巧&body=Check out this article: http://yoursite.com/2020/03/04/其它/IDEA常用技巧/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&name=IDEA常用技巧&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number"></span> <span class="toc-text"> </span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#取消idea默认打开工程"><span class="toc-number">1.</span> <span class="toc-text">取消idea默认打开工程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭参数提示"><span class="toc-number">2.</span> <span class="toc-text">关闭参数提示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#切换快捷键"><span class="toc-number">3.</span> <span class="toc-text">切换快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动下载源码"><span class="toc-number">4.</span> <span class="toc-text">自动下载源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认不折叠一行"><span class="toc-number">5.</span> <span class="toc-text">默认不折叠一行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化"><span class="toc-number"></span> <span class="toc-text">格式化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#等号对齐、参数对齐"><span class="toc-number">1.</span> <span class="toc-text">等号对齐、参数对齐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单行注释与代码对齐"><span class="toc-number">2.</span> <span class="toc-text">单行注释与代码对齐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cannot-resolve-symbol"><span class="toc-number">3.</span> <span class="toc-text">Cannot resolve symbol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TextMate-Bundles-for-JavaScript"><span class="toc-number">4.</span> <span class="toc-text">TextMate Bundles for JavaScript</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Illuminated-Cloud-is-invalid"><span class="toc-number">5.</span> <span class="toc-text">Illuminated Cloud is invalid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入包报错：Cannot-resolve-com-xxx"><span class="toc-number">6.</span> <span class="toc-text">导入包报错：Cannot resolve com.xxx</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Tomcat"><span class="toc-number"></span> <span class="toc-text">配置Tomcat</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TextMate-Bundles-for-JavaScript-1"><span class="toc-number">1.</span> <span class="toc-text">TextMate Bundles for JavaScript</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        IDEA常用技巧
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-03T16:00:00.000Z" itemprop="datePublished">2020-03-04</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/其它/">其它</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><h2 id=""><a href="#" class="headerlink" title=" "></a> </h2><h4 id="取消idea默认打开工程"><a href="#取消idea默认打开工程" class="headerlink" title="取消idea默认打开工程"></a>取消idea默认打开工程</h4><p>path : Appearance &amp; Behavior &gt; System Settings<br>value: Reopen last project on startupaa</p>
+<h4 id="关闭参数提示"><a href="#关闭参数提示" class="headerlink" title="关闭参数提示"></a>关闭参数提示</h4><p>path : Editor &gt; General &gt; Apperance<br>value: Show parameter name hint<br>path : Editor &gt; General &gt; code completion (2019.3)<br>value: Show parameter name hint<br>path : Inlay Hints &gt; Java &gt; Parameter hints (2019.3)<br>value: Show parameter hints for</p>
+<h4 id="切换快捷键"><a href="#切换快捷键" class="headerlink" title="切换快捷键"></a>切换快捷键</h4><p>path : keymap<br>value: </p>
+<h4 id="自动下载源码"><a href="#自动下载源码" class="headerlink" title="自动下载源码"></a>自动下载源码</h4><p>path : Build, Execution, Deployment &gt; Build Tools &gt; Maven &gt; Importing<br>value: Automatically download</p>
+<h4 id="默认不折叠一行"><a href="#默认不折叠一行" class="headerlink" title="默认不折叠一行"></a>默认不折叠一行</h4><p>path : Editor &gt; General &gt; Code Folding<br>value: One-line methods</p>
+<h2 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h2><h4 id="等号对齐、参数对齐"><a href="#等号对齐、参数对齐" class="headerlink" title="等号对齐、参数对齐"></a>等号对齐、参数对齐</h4><p>path : Ediotr &gt; Java<br>value: Warpping and Braces &gt; Align when multiline</p>
+<h4 id="单行注释与代码对齐"><a href="#单行注释与代码对齐" class="headerlink" title="单行注释与代码对齐"></a>单行注释与代码对齐</h4><p>path : Editor &gt; Code Style &gt; Java<br>value: Code Generation &gt; Comment Code &gt; enable add a space at comment start</p>
+<h4 id="Cannot-resolve-symbol"><a href="#Cannot-resolve-symbol" class="headerlink" title="Cannot resolve symbol"></a>Cannot resolve symbol</h4><p>IDEA 无法识别同一个 package 里的其他类，将其显示为红色，但是 compile 没有问题。鼠标放上去后显示 “Cannot resolve symbol XXX”，重启 IDEA ，重新 sync gradle，Clean build 都没有用。</p>
+<p>多半是因为 IDEA 之前发生了错误，某些 setting 出了问题。解决方法如下：</p>
+<p>点击菜单中的 “File” -&gt; “Invalidate Caches / Restart”，然后点击对话框中的 “Invalidate and Restart”，清空 cache 并且重启。语法就会正确的高亮了。</p>
+<h4 id="TextMate-Bundles-for-JavaScript"><a href="#TextMate-Bundles-for-JavaScript" class="headerlink" title="TextMate Bundles for JavaScript"></a>TextMate Bundles for JavaScript</h4><p>try again -&gt; remove .js</p>
+<h4 id="Illuminated-Cloud-is-invalid"><a href="#Illuminated-Cloud-is-invalid" class="headerlink" title="Illuminated Cloud is invalid"></a>Illuminated Cloud is invalid</h4><p>plugins -&gt; disable Illuminated Cloud is invalid</p>
+<h4 id="导入包报错：Cannot-resolve-com-xxx"><a href="#导入包报错：Cannot-resolve-com-xxx" class="headerlink" title="导入包报错：Cannot resolve com.xxx"></a>导入包报错：Cannot resolve com.xxx</h4><p>我这里的问题是，本地Maven的settings.xml配置了远程仓库，项目里也设置了另外一个远程仓库。下载依赖包找到本地的远程仓库去了。</p>
+<p>把本地的settting文件删掉即可。</p>
+<h2 id="配置Tomcat"><a href="#配置Tomcat" class="headerlink" title="配置Tomcat"></a>配置Tomcat</h2><p>参考：<a href="https://blog.csdn.net/zhoukun1314/article/details/88910242">https://blog.csdn.net/zhoukun1314/article/details/88910242</a></p>
+<h4 id="TextMate-Bundles-for-JavaScript-1"><a href="#TextMate-Bundles-for-JavaScript-1" class="headerlink" title="TextMate Bundles for JavaScript"></a>TextMate Bundles for JavaScript</h4>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number"></span> <span class="toc-text"> </span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#取消idea默认打开工程"><span class="toc-number">1.</span> <span class="toc-text">取消idea默认打开工程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭参数提示"><span class="toc-number">2.</span> <span class="toc-text">关闭参数提示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#切换快捷键"><span class="toc-number">3.</span> <span class="toc-text">切换快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动下载源码"><span class="toc-number">4.</span> <span class="toc-text">自动下载源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认不折叠一行"><span class="toc-number">5.</span> <span class="toc-text">默认不折叠一行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化"><span class="toc-number"></span> <span class="toc-text">格式化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#等号对齐、参数对齐"><span class="toc-number">1.</span> <span class="toc-text">等号对齐、参数对齐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单行注释与代码对齐"><span class="toc-number">2.</span> <span class="toc-text">单行注释与代码对齐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cannot-resolve-symbol"><span class="toc-number">3.</span> <span class="toc-text">Cannot resolve symbol</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TextMate-Bundles-for-JavaScript"><span class="toc-number">4.</span> <span class="toc-text">TextMate Bundles for JavaScript</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Illuminated-Cloud-is-invalid"><span class="toc-number">5.</span> <span class="toc-text">Illuminated Cloud is invalid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入包报错：Cannot-resolve-com-xxx"><span class="toc-number">6.</span> <span class="toc-text">导入包报错：Cannot resolve com.xxx</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Tomcat"><span class="toc-number"></span> <span class="toc-text">配置Tomcat</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TextMate-Bundles-for-JavaScript-1"><span class="toc-number">1.</span> <span class="toc-text">TextMate Bundles for JavaScript</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&text=IDEA常用技巧"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&is_video=false&description=IDEA常用技巧"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IDEA常用技巧&body=Check out this article: http://yoursite.com/2020/03/04/其它/IDEA常用技巧/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&title=IDEA常用技巧"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/04/其它/IDEA常用技巧/&name=IDEA常用技巧&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

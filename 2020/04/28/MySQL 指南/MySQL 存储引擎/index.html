@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="什么是存储引擎？存储引擎其实就是如何存储数据、如何为存储的数据建立索引和如何更新、查询数据等约束的实现方法。因为在关系数据库中数据是以表的形式存储的，所以存储引擎也可以称为表类型（即存储和操作此表的类型）。 存储引擎的作用规定了数据存储时的存储结构。在现实生活中，由于不同的业务产生了不同的数据，这些数据有的可能偏重于频繁查询，有的要求增删速度快，有的则对事务、索引、外键有特俗的规定。这样一来就对存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 存储引擎">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是存储引擎？存储引擎其实就是如何存储数据、如何为存储的数据建立索引和如何更新、查询数据等约束的实现方法。因为在关系数据库中数据是以表的形式存储的，所以存储引擎也可以称为表类型（即存储和操作此表的类型）。 存储引擎的作用规定了数据存储时的存储结构。在现实生活中，由于不同的业务产生了不同的数据，这些数据有的可能偏重于频繁查询，有的要求增删速度快，有的则对事务、索引、外键有特俗的规定。这样一来就对存">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 存储引擎">
+<meta name="twitter:description" content="什么是存储引擎？存储引擎其实就是如何存储数据、如何为存储的数据建立索引和如何更新、查询数据等约束的实现方法。因为在关系数据库中数据是以表的形式存储的，所以存储引擎也可以称为表类型（即存储和操作此表的类型）。 存储引擎的作用规定了数据存储时的存储结构。在现实生活中，由于不同的业务产生了不同的数据，这些数据有的可能偏重于频繁查询，有的要求增删速度快，有的则对事务、索引、外键有特俗的规定。这样一来就对存">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>MySQL 存储引擎</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/28/MySQL 指南/MySQL 存储引擎之Memory/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/28/MySQL 指南/MySQL 存储引擎之InnoDB/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&text=MySQL 存储引擎"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&is_video=false&description=MySQL 存储引擎"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL 存储引擎&body=Check out this article: http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&name=MySQL 存储引擎&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是存储引擎？"><span class="toc-number">1.</span> <span class="toc-text">什么是存储引擎？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询默认的存储引擎"><span class="toc-number">2.0.1.</span> <span class="toc-text">查询默认的存储引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询支持的全部存储引擎"><span class="toc-number">2.0.2.</span> <span class="toc-text">查询支持的全部存储引擎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型选择"><span class="toc-number">3.</span> <span class="toc-text">类型选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储引擎对比"><span class="toc-number">4.</span> <span class="toc-text">存储引擎对比</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MySQL 存储引擎
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-27T16:00:43.000Z" itemprop="datePublished">2020-04-28</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/MySQL-指南/">MySQL 指南</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="什么是存储引擎？"><a href="#什么是存储引擎？" class="headerlink" title="什么是存储引擎？"></a>什么是存储引擎？</h2><p>存储引擎其实就是如何存储数据、如何为存储的数据建立索引和如何更新、查询数据等约束的实现方法。因为在关系数据库中数据是以表的形式存储的，所以存储引擎也可以称为表类型（即存储和操作此表的类型）。</p>
+<p>存储引擎的作用规定了数据存储时的存储结构。在现实生活中，由于不同的业务产生了不同的数据，这些数据有的可能偏重于频繁查询，有的要求增删速度快，有的则对事务、索引、外键有特俗的规定。这样一来就对存储数据的表要求不同的数据组织结构，也就是存储引擎。</p>
+<p>在 Oracle 和 SQL Server 等数据库只有一种存储引擎，所有的数据存储管理机制都是一样的；而 MySQL 数据库提供了多种存储引擎，用户可以根据不同的需求为数据表选择不同的存储引擎，也可以根据需要编写自己的存储引擎。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h4 id="查询默认的存储引擎"><a href="#查询默认的存储引擎" class="headerlink" title="查询默认的存储引擎"></a>查询默认的存储引擎</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; show variables like '%storage_engine%';</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| Variable_name              | Value  |</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| default_storage_engine     | InnoDB |</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| default_tmp_storage_engine | InnoDB |</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line"></span><br><span class="line">2 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<h4 id="查询支持的全部存储引擎"><a href="#查询支持的全部存储引擎" class="headerlink" title="查询支持的全部存储引擎"></a>查询支持的全部存储引擎</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; show engines;</span><br><span class="line">+<span class="comment">--------+---------+------------------------------------------+--------------+------+------------+</span></span><br><span class="line">| Engine | Support | <span class="keyword">Comment</span>                                  | Transactions | XA   | Savepoints |</span><br><span class="line">+<span class="comment">--------+---------+------------------------------------------+--------------+------+------------+</span></span><br><span class="line">| MyISAM | YES     | MyISAM <span class="keyword">storage</span> <span class="keyword">engine</span>                    | <span class="keyword">NO</span>           | <span class="keyword">NO</span>   | <span class="keyword">NO</span>         |</span><br><span class="line">+<span class="comment">--------+---------+------------------------------------------+--------------+------+------------+</span></span><br><span class="line">| <span class="keyword">InnoDB</span> | <span class="keyword">DEFAULT</span> | Supports transactions, <span class="keyword">row</span>-<span class="keyword">level</span> locking | YES          | YES  | YES        |</span><br><span class="line">+<span class="comment">--------+---------+------------------------------------------+--------------+------+------------+</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<h2 id="类型选择"><a href="#类型选择" class="headerlink" title="类型选择"></a>类型选择</h2><p>创建表时，使用字符串类型应该遵循以下原则：</p>
+<ol>
+<li>从速度方面考虑，要选择固定的列，可以使用 <strong>CHAR</strong> 类型。</li>
+<li>要节省空间，使用动态的列，可以使用 <strong>VARCHAR</strong> 类型。</li>
+<li>要将列中的内容限制在一种选择，可以使用 <strong>ENUM</strong> 类型。</li>
+<li>允许在一个列中有多于一个的条目，可以使用 <strong>SET</strong> 类型。</li>
+<li>如果搜索的内容不区分大小写，可以使用 <strong>TEXT</strong> 类型。</li>
+<li>如果要搜索的内容区分大小写，可以使用 <strong>BLOB</strong> 类型。</li>
+</ol>
+<h2 id="存储引擎对比"><a href="#存储引擎对比" class="headerlink" title="存储引擎对比"></a>存储引擎对比</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">引擎名称</th>
+<th style="text-align:left">优点</th>
+<th style="text-align:left">缺点</th>
+<th style="text-align:left">应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">MyISAM</td>
+<td style="text-align:left">访问速度快，对事务完整性没有要求，以 select、insert 为主的应用基本上可以使用这个引擎。</td>
+<td style="text-align:left">不支持事务/行级锁/外建约束</td>
+<td style="text-align:left">适合管理邮件或 Web 服务器日志数据</td>
+</tr>
+<tr>
+<td style="text-align:left">InnoDB</td>
+<td style="text-align:left">事务型存储引擎，支持事务/行级锁/外建约束，支持制动灾难恢复</td>
+<td style="text-align:left">处理效率会比 MyISAM 差一些，并且会占用更多的磁盘空间以保留数据和索引</td>
+<td style="text-align:left">需要事务支持，并且有较高的并发读取频率</td>
+</tr>
+<tr>
+<td style="text-align:left">MEMORY</td>
+<td style="text-align:left">为得到更快的响应速度，采用的逻辑存储介质是系统内存</td>
+<td style="text-align:left">当 MySQL 守护进程崩溃时，所有的 Memory 数据都会丢失；不能使用 BLOB 或 TEXT 这样子的长度可变的数据类型</td>
+<td style="text-align:left">临时表</td>
+</tr>
+<tr>
+<td style="text-align:left">MERGE</td>
+<td style="text-align:left">是 MyISAM 的一种变种。合并表是将几个相同的 MyISAM 表合并为一个虚表</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">常用于日志和数据仓库</td>
+</tr>
+<tr>
+<td style="text-align:left">ARCHIVE</td>
+<td style="text-align:left">归档的意思，支持索引，拥有很好的压缩机制</td>
+<td style="text-align:left">仅支持插入和查询功能</td>
+<td style="text-align:left">经常被用来当作仓库使用</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是存储引擎？"><span class="toc-number">1.</span> <span class="toc-text">什么是存储引擎？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询默认的存储引擎"><span class="toc-number">2.0.1.</span> <span class="toc-text">查询默认的存储引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询支持的全部存储引擎"><span class="toc-number">2.0.2.</span> <span class="toc-text">查询支持的全部存储引擎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型选择"><span class="toc-number">3.</span> <span class="toc-text">类型选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储引擎对比"><span class="toc-number">4.</span> <span class="toc-text">存储引擎对比</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&text=MySQL 存储引擎"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&is_video=false&description=MySQL 存储引擎"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL 存储引擎&body=Check out this article: http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&title=MySQL 存储引擎"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 存储引擎/&name=MySQL 存储引擎&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

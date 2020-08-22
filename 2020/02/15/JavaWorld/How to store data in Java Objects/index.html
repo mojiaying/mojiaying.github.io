@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Although the snooze (午睡) button is probably the most commoly used button on an alarm clock, even a simple AlarmClock class needs a few more features. For instance, you might want to control how long t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to store data in Java Ojbects">
+<meta property="og:url" content="http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Although the snooze (午睡) button is probably the most commoly used button on an alarm clock, even a simple AlarmClock class needs a few more features. For instance, you might want to control how long t">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to store data in Java Ojbects">
+<meta name="twitter:description" content="Although the snooze (午睡) button is probably the most commoly used button on an alarm clock, even a simple AlarmClock class needs a few more features. For instance, you might want to control how long t">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>How to store data in Java Ojbects</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/20/正则表达式/常用正则表达式/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/15/其它/科学上网/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&text=How to store data in Java Ojbects"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&is_video=false&description=How to store data in Java Ojbects"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to store data in Java Ojbects&body=Check out this article: http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&name=How to store data in Java Ojbects&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Varialbes-and-primitive-原始的-types"><span class="toc-number">1.</span> <span class="toc-text">Varialbes and primitive (原始的) types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-scope"><span class="toc-number">2.</span> <span class="toc-text">Variable scope</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-parameters"><span class="toc-number">3.</span> <span class="toc-text">Method parameters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Member-variables"><span class="toc-number">4.</span> <span class="toc-text">Member variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-scope-an-lifetime"><span class="toc-number">5.</span> <span class="toc-text">Variable scope an lifetime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulation"><span class="toc-number">6.</span> <span class="toc-text">Encapsulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Write-the-program"><span class="toc-number">7.</span> <span class="toc-text">Write the program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">8.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How to store data in Java Ojbects
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-14T16:00:00.000Z" itemprop="datePublished">2020-02-15</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/JavaWorld/">JavaWorld</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Although the snooze (午睡) button is probably the most commoly used button on an alarm clock, even a simple <code>AlarmClock</code> class needs a few more features. For instance, you might want to control how long the alarm clock will stay in snooze mode. In order to add such a feature, you need to understand how Java controls data.</p>
+<p>DeveLopers use variables in Java to hold data, with all variables having a data type and a name. The data type determines the values that a variable can hold. in this tutorial, you’ll learn how integral (整体) types hold whole numbers, floating point types hold real numbers, and string types hold character strings. Then you’ll get started with using instance varialbes in you Java classes.</p>
+<h2 id="Varialbes-and-primitive-原始的-types"><a href="#Varialbes-and-primitive-原始的-types" class="headerlink" title="Varialbes and primitive (原始的) types"></a>Varialbes and primitive (原始的) types</h2><p>Called <em>primitive types</em>, integral and floating point types are the simplest data types in Java. The following program illustrates (举例) the integral type, which can hold both positive and negative whole numbers. This program also illustrates comments, which document your code but don’t affect the program in any way.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This is also a comment. The complier ignores everything from </span></span><br><span class="line"><span class="comment"> * the first /* until a "star slash" whith ends the comment.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Here's the "star slash" that ends the comment. </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Here's the declaration of an int variable called anInteger,</span></span><br><span class="line">        <span class="comment">// which you given an initial value of 100.</span></span><br><span class="line">        <span class="keyword">int</span> anInteger = <span class="number">100</span>;            <span class="comment">// Declare and initialize anInteger</span></span><br><span class="line">        System.out.println(anInteger);  <span class="comment">// Outputs 100</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// You can also do arithmetic with primitvie types, using the</span></span><br><span class="line">        <span class="comment">// standard arithmetic operators.</span></span><br><span class="line">        anInteger = <span class="number">100</span> + <span class="number">100</span>;           </span><br><span class="line">        System.out.println(anInteger);  <span class="comment">// Outputs 200</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Java also uses floating point types, which can hold real numbers, meaning numbers that include a decimal place. Here’s an example program.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoubleTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Here's the declaration of a double variable called aDouble.</span></span><br><span class="line">        <span class="comment">// You also give aDouble an initial value of 5.76.</span></span><br><span class="line">        <span class="keyword">double</span> aDouble = <span class="number">5.76</span>;          <span class="comment">// Declare an initialize aDouble</span></span><br><span class="line">        System.out.println(aDouble);    <span class="comment">// Outputs 5.76</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// You can also do arithmetic with floating point types.</span></span><br><span class="line">        aDouble = <span class="number">5.76</span> + <span class="number">1.45</span>;</span><br><span class="line">        System.out.println(aDouble);    <span class="comment">// outputs 7.21</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Try running the programs above. Remember, you have to compile before you can run them.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javac *.java</span><br><span class="line">java IntegerTest</span><br><span class="line">java DoubleTest</span><br></pre></td></tr></table></figure>
+<p>Java uses four integral types and two floating point types, which both hold different ranges of numbers and take up varying amounts of storage space, as shown in the tables below.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">TYPE</th>
+<th style="text-align:left">CATE</th>
+<th style="text-align:left">SIZE(bits)</th>
+<th style="text-align:left">RANGE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Byte</td>
+<td style="text-align:left">Integral Type</td>
+<td style="text-align:left">8</td>
+<td style="text-align:left">-128 to 227</td>
+</tr>
+<tr>
+<td style="text-align:left">Short</td>
+<td style="text-align:left">Integral Type</td>
+<td style="text-align:left">16</td>
+<td style="text-align:left">-32,768 to 32,767</td>
+</tr>
+<tr>
+<td style="text-align:left">Int</td>
+<td style="text-align:left">Integral Type</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">-2,147,483,648 to 2,147,483,647</td>
+</tr>
+<tr>
+<td style="text-align:left">Long</td>
+<td style="text-align:left">Integral Type</td>
+<td style="text-align:left">64</td>
+<td style="text-align:left">-2^63 to 2^63-1</td>
+</tr>
+<tr>
+<td style="text-align:left">Float</td>
+<td style="text-align:left">Floating point types (IEEE 754 format)</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">+/-1.18  * 10^-38 to +/-3.4 * 10^38</td>
+</tr>
+<tr>
+<td style="text-align:left">Double</td>
+<td style="text-align:left">Floating point types (IEEE 754 format)</td>
+<td style="text-align:left">64</td>
+<td style="text-align:left">+/-2.23 * 10^-308 to +/-1.8 * 10^308</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A string type holds strings, and handles them differently from the way integral and floating point types handle numbers. The Java language includes a <code>String</code> class to represent strings. You declare a string using the type <code>String</code>, and initialize it with a quoted (引号) string, a sequence of characters contained within double quotes, as shown below. You can also combine two strings using the <code>+</code> operator.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Code fragment</span></span><br><span class="line"><span class="comment">// Declaration of variable s of type String.</span></span><br><span class="line"><span class="comment">// and initialization with quoted string "Hello".</span></span><br><span class="line">String s = <span class="string">"Hello"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Concatenation of string in s with quoted string " World"</span></span><br><span class="line">String t = t + <span class="string">" World"</span>;</span><br><span class="line">System.out.println(t); <span class="comment">// Outputs Hello World</span></span><br></pre></td></tr></table></figure>
+<h2 id="Variable-scope"><a href="#Variable-scope" class="headerlink" title="Variable scope"></a>Variable scope</h2><p>In addition to type, scope is also an important characteristic of a variable. Scope establishes (确定) when a variable is created and destroyed and where a developer can access the variable within a program. The place in your program where you declare the variable determines its scope.</p>
+<p>So far, I’ve discussed local variables, which hold temporary data that you use within a method. You declare local varialbes inside methods, and you can access them only from those methods. This means that you can retrieve (检索) only local variables <code>anInteger</code>, which you used in <code>IntegerTest.java</code>, and <code>aDouble</code>, which you used in <code>DoubleTest.java</code>, from the main method in which they were declared and nowhere (没有…的地方) else.</p>
+<p>You can declare local variables within any method. The example code below declares a local variable in the <code>AlarmClock.snooze()</code> method:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClock</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">snooze</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Snooze time in millisecond = 5 secs</span></span><br><span class="line">        <span class="keyword">long</span> snoozeInterval = <span class="number">5000</span>;</span><br><span class="line">        System.out.println(<span class="string">"ZZZZZ for: "</span> + snoozeInterval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>You acn get to <code>snoozeInterval</code> only from the <code>snooze()</code> method, which is where you declared <code>snoozeInterval</code>, as shown here:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClockTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AlarmClock aClock = <span class="keyword">new</span> AlarmClock();</span><br><span class="line">        aClock.snooze();    <span class="comment">// This is still fine.</span></span><br><span class="line">        <span class="comment">// The next line of code is an ERROR.</span></span><br><span class="line">        <span class="comment">// You can't access snoozeInterval outside the snooze method.</span></span><br><span class="line">        snoozeInterval = <span class="number">10000</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Method-parameters"><a href="#Method-parameters" class="headerlink" title="Method parameters"></a>Method parameters</h2><p>A method parameter, which has a scope similar to a local variable, is another type of variable. Method parameters pass arguments into methods. When you declare the method, you specify its arguments in a parameter list. You pass the arguments when you call the method. Method parameters function similarly to local variables in that they lie within the scope of the method to which they are linked, and can be used throughout the method. However, unlike local variables, method parameters obtain (取得) a value from the caller when it calls a method. Here’s a modification of the alarm clock that allows you to pass in the <code>snoozeInterval</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClock</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sooze</span><span class="params">(<span class="keyword">long</span> snoozeInterval)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"ZZZZZ for: "</span> + snoozeInterval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClockTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AlarmClock aClock = <span class="keyword">new</span> AlarmClock();</span><br><span class="line">        <span class="comment">// Pass in the snooze interval when you call the method.</span></span><br><span class="line">        aClock.snooze(<span class="number">10000</span>); <span class="comment">// Snooze for 100000 msecs.</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Member-variables"><a href="#Member-variables" class="headerlink" title="Member variables"></a>Member variables</h2><p>Local variables are useful, but because the provice only temporary storage, their value is limited. Since their lifetimes span the length of the method in which they are declared, local variables compare to a notepad that appears every time you receive a telephone call, but disappears when you hang up. That setup can be useful for jotting (略记) down notes, but sometimes you need something more permanent, What’s a programmer to do? Enter <code>member variables</code>.</p>
+<h2 id="Variable-scope-an-lifetime"><a href="#Variable-scope-an-lifetime" class="headerlink" title="Variable scope an lifetime"></a>Variable scope an lifetime</h2><p>Developers implement instance variable (实例变量) to contain data useful to a class. An instance variable differs from a local variable in the nature of its scope and its lifetime. The entire class makes up the scope of an instance variable, not the method in which it was declared. In other words, developers can access instance variables anywhere in the class. In addition, the lifetime of an instance variable does not depend on any particular method of the class; that is, its lifetime is the lifetime of the instance that contains it.</p>
+<p>Instances are the actual objects that you create from the blueprint you design in the class definition. You declare instance variables in the class definition, affecting each instance you create from the blueprint. Each instance contains those instance variables, and data held within the variables can vary (不同) from instance to instance.</p>
+<p>Consider the <code>AlaremClock</code> class. Passing the <code>snoozeInterval</code> into the <code>snooze()</code> method isn’t a great design. Imagine having to type in a snooze interval on your alarm clock each time you fumbled for the snooze button. Instead, just give the whold alarm clock a <code>snoozeInterval</code>. You complete this with an instance variable in the <code>AlarmClock</code> class, as shown below:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClock</span> </span>&#123;</span><br><span class="line">    <span class="comment">// You declare snoozeInterval here. This makes it an instance variable.</span></span><br><span class="line">    <span class="comment">// You can also initialize it here.</span></span><br><span class="line">    <span class="keyword">long</span> m_snoozeInterval = <span class="number">5000</span>;   <span class="comment">// Snooze time in millisecond = 5 secs.</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">snooze</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// You can still get to m_snoozeInterval in an AlarmClock method </span></span><br><span class="line">        <span class="comment">// because you are within the scope of the class.</span></span><br><span class="line">        System.out.println(m_snooozeInterval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>You can access instance variables almost anywhere within the class that declares them. To be technical about it, you declare the instance variable within the class scope, and you can retrieve it from almost anywhere within that scope. Practically speaking, you can access the variable anywhere between the first curly bracket (花括号) that starts the class and the closing bracket. Since you also declare methods within the class scope. they too can access the instance variables.</p>
+<p>You can also access instance variables from outside the class, as long sa an instance exists, and you have a variable that references the instance. To retrieve an instance variable through an instance, you use the <em>dot</em>(<code>.</code>) operator together with the instance. That may not be the ideal way to access the variable, but for now, complete it this way for illustrative (说明的) purposes (目的):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClockTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Create two clocks. Each has its own m_snoozeInterval</span></span><br><span class="line">        AlarmClock aClock1 = <span class="keyword">new</span> AlarmClock();</span><br><span class="line">        AlarmClock aClock2 = <span class="keyword">new</span> AlarmClock();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Change aCLock2</span></span><br><span class="line">        <span class="comment">// You'll soon see that are much better ways to do this.</span></span><br><span class="line">        aClock2.m_snoozedInterval = <span class="number">100000</span>;</span><br><span class="line">        aClock1.snooze();   <span class="comment">// Snooze with aClock1's interval</span></span><br><span class="line">        aClock2.snooze();   <span class="comment">// Snooze with aClock2's interval</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Try this program out, and you’ll see that <code>aClock1</code> still ha its interval of 5000 while <code>aClock2</code> has an interval of 10000. Again, each instance has its own instance data.</p>
+<p>Don’t forget, the class definition is only a blueprint, so the instance variables don’t actually exist until you create instances from the blueprint. Each instance of a class has it own copy of the instance variables, and the blueprint defines what those instance variables will be.</p>
+<h2 id="Encapsulation"><a href="#Encapsulation" class="headerlink" title="Encapsulation"></a>Encapsulation</h2><p>Encapsulation (封装) is one of the foundations of object-oriented programming. When using encapsulation, the user interacts (交互) with the type through the exposed (暴露的) behavior, not directly with the internal implementation. Through encapsulation, you hide the details of a type’s implementation. In Java, encapsulation basically translates to this simple guideline: “Don’t access your object’s data directly; use its methods.”</p>
+<p>That is an elementary (简单的) idea, but it eases our lives as programmers. Imagine, for example, that you wanted to instruct a <code>Person</code> object to stand up. Without encapsulation, your commands could go something like this: “Well, I guess you’d need to tighten (绷紧) this muscle (肌肉) here at the front of the leg, loosen (放松) this muscle here at the back of the leg. Hmmm — need to bend at (弯曲) the waist (腰部) too. Which muscles spark (触发) that movement? Need to tighten these, loosen those. Whoops! Forgot the other leg. Darn. Watch it — don’t top over…” You get the idea. With encapsulation, you would just need to invoke the <code>stanUp()</code> method, Pretty easy, yes?</p>
+<p>Some advantages to encapsulation:</p>
+<ul>
+<li>Abstraction of detail: The user interacts with a type at a higher level. If you use the <code>standUp</code> method, you no longer need to know all the muscles required to initiate that motion.</li>
+<li>Isolation (隔离) from changes: Changes in internal implementation don’t affect the users. If a person sprains (扭伤) an ankle (踝关节), and depends on a create for a while, the users still invoke only the <code>standUp()</code> method.</li>
+<li>Correctness (正确性): Users can’t arbitraily ()任意 change the insiders of an object. The can only complete what you allow them to do in the methods you write.</li>
+</ul>
+<p>Here’s a short example in which encapsulation clearly hepls in a program’s accuracy (准确度):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bad -- doesn't use encapsulation</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Person();</span><br><span class="line">        p.m_age = -<span class="number">5</span>; <span class="comment">// Hey -- how can someone be minus 5 years old?</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Better -- uses encapsulation</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Check to make sure age is greater than 0. I'll talk more about</span></span><br><span class="line">        <span class="comment">// if statements at another time.</span></span><br><span class="line">        <span class="keyword">if</span> (age &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            m_age = age;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Person();</span><br><span class="line">        p.setAge(-<span class="number">5</span>);   <span class="comment">// Won't have any effect now.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Even that simple program shows how you can slip into trouble if you directly access the internal data of classes. The larger and more complex the program, the more important encapsulation becomes. Also remember that many programs start out small and then grow to last indefinitely (无限地). so it’s essential that you design them correctly, right from the beginning. To apply encapsulation to <code>AlarmClock</code>, you can just create methods to manipulate (操纵) the snooze interval.</p>
+<blockquote>
+<p>A note about methods<br>Methods can return values that the caller users. To return a value, declare a nonvoid return type, and use a <code>return</code> statement.</p>
+</blockquote>
+<h2 id="Write-the-program"><a href="#Write-the-program" class="headerlink" title="Write the program"></a>Write the program</h2><p>Okay — you’re ready to manipulate the snooze interval. You do this by adding get and set methods for the snooze interval. When you have an instance variable like <code>snoozeInterval</code>, you will regularly call the get and set methods <code>getSnoozeInterval()</code> and <code>setSnoozeInterval()</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> m_snoozeInterval = <span class="number">5000</span>;    <span class="comment">// Snooze time in millisecond</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set method for m_snoozeInterval.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSnoozeInterval</span><span class="params">(<span class="keyword">long</span> snoozeInterval)</span> </span>&#123;</span><br><span class="line">        m_snoozeInterval = snoozeInterval;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get method for m_snoozeInterval.</span></span><br><span class="line">    <span class="comment">// Note that you are returning a value of type long here.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getSnoozeInterval</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Here's the line that returns the value.</span></span><br><span class="line">        <span class="keyword">return</span> m_snoozeInterval;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">snooze</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// You can still get to m_snoozeInterval in an AlarmClock method</span></span><br><span class="line">        <span class="comment">// because you are within the scope of the class.</span></span><br><span class="line">        System.out.println(<span class="string">"ZZZZZ for: "</span> + m_snoozeInterval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlarmClockTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Create two clocks. Each has its own m_snoozeInterval.</span></span><br><span class="line">        AlarmClock aClock1 = <span class="keyword">new</span> AlarmClock();</span><br><span class="line">        AlarmClock aClock2 = <span class="keyword">new</span> AlarmClock();</span><br><span class="line">        <span class="comment">// Change aClock2. You use the set method.</span></span><br><span class="line">        aClock2.setSnoozeInterval(<span class="number">10000</span>);</span><br><span class="line">        aClock1.snooze();    <span class="comment">// Snooze with aClock1's interval.</span></span><br><span class="line">        aClock2.snooze();    <span class="comment">// Snooze with aClock2's interval.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Defined now are tow methods to manipulate the snooze interval. One is used to get the snooze interval, and the other is used to set it. That may seem trivial (琐碎的), but then, <code>AlarmClock</code> is a trivial class.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this quick tutorial you’ve looked at how manipulate primitive types like <code>int</code> and <code>double</code>. You examined local variables, method parameters, and variable scope. You learned how to add data to classes using instance variables, and how that data is contained in each instance. Finally, you explored encapsulation and how it leads to better code.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Varialbes-and-primitive-原始的-types"><span class="toc-number">1.</span> <span class="toc-text">Varialbes and primitive (原始的) types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-scope"><span class="toc-number">2.</span> <span class="toc-text">Variable scope</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-parameters"><span class="toc-number">3.</span> <span class="toc-text">Method parameters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Member-variables"><span class="toc-number">4.</span> <span class="toc-text">Member variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-scope-an-lifetime"><span class="toc-number">5.</span> <span class="toc-text">Variable scope an lifetime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulation"><span class="toc-number">6.</span> <span class="toc-text">Encapsulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Write-the-program"><span class="toc-number">7.</span> <span class="toc-text">Write the program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">8.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&text=How to store data in Java Ojbects"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&is_video=false&description=How to store data in Java Ojbects"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to store data in Java Ojbects&body=Check out this article: http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&title=How to store data in Java Ojbects"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/15/JavaWorld/How to store data in Java Objects/&name=How to store data in Java Ojbects&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

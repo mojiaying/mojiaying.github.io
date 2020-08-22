@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最全 MySQL 面试 60 题和答案MySQL 中有哪几种锁？MySQL 的锁大致分为 3 种：表锁、页锁、行锁。 他们的区别如下     锁名称 锁定粒度 开销 并发量 冲突概率 支持引擎     表锁 整张表 小 低 大 MyISAM、InnoDB   页锁 邻的一组记录 中 中 中 BDB   行锁 指定的记录 大 高 小 InnoDB     MySQL 中有哪些不同的表格（存储引擎）？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="abc">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最全 MySQL 面试 60 题和答案MySQL 中有哪几种锁？MySQL 的锁大致分为 3 种：表锁、页锁、行锁。 他们的区别如下     锁名称 锁定粒度 开销 并发量 冲突概率 支持引擎     表锁 整张表 小 低 大 MyISAM、InnoDB   页锁 邻的一组记录 中 中 中 BDB   行锁 指定的记录 大 高 小 InnoDB     MySQL 中有哪些不同的表格（存储引擎）？">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="abc">
+<meta name="twitter:description" content="最全 MySQL 面试 60 题和答案MySQL 中有哪几种锁？MySQL 的锁大致分为 3 种：表锁、页锁、行锁。 他们的区别如下     锁名称 锁定粒度 开销 并发量 冲突概率 支持引擎     表锁 整张表 小 低 大 MyISAM、InnoDB   页锁 邻的一组记录 中 中 中 BDB   行锁 指定的记录 大 高 小 InnoDB     MySQL 中有哪些不同的表格（存储引擎）？">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>abc</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/28/MySQL 指南/MySQL 锁2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/28/MySQL 指南/面试题/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&text=abc"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&is_video=false&description=abc"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=abc&body=Check out this article: http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&name=abc&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#最全-MySQL-面试-60-题和答案"><span class="toc-number">1.</span> <span class="toc-text">最全 MySQL 面试 60 题和答案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中有哪几种锁？"><span class="toc-number">1.0.1.</span> <span class="toc-text">MySQL 中有哪几种锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中有哪些不同的表格（存储引擎）？"><span class="toc-number">1.0.2.</span> <span class="toc-text">MySQL 中有哪些不同的表格（存储引擎）？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简述在-MySQL-数据库中-MyISAM-和-InnoDB-的区别"><span class="toc-number">1.0.3.</span> <span class="toc-text">简述在 MySQL 数据库中 MyISAM 和 InnoDB 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中-InnoDB-支持的四种事务隔离级别名称，以及逐级之间的区别？"><span class="toc-number">1.0.4.</span> <span class="toc-text">MySQL 中 InnoDB 支持的四种事务隔离级别名称，以及逐级之间的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CHAR-和-VARCHAR-的区别？"><span class="toc-number">1.0.5.</span> <span class="toc-text">CHAR 和 VARCHAR 的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主键和候选键有什么区别？"><span class="toc-number">1.0.6.</span> <span class="toc-text">主键和候选键有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#myisamchk-是用来做什么的？"><span class="toc-number">1.0.7.</span> <span class="toc-text">myisamchk 是用来做什么的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyISAM-Static-和-MyISAM-Dynamic-有什么区别？"><span class="toc-number">1.0.8.</span> <span class="toc-text">MyISAM Static 和 MyISAM Dynamic 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如果一个表有一列定义为TIMESTAMP，将发生什么？"><span class="toc-number">1.0.9.</span> <span class="toc-text">如果一个表有一列定义为TIMESTAMP，将发生什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列设置为-AUTO-INCREMENT-时，如果在表中达到最大值，会发生什么情况？"><span class="toc-number">1.0.10.</span> <span class="toc-text">列设置为 AUTO INCREMENT 时，如果在表中达到最大值，会发生什么情况？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#怎样才能找出最后一次插入时分配了哪个自动增量？"><span class="toc-number">1.0.11.</span> <span class="toc-text">怎样才能找出最后一次插入时分配了哪个自动增量？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#你怎么看到为表格定义的所有索引？"><span class="toc-number">1.0.12.</span> <span class="toc-text">你怎么看到为表格定义的所有索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#like-声明中的-％-和-是什么意思？"><span class="toc-number">1.0.13.</span> <span class="toc-text">like 声明中的 ％ 和 _ 是什么意思？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何在-Unix-和-MySQL-时间戳之间进行转换？"><span class="toc-number">1.0.14.</span> <span class="toc-text">如何在 Unix 和 MySQL 时间戳之间进行转换？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列对比运算符是什么？"><span class="toc-number">1.0.15.</span> <span class="toc-text">列对比运算符是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BLOB-和-TEXT-有什么区别？"><span class="toc-number">1.0.16.</span> <span class="toc-text">BLOB 和 TEXT 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql-fetch-array-和-mysql-fetch-object-的区别是什么？"><span class="toc-number">1.0.17.</span> <span class="toc-text">mysql_fetch_array 和 mysql_fetch_object 的区别是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyISAM-表格将在哪里存储，并且还提供其存储格式？"><span class="toc-number">1.0.18.</span> <span class="toc-text">MyISAM 表格将在哪里存储，并且还提供其存储格式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-如何优化-DISTINCT？"><span class="toc-number">1.0.19.</span> <span class="toc-text">MySQL 如何优化 DISTINCT？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何显示前-50-行？"><span class="toc-number">1.0.20.</span> <span class="toc-text">如何显示前 50 行？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可以使用多少列创建索引？"><span class="toc-number">1.0.21.</span> <span class="toc-text">可以使用多少列创建索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NOW-和-CURRENT-DATE-有什么区别？"><span class="toc-number">1.0.22.</span> <span class="toc-text">NOW() 和 CURRENT_DATE() 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是非标准字符串类型？"><span class="toc-number">1.0.23.</span> <span class="toc-text">什么是非标准字符串类型？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是通用-SQL-函数？"><span class="toc-number">1.0.24.</span> <span class="toc-text">什么是通用 SQL 函数？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-支持事务吗？"><span class="toc-number">1.0.25.</span> <span class="toc-text">MySQL 支持事务吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-里记录货币用什么字段类型好"><span class="toc-number">1.0.26.</span> <span class="toc-text">MySQL 里记录货币用什么字段类型好</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-有关权限的表都有哪几个？"><span class="toc-number">1.0.27.</span> <span class="toc-text">MySQL 有关权限的表都有哪几个？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列的字符串类型可以是什么？"><span class="toc-number">1.0.28.</span> <span class="toc-text">列的字符串类型可以是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库作发布系统的存储，一天五万条以上的增量，预计运维三年-怎么优化？"><span class="toc-number">1.0.29.</span> <span class="toc-text">MySQL 数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锁的优化策略"><span class="toc-number">1.0.30.</span> <span class="toc-text">锁的优化策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的底层实现原理和优化"><span class="toc-number">1.0.31.</span> <span class="toc-text">索引的底层实现原理和优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么情况下设置了索引但无法使用"><span class="toc-number">1.0.32.</span> <span class="toc-text">什么情况下设置了索引但无法使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实践中如何优化MySQL"><span class="toc-number">1.0.33.</span> <span class="toc-text">实践中如何优化MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化数据库的方法"><span class="toc-number">1.0.34.</span> <span class="toc-text">优化数据库的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）"><span class="toc-number">1.0.35.</span> <span class="toc-text">简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库中的事务是什么"><span class="toc-number">1.0.36.</span> <span class="toc-text">数据库中的事务是什么?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL注入漏洞产生的原因？如何防止？"><span class="toc-number">1.0.37.</span> <span class="toc-text">SQL注入漏洞产生的原因？如何防止？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为表中得字段选择合适得数据类型"><span class="toc-number">1.0.38.</span> <span class="toc-text">为表中得字段选择合适得数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储时期"><span class="toc-number">1.0.39.</span> <span class="toc-text">存储时期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的目的是什么？"><span class="toc-number">1.0.40.</span> <span class="toc-text">索引的目的是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引对数据库系统的负面影响是什么？"><span class="toc-number">1.0.41.</span> <span class="toc-text">索引对数据库系统的负面影响是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为数据表建立索引的原则有哪些？"><span class="toc-number">1.0.42.</span> <span class="toc-text">为数据表建立索引的原则有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么情况下不宜建立索引？"><span class="toc-number">1.0.43.</span> <span class="toc-text">什么情况下不宜建立索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解释-MySQL-外连接、内连接与自连接的区别"><span class="toc-number">1.0.44.</span> <span class="toc-text">解释 MySQL 外连接、内连接与自连接的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中的事务回滚机制概述"><span class="toc-number">1.0.45.</span> <span class="toc-text">MySQL 中的事务回滚机制概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL语言包括哪几部分？每部分都有哪些操作关键字？"><span class="toc-number">1.0.46.</span> <span class="toc-text">SQL语言包括哪几部分？每部分都有哪些操作关键字？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完整性约束包括哪些？"><span class="toc-number">1.0.47.</span> <span class="toc-text">完整性约束包括哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是锁？"><span class="toc-number">1.0.48.</span> <span class="toc-text">什么是锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么叫视图？游标是什么？"><span class="toc-number">1.0.49.</span> <span class="toc-text">什么叫视图？游标是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是存储过程？用什么来调用？"><span class="toc-number">1.0.50.</span> <span class="toc-text">什么是存储过程？用什么来调用？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何通俗地理解三个范式？"><span class="toc-number">1.0.51.</span> <span class="toc-text">如何通俗地理解三个范式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是基本表？什么是视图？"><span class="toc-number">1.0.52.</span> <span class="toc-text">什么是基本表？什么是视图？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#试述视图的优点？"><span class="toc-number">1.0.53.</span> <span class="toc-text">试述视图的优点？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NULL-是什么意思"><span class="toc-number">1.0.54.</span> <span class="toc-text">NULL 是什么意思</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主键、外键和索引的区别？"><span class="toc-number">1.0.55.</span> <span class="toc-text">主键、外键和索引的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#你可以用什么来确保表格里的字段只接受特定范围里的值"><span class="toc-number">1.0.56.</span> <span class="toc-text">你可以用什么来确保表格里的字段只接受特定范围里的值?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说说对SQL语句优化有哪些方法？（选择几条）"><span class="toc-number">1.0.57.</span> <span class="toc-text">说说对SQL语句优化有哪些方法？（选择几条）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#108道Java面试题-工作10年，面试超过500人想进阿里总结出的"><span class="toc-number">2.</span> <span class="toc-text">108道Java面试题:工作10年，面试超过500人想进阿里总结出的!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库三范式及判断、E-R-图"><span class="toc-number">2.0.1.</span> <span class="toc-text">数据库三范式及判断、E-R 图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InnoDB-和-MyISAM-存储引擎的区别"><span class="toc-number">2.0.2.</span> <span class="toc-text">InnoDB 和 MyISAM 存储引擎的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引分类，最左前缀原则，哪些条件无法使用索引"><span class="toc-number">2.0.3.</span> <span class="toc-text">索引分类，最左前缀原则，哪些条件无法使用索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-树、B-树区别，索引为何使用-B-树"><span class="toc-number">2.0.4.</span> <span class="toc-text">B 树、B+ 树区别，索引为何使用 B+ 树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚集索引与非聚集索引（使用非聚集索引的查询过程）"><span class="toc-number">2.0.5.</span> <span class="toc-text">聚集索引与非聚集索引（使用非聚集索引的查询过程）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的ACID（原子性、一致性、隔离性、持久性）"><span class="toc-number">2.0.6.</span> <span class="toc-text">事务的ACID（原子性、一致性、隔离性、持久性）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"><span class="toc-number">2.0.7.</span> <span class="toc-text">事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁"><span class="toc-number">2.0.8.</span> <span class="toc-text">乐观锁和悲观锁、行锁与表锁、共享锁与排他锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVCC（增加两个版本号）及delete、update、select时的具体控制"><span class="toc-number">2.0.9.</span> <span class="toc-text">MVCC（增加两个版本号）及delete、update、select时的具体控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#死锁判定原理和具体场景"><span class="toc-number">2.0.10.</span> <span class="toc-text">死锁判定原理和具体场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询缓慢和解决方式（explain、慢查询日志、show-profile等）"><span class="toc-number">2.0.11.</span> <span class="toc-text">查询缓慢和解决方式（explain、慢查询日志、show profile等）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#drop、truncate、delete-区别"><span class="toc-number">2.0.12.</span> <span class="toc-text">drop、truncate、delete 区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询语句不同元素（where、jion、limit、group-by、having等等）执行先后顺序"><span class="toc-number">2.0.13.</span> <span class="toc-text">查询语句不同元素（where、jion、limit、group by、having等等）执行先后顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql优化，读写分离、主从复制"><span class="toc-number">2.0.14.</span> <span class="toc-text">mysql优化，读写分离、主从复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库崩溃时事务的恢复机制（REDO-日志和-UNDO-日志）"><span class="toc-number">2.0.15.</span> <span class="toc-text">数据库崩溃时事务的恢复机制（REDO 日志和 UNDO 日志）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最全支付宝高级Java现场面试37题"><span class="toc-number">3.</span> <span class="toc-text">2019 最全支付宝高级Java现场面试37题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL优化，常用的索引？"><span class="toc-number">3.0.1.</span> <span class="toc-text">SQL优化，常用的索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库性能调优如何做"><span class="toc-number">3.0.2.</span> <span class="toc-text">数据库性能调优如何做</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库事务属性"><span class="toc-number">3.0.3.</span> <span class="toc-text">数据库事务属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最全阿里天猫Java-3面真题，含面试题答案！"><span class="toc-number">4.</span> <span class="toc-text">2019 最全阿里天猫Java 3面真题，含面试题答案！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最新阿里中间件Java-4轮面试题！60万年薪起步"><span class="toc-number">5.</span> <span class="toc-text">2019 最新阿里中间件Java 4轮面试题！60万年薪起步~</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引，表锁；乐观锁；悲观锁"><span class="toc-number">5.0.1.</span> <span class="toc-text">数据库索引，表锁；乐观锁；悲观锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019蚂蚁金服-Java面试题目！涵盖现场3面真题"><span class="toc-number">6.</span> <span class="toc-text">2019蚂蚁金服 Java面试题目！涵盖现场3面真题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何做的-MySQL-优化"><span class="toc-number">6.0.1.</span> <span class="toc-text">如何做的 MySQL 优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阿里蚂蚁金服中间件-Java-4轮面试题含答案-：Redis缓存-线程锁-微服务等"><span class="toc-number">7.</span> <span class="toc-text">阿里蚂蚁金服中间件(Java 4轮面试题含答案)：Redis缓存+线程锁+微服务等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-事务隔离级别以及-MVCC-机制"><span class="toc-number">7.0.1.</span> <span class="toc-text">MySQL 事务隔离级别以及 MVCC 机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-阿里Java-4轮面试题，含必考题答案参考！"><span class="toc-number">8.</span> <span class="toc-text">2019 阿里Java 4轮面试题，含必考题答案参考！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库优化会涉及到哪些？"><span class="toc-number">8.0.1.</span> <span class="toc-text">MySQL 数据库优化会涉及到哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-的事务隔离级别，分别解决什么问题？"><span class="toc-number">8.0.2.</span> <span class="toc-text">MySQL 的事务隔离级别，分别解决什么问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？"><span class="toc-number">8.0.3.</span> <span class="toc-text">从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新2019-蚂蚁金服4面-Java-面试题"><span class="toc-number">9.</span> <span class="toc-text">最新2019 蚂蚁金服4面(Java)面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。"><span class="toc-number">9.0.1.</span> <span class="toc-text">MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2018阿里集团中间件Java面试题-4面"><span class="toc-number">10.</span> <span class="toc-text">2018阿里集团中间件Java面试题(4面)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁金服4轮面经-Java研发）-G1收集器-连接池-分布式架构"><span class="toc-number">11.</span> <span class="toc-text">蚂蚁金服4轮面经(Java研发）:G1收集器+连接池+分布式架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-默认存储引擎？MyISAM、InnoDB、MEMORY的区别"><span class="toc-number">11.0.1.</span> <span class="toc-text">MySql 默认存储引擎？MyISAM、InnoDB、MEMORY的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是幻读，如何解决"><span class="toc-number">11.0.2.</span> <span class="toc-text">什么是幻读，如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？"><span class="toc-number">11.0.3.</span> <span class="toc-text">事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁与悲观锁的使用场景"><span class="toc-number">11.0.4.</span> <span class="toc-text">乐观锁与悲观锁的使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库主从同步数据一致性如何解决？技术方案的优劣势比较？"><span class="toc-number">11.0.5.</span> <span class="toc-text">数据库主从同步数据一致性如何解决？技术方案的优劣势比较？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#天猫研发Java团队-4面全题目）：并发压测-Mina-事务-集群-秒杀架构"><span class="toc-number">12.</span> <span class="toc-text">天猫研发Java团队(4面全题目）：并发压测+Mina+事务+集群+秒杀架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库默认存储引擎，有什么优点"><span class="toc-number">12.0.1.</span> <span class="toc-text">MySQL 数据库默认存储引擎，有什么优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-的事务隔离级别，分别解决什么问题。"><span class="toc-number">12.0.2.</span> <span class="toc-text">MySQL 的事务隔离级别，分别解决什么问题。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><span class="toc-number">12.0.3.</span> <span class="toc-text">四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库分库分表一般数据量多大才需要？"><span class="toc-number">12.0.4.</span> <span class="toc-text">数据库分库分表一般数据量多大才需要？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的慢-SQL-优化一般如何来做？除此外还有什么方法优化？"><span class="toc-number">12.0.5.</span> <span class="toc-text">MySQL的慢 SQL 优化一般如何来做？除此外还有什么方法优化？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最新蚂蚁花呗Java三面题目：红黑树-并发容器-CAS-Solr-分布式等"><span class="toc-number">13.</span> <span class="toc-text">2019 最新蚂蚁花呗Java三面题目：红黑树+并发容器+CAS+Solr+分布式等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询中哪些情况不会使用索引？"><span class="toc-number">13.0.1.</span> <span class="toc-text">查询中哪些情况不会使用索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引，底层是怎样实现的，为什么要用B树索引？"><span class="toc-number">13.0.2.</span> <span class="toc-text">数据库索引，底层是怎样实现的，为什么要用B树索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-主从同步的实现原理？"><span class="toc-number">13.0.3.</span> <span class="toc-text">MySql 主从同步的实现原理？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-是怎么用B-树？"><span class="toc-number">13.0.4.</span> <span class="toc-text">MySQL 是怎么用B+树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈数据库乐观锁与悲观锁"><span class="toc-number">13.0.5.</span> <span class="toc-text">谈谈数据库乐观锁与悲观锁?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#牛逼！支付宝高级Java三面题目：线程锁-事务-雪崩-Docker等"><span class="toc-number">14.</span> <span class="toc-text">牛逼！支付宝高级Java三面题目：线程锁+事务+雪崩+Docker等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-如何在RR隔离级别下避免幻读问题"><span class="toc-number">14.0.1.</span> <span class="toc-text">MySql 如何在RR隔离级别下避免幻读问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql范式和反范式的区别以及彼此的优缺点"><span class="toc-number">14.0.2.</span> <span class="toc-text">MySql范式和反范式的区别以及彼此的优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-索引类别有哪些，什么是覆盖索引"><span class="toc-number">14.0.3.</span> <span class="toc-text">MySql 索引类别有哪些，什么是覆盖索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql如何获取慢SQL，以及慢查询的解决方式"><span class="toc-number">14.0.4.</span> <span class="toc-text">mysql如何获取慢SQL，以及慢查询的解决方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-主从同步如何配置，工作原理"><span class="toc-number">14.0.5.</span> <span class="toc-text">MySql 主从同步如何配置，工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）"><span class="toc-number">14.0.6.</span> <span class="toc-text">乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#死锁判定原理和具体场景-1"><span class="toc-number">14.0.7.</span> <span class="toc-text">死锁判定原理和具体场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈事务的ACID"><span class="toc-number">14.0.8.</span> <span class="toc-text">谈谈事务的ACID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库崩溃时事务的恢复机制"><span class="toc-number">14.0.9.</span> <span class="toc-text">数据库崩溃时事务的恢复机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁花呗团队面试题：LinkedHashMap-SpringCloud-线程锁-分布式"><span class="toc-number">15.</span> <span class="toc-text">蚂蚁花呗团队面试题：LinkedHashMap+SpringCloud+线程锁+分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引有哪些？底层怎么实现的？数据库怎么优化？"><span class="toc-number">15.0.1.</span> <span class="toc-text">数据库索引有哪些？底层怎么实现的？数据库怎么优化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的事务，四个性质说一下，分别有什么用，怎么实现的？"><span class="toc-number">15.0.2.</span> <span class="toc-text">数据库的事务，四个性质说一下，分别有什么用，怎么实现的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql存储引擎"><span class="toc-number">15.0.3.</span> <span class="toc-text">MySql存储引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别"><span class="toc-number">15.0.4.</span> <span class="toc-text">事务隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）"><span class="toc-number">15.0.5.</span> <span class="toc-text">不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-有哪几种-join-方式，底层原理是什么"><span class="toc-number">15.0.6.</span> <span class="toc-text">MySQL 有哪几种 join 方式，底层原理是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库怎么实现分库分表，以及数据同步？"><span class="toc-number">15.0.7.</span> <span class="toc-text">MySQL数据库怎么实现分库分表，以及数据同步？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最全蚂蚁金服高级Java面试题目-3面"><span class="toc-number">16.</span> <span class="toc-text">最全蚂蚁金服高级Java面试题目(3面)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在工作中，SQL语句的优化和注意的事项"><span class="toc-number">16.0.1.</span> <span class="toc-text">在工作中，SQL语句的优化和注意的事项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql同步机制原理，有哪几种同步方法"><span class="toc-number">16.0.2.</span> <span class="toc-text">MySql同步机制原理，有哪几种同步方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库主从同步如何实现，事务如何实现"><span class="toc-number">16.0.3.</span> <span class="toc-text">数据库主从同步如何实现，事务如何实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2018-支付宝Java开发四面-Ngnix-MQ队列-集群-并发抢购"><span class="toc-number">17.</span> <span class="toc-text">2018 支付宝Java开发四面:Ngnix+MQ队列+集群+并发抢购</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-limit-分页如何保证可靠性"><span class="toc-number">17.0.1.</span> <span class="toc-text">MySql limit 分页如何保证可靠性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL引擎及区别，项目用的哪个，为什么"><span class="toc-number">17.0.2.</span> <span class="toc-text">MySQL引擎及区别，项目用的哪个，为什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mycat-分库分表、读写分离的实现"><span class="toc-number">17.0.3.</span> <span class="toc-text">mycat 分库分表、读写分离的实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁三面题目-java开发岗）-Java锁机制-JVM-线程池-事务-中间件"><span class="toc-number">18.</span> <span class="toc-text">蚂蚁三面题目(java开发岗）:Java锁机制+JVM+线程池+事务+中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的表锁-amp-行锁-amp-乐观锁-amp-悲观锁-各自的使用场景"><span class="toc-number">18.0.1.</span> <span class="toc-text">MySQL的表锁&amp;行锁&amp;乐观锁&amp;悲观锁,各自的使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务四大特性"><span class="toc-number">18.0.2.</span> <span class="toc-text">事务四大特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的二段提交机制？"><span class="toc-number">18.0.3.</span> <span class="toc-text">事务的二段提交机制？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚簇索引-amp-非聚簇索引"><span class="toc-number">18.0.4.</span> <span class="toc-text">聚簇索引&amp;非聚簇索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACID-CAP-BASE理论，以及RPC过程。"><span class="toc-number">18.0.5.</span> <span class="toc-text">ACID CAP BASE理论，以及RPC过程。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁中间件团队Java面试题：Netty-Redis-Kafka-MongoDB-分布式"><span class="toc-number">19.</span> <span class="toc-text">蚂蚁中间件团队Java面试题：Netty+Redis+Kafka+MongoDB+分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引什么时候会失效变成全表扫描"><span class="toc-number">19.0.1.</span> <span class="toc-text">索引什么时候会失效变成全表扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库万级变成亿级，你如何来解决。"><span class="toc-number">19.0.2.</span> <span class="toc-text">数据库万级变成亿级，你如何来解决。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新阿里聚划算Java-5轮面试题-涵盖GC收集器、多线程锁等"><span class="toc-number">20.</span> <span class="toc-text">最新阿里聚划算Java 5轮面试题,涵盖GC收集器、多线程锁等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL采用了什么存储引擎，为什么？"><span class="toc-number">20.0.1.</span> <span class="toc-text">MySQL采用了什么存储引擎，为什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的类型，索引的底层实现原理"><span class="toc-number">20.0.2.</span> <span class="toc-text">索引的类型，索引的底层实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别"><span class="toc-number">20.0.3.</span> <span class="toc-text">MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？"><span class="toc-number">20.0.4.</span> <span class="toc-text">MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别"><span class="toc-number">20.0.5.</span> <span class="toc-text">MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-和数据库如何保证数据一致性"><span class="toc-number">20.0.6.</span> <span class="toc-text">Redis 和数据库如何保证数据一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈MySQL的查询优化方法，重点谈谈优化步骤。"><span class="toc-number">20.0.7.</span> <span class="toc-text">谈谈MySQL的查询优化方法，重点谈谈优化步骤。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新天猫Java3轮面试题目：虚拟机-并发锁-Sql防注入-Zookeeper"><span class="toc-number">21.</span> <span class="toc-text">最新天猫Java3轮面试题目：虚拟机+并发锁+Sql防注入+Zookeeper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何防止sql注入，了解哪些加密算法，rsa过程说下"><span class="toc-number">21.0.1.</span> <span class="toc-text">如何防止sql注入，了解哪些加密算法，rsa过程说下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql索引设计，联合索引，SQL-语句优化，abc-索引，搜索b，会使用索引吗（走索引要回表）"><span class="toc-number">21.0.2.</span> <span class="toc-text">MySql索引设计，联合索引，SQL 语句优化，abc 索引，搜索b，会使用索引吗（走索引要回表）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非常全面的阿里的Java面试题目-涵盖Java基础-高级-架构"><span class="toc-number">22.</span> <span class="toc-text">非常全面的阿里的Java面试题目,涵盖Java基础+高级+架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库隔离级别-脏读-幻读-ACID-mysql的隔离级别"><span class="toc-number">22.0.1.</span> <span class="toc-text">数据库隔离级别 脏读 幻读 ACID mysql的隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql索引实现，如何解决慢查询"><span class="toc-number">22.0.2.</span> <span class="toc-text">mysql索引实现，如何解决慢查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库锁是怎么实现的"><span class="toc-number">22.0.3.</span> <span class="toc-text">数据库锁是怎么实现的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？"><span class="toc-number">22.0.4.</span> <span class="toc-text">用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#淘宝网Java五面：现场面试49题含答案！"><span class="toc-number">23.</span> <span class="toc-text">淘宝网Java五面：现场面试49题含答案！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#讲一下数据库的隔离等级"><span class="toc-number">23.0.1.</span> <span class="toc-text">讲一下数据库的隔离等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说一聚簇索引和非聚簇索引的有什么不同"><span class="toc-number">23.0.2.</span> <span class="toc-text">说一聚簇索引和非聚簇索引的有什么不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql用的什么存储引擎，这个存储引擎用的什么数据结构-，有哪些优缺点，怎么使用"><span class="toc-number">23.0.3.</span> <span class="toc-text">mysql用的什么存储引擎，这个存储引擎用的什么数据结构 ，有哪些优缺点，怎么使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#史上最全阿里Java面试题目大汇总！强烈建议收藏"><span class="toc-number">24.</span> <span class="toc-text">史上最全阿里Java面试题目大汇总！强烈建议收藏~</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的常见优化方式、定为慢查询"><span class="toc-number">24.0.1.</span> <span class="toc-text">MySQL的常见优化方式、定为慢查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）"><span class="toc-number">24.0.2.</span> <span class="toc-text">数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sql语法（join，union，子查询，having，group-by）"><span class="toc-number">24.0.3.</span> <span class="toc-text">sql语法（join，union，子查询，having，group by）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#引擎对比（InnoDB，MyISAM）"><span class="toc-number">24.0.4.</span> <span class="toc-text">引擎对比（InnoDB，MyISAM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select-sql方式）"><span class="toc-number">24.0.5.</span> <span class="toc-text">数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select sql方式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#隔离级别，依次解决的问题（脏读、不可重复读、幻读）"><span class="toc-number">24.0.6.</span> <span class="toc-text">隔离级别，依次解决的问题（脏读、不可重复读、幻读）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的ACID"><span class="toc-number">24.0.7.</span> <span class="toc-text">事务的ACID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化（explain，慢查询，show-profile）"><span class="toc-number">24.0.8.</span> <span class="toc-text">优化（explain，慢查询，show profile）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的范式"><span class="toc-number">24.0.9.</span> <span class="toc-text">数据库的范式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分库分表，主从复制，读写分离。"><span class="toc-number">24.0.10.</span> <span class="toc-text">分库分表，主从复制，读写分离。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最全Java面试180题：阿里11面试-网易-百度-美团！含答案大赠送！"><span class="toc-number">25.</span> <span class="toc-text">最全Java面试180题：阿里11面试+网易+百度+美团！含答案大赠送！</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        abc
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-27T16:01:31.000Z" itemprop="datePublished">2020-04-28</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/MySQL-指南/">MySQL 指南</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="最全-MySQL-面试-60-题和答案"><a href="#最全-MySQL-面试-60-题和答案" class="headerlink" title="最全 MySQL 面试 60 题和答案"></a>最全 MySQL 面试 60 题和答案</h2><h4 id="MySQL-中有哪几种锁？"><a href="#MySQL-中有哪几种锁？" class="headerlink" title="MySQL 中有哪几种锁？"></a>MySQL 中有哪几种锁？</h4><p>MySQL 的锁大致分为 3 种：表锁、页锁、行锁。</p>
+<p>他们的区别如下</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">锁名称</th>
+<th>锁定粒度</th>
+<th>开销</th>
+<th>并发量</th>
+<th>冲突概率</th>
+<th>支持引擎</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">表锁</td>
+<td>整张表</td>
+<td>小</td>
+<td>低</td>
+<td>大</td>
+<td>MyISAM、InnoDB</td>
+</tr>
+<tr>
+<td style="text-align:left">页锁</td>
+<td>邻的一组记录</td>
+<td>中</td>
+<td>中</td>
+<td>中</td>
+<td>BDB</td>
+</tr>
+<tr>
+<td style="text-align:left">行锁</td>
+<td>指定的记录</td>
+<td>大</td>
+<td>高</td>
+<td>小</td>
+<td>InnoDB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="MySQL-中有哪些不同的表格（存储引擎）？"><a href="#MySQL-中有哪些不同的表格（存储引擎）？" class="headerlink" title="MySQL 中有哪些不同的表格（存储引擎）？"></a>MySQL 中有哪些不同的表格（存储引擎）？</h4><p>数据库存储引擎是数据库底层软件组件，数据库管理系统使用数据引擎进行创建、查询、更新和删除数据操作。不同的存储引擎提供不同的存储机制、索引技巧、锁定水平等功能，使用不同的存储引擎还可以获得特定的功能。</p>
+<p>引擎区别：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">存储引擎</th>
+<th>说明</th>
+<th>ACID兼容</th>
+<th>锁支持</th>
+<th>存储结构</th>
+<th>隔离级别</th>
+<th>性能</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">MyISAM</td>
+<td>常用引擎</td>
+<td>不支持</td>
+<td>表锁</td>
+<td><code>.frm</code> <code>.MYI</code> <code>.MYD</code></td>
+<td></td>
+<td>高</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">InnoDB</td>
+<td>默认引擎</td>
+<td>支持</td>
+<td>表锁 行锁</td>
+<td><code>.frm</code> <code>.ibd</code></td>
+<td>支持事务的四种隔离级别</td>
+<td>慢</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>|MEMORY|存储到内存中|极快的插入、查询速度||不支持||临时表，存放查询的中间结果|<br>|Archive||||||存储归档数据，如记录日志信息|</p>
+<p>性能对比：<br>（待补充）</p>
+<h4 id="简述在-MySQL-数据库中-MyISAM-和-InnoDB-的区别"><a href="#简述在-MySQL-数据库中-MyISAM-和-InnoDB-的区别" class="headerlink" title="简述在 MySQL 数据库中 MyISAM 和 InnoDB 的区别"></a>简述在 MySQL 数据库中 MyISAM 和 InnoDB 的区别</h4><p>同上</p>
+<h4 id="MySQL-中-InnoDB-支持的四种事务隔离级别名称，以及逐级之间的区别？"><a href="#MySQL-中-InnoDB-支持的四种事务隔离级别名称，以及逐级之间的区别？" class="headerlink" title="MySQL 中 InnoDB 支持的四种事务隔离级别名称，以及逐级之间的区别？"></a>MySQL 中 InnoDB 支持的四种事务隔离级别名称，以及逐级之间的区别？</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">隔离界别</th>
+<th>描述</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Read uncommited</td>
+<td>读未提交</td>
+<td>不可避免</td>
+<td>不可避免</td>
+<td>不可避免</td>
+</tr>
+<tr>
+<td style="text-align:left">Read committed</td>
+<td>读已提交</td>
+<td>可避免</td>
+<td>不可避免</td>
+<td>不可避免</td>
+</tr>
+<tr>
+<td style="text-align:left">Repeatable read</td>
+<td>可重复读</td>
+<td>可避免</td>
+<td>可避免</td>
+<td>不可避免</td>
+</tr>
+<tr>
+<td style="text-align:left">Serializable</td>
+<td>串行化</td>
+<td>可避免</td>
+<td>可避免</td>
+<td>可避免</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="CHAR-和-VARCHAR-的区别？"><a href="#CHAR-和-VARCHAR-的区别？" class="headerlink" title="CHAR 和 VARCHAR 的区别？"></a>CHAR 和 VARCHAR 的区别？</h4><h4 id="主键和候选键有什么区别？"><a href="#主键和候选键有什么区别？" class="headerlink" title="主键和候选键有什么区别？"></a>主键和候选键有什么区别？</h4><ol>
+<li>超键：在关系中能唯一标识元组的属性集，里面可能包含很多能唯一标识元组的属性<br> {学号}{学号，姓名}{学号，性别}{性别，年龄}。。。</li>
+<li>候选键：不含有多余属性的超键，即它里面的属性一旦去掉任何一个，它就不是超键<br> 任何的候选键都可以作为主键，这取决于用户的选择</li>
+<li>主键：用户选作元组标识的一个候选键<br> 学号、或者Id（如果没有的话）</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">学号</th>
+<th>姓名</th>
+<th>性别</th>
+<th>年龄</th>
+<th>系别</th>
+<th>专业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20020612李辉</td>
+<td>男</td>
+<td>20</td>
+<td>计算机</td>
+<td>软件开发</td>
+</tr>
+<tr>
+<td style="text-align:left">20060613</td>
+<td>张明</td>
+<td>男</td>
+<td>18</td>
+<td>计算机</td>
+<td>软件开发</td>
+</tr>
+<tr>
+<td style="text-align:left">20060614</td>
+<td>王小玉</td>
+<td>女</td>
+<td>19</td>
+<td>物理</td>
+<td>力学</td>
+</tr>
+<tr>
+<td style="text-align:left">20060615</td>
+<td>李淑华</td>
+<td>女</td>
+<td>17</td>
+<td>生物</td>
+<td>动物学</td>
+</tr>
+<tr>
+<td style="text-align:left">20060616</td>
+<td>赵静</td>
+<td>男</td>
+<td>21</td>
+<td>化学</td>
+<td>食品化学</td>
+</tr>
+<tr>
+<td style="text-align:left">20060617</td>
+<td>赵静</td>
+<td>女</td>
+<td>20</td>
+<td>生物</td>
+<td>植物学</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="myisamchk-是用来做什么的？"><a href="#myisamchk-是用来做什么的？" class="headerlink" title="myisamchk 是用来做什么的？"></a>myisamchk 是用来做什么的？</h4><h4 id="MyISAM-Static-和-MyISAM-Dynamic-有什么区别？"><a href="#MyISAM-Static-和-MyISAM-Dynamic-有什么区别？" class="headerlink" title="MyISAM Static 和 MyISAM Dynamic 有什么区别？"></a>MyISAM Static 和 MyISAM Dynamic 有什么区别？</h4><h4 id="如果一个表有一列定义为TIMESTAMP，将发生什么？"><a href="#如果一个表有一列定义为TIMESTAMP，将发生什么？" class="headerlink" title="如果一个表有一列定义为TIMESTAMP，将发生什么？"></a>如果一个表有一列定义为TIMESTAMP，将发生什么？</h4><p>对于TIMESTAMP，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。</p>
+<p>而对于DATETIME，不做任何改变，基本上是原样输入和输出。</p>
+<p>两者所能存储的时间范围不一样</p>
+<p>timestamp所能存储的时间范围为：’1970-01-01 00:00:01.000000’ 到 ‘2038-01-19 03:14:07.999999’。</p>
+<p>datetime所能存储的时间范围为：’1000-01-01 00:00:00.000000’ 到 ‘9999-12-31 23:59:59.999999’。</p>
+<p>看起来是不是有点奇怪，我并没有对hiredate字段进行插入操作，它的值自动修改为当前值，而且在创建表的时候，我也并没有定义“show create table test\G”结果中显示的“ DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP”。</p>
+<p>其实，这个特性是自动初始化和自动更新（Automatic Initialization and Updating）。</p>
+<p>自动初始化指的是如果对该字段（譬如上例中的hiredate字段）没有显性赋值，则自动设置为当前系统时间。</p>
+<p>自动更新指的是如果修改了其它字段，则该字段的值将自动更新为当前系统时间。</p>
+<h4 id="列设置为-AUTO-INCREMENT-时，如果在表中达到最大值，会发生什么情况？"><a href="#列设置为-AUTO-INCREMENT-时，如果在表中达到最大值，会发生什么情况？" class="headerlink" title="列设置为 AUTO INCREMENT 时，如果在表中达到最大值，会发生什么情况？"></a>列设置为 AUTO INCREMENT 时，如果在表中达到最大值，会发生什么情况？</h4><p>它会停止递增，任何进一步的插入都将产生错误，因为密钥已被使用。（没法复现，不知多少才是最大值）</p>
+<h4 id="怎样才能找出最后一次插入时分配了哪个自动增量？"><a href="#怎样才能找出最后一次插入时分配了哪个自动增量？" class="headerlink" title="怎样才能找出最后一次插入时分配了哪个自动增量？"></a>怎样才能找出最后一次插入时分配了哪个自动增量？</h4><p><code>LAST_INSERT_ID</code> 函数将返回由 <code>AUTO_INCREMENT</code> 分配的最后一个值，并且不需要指定表名称。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 插入数据，没有指定Id</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">user</span>(<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'zhangsan'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询指定的新增的Id（当前客户端的）</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">LAST_INSERT_ID</span>();</span><br><span class="line"><span class="comment">-- 10</span></span><br></pre></td></tr></table></figure>
+<h4 id="你怎么看到为表格定义的所有索引？"><a href="#你怎么看到为表格定义的所有索引？" class="headerlink" title="你怎么看到为表格定义的所有索引？"></a>你怎么看到为表格定义的所有索引？</h4><p>使用 <code>SHOW INDEX</code> 命令可以查看此表所定义的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">INDEX</span> <span class="keyword">FROM</span> table_name;</span><br></pre></td></tr></table></figure>
+<h4 id="like-声明中的-％-和-是什么意思？"><a href="#like-声明中的-％-和-是什么意思？" class="headerlink" title="like 声明中的 ％ 和 _ 是什么意思？"></a>like 声明中的 ％ 和 _ 是什么意思？</h4><ol>
+<li><code>%</code> 表示任意 0 个或多个字符。可匹配任意类型和长度的字符，有些情况下若是中文，请使用两个百分号表示。</li>
+<li><code>_</code> 表示任意单个字符。匹配单个任意字符，它常用来限制表达式的字符长度语句。</li>
+<li><code>\</code> 表示转义字符。</li>
+<li><code>[]</code> ?? 表示括号内所列字符中的一个（类似正则表达式）。指定一个字符、字符串或范围，要求所匹配对象为它们中的任一个。</li>
+<li><code>[^]</code> ?? 表示不在括号所列之内的单个字符。其取值和 [] 相同，但它要求所匹配对象为指定字符以外的任一个字符。</li>
+</ol>
+<p>示例：</p>
+<ol>
+<li><code>%a</code> 以 a 结尾的数据</li>
+<li><code>a%</code> 以 a 开头的数据</li>
+<li><code>%a%</code> 含有 a 的数据</li>
+<li><code>%a\_</code>  以 a_ 结尾的数据</li>
+<li><code>_a</code> 两位且结尾字母是 a 的</li>
+<li><code>a_</code> 两位且开头字母是 a 的</li>
+<li><code>_a_</code> 三位且中间字母是 a 的</li>
+</ol>
+<h4 id="如何在-Unix-和-MySQL-时间戳之间进行转换？"><a href="#如何在-Unix-和-MySQL-时间戳之间进行转换？" class="headerlink" title="如何在 Unix 和 MySQL 时间戳之间进行转换？"></a>如何在 Unix 和 MySQL 时间戳之间进行转换？</h4><ol>
+<li>Unix 时间精确到秒，从协调世界时 1970 年 1 月 1 日 0 时 0 分 0 秒起至现在的总秒数。</li>
+<li>MySQL <code>FROM_UNIXTIME</code> 函数将 Unix 时间戳转为 MySQL 日期。</li>
+<li>MySQL <code>UNIX_TIMESTAMP</code> 函数将 MySQL 日期转换为 Unix 时间戳。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取 MySQL 当前时间</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">NOW</span>();</span><br><span class="line"><span class="comment">-- 2020-06-02 17:11:09</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 获取 Unix 时间戳</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">UNIX_TIMESTAMP</span>();</span><br><span class="line"><span class="comment">-- 1591089100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- Unix 时间戳转换成为 MySQL 时间</span></span><br><span class="line"><span class="keyword">SELECT</span> FROM_UNIXTIME(<span class="number">1156219870</span>);</span><br><span class="line"><span class="comment">-- 2006-08-22 12:11:10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 日期转换成为 Unix 时间戳</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">UNIX_TIMESTAMP</span>(<span class="keyword">NOW</span>());</span><br><span class="line"><span class="comment">-- 1591089100</span></span><br></pre></td></tr></table></figure>
+<h4 id="列对比运算符是什么？"><a href="#列对比运算符是什么？" class="headerlink" title="列对比运算符是什么？"></a>列对比运算符是什么？</h4><p>比较运算符可以判断表中的哪些记录是符合条件的。比较结果为真，则返回 1，为假则返回 0，比较结果不确定则返回 NULL。</p>
+<p>在 <code>SELECT</code> 语句的列比较中使用 <code>=</code>，<code>&lt;&gt;</code>，<code>&lt;</code>，<code>&lt;=</code>，<code>&gt;</code>，<code>&gt;=</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code>，<code>&lt;=&gt;</code>，<code>AND</code>，<code>IS NULL</code>, <code>IS NOT NULL</code>, <code>OR</code> 或 <code>LIKE</code>运算符。</p>
+<h4 id="BLOB-和-TEXT-有什么区别？"><a href="#BLOB-和-TEXT-有什么区别？" class="headerlink" title="BLOB 和 TEXT 有什么区别？"></a>BLOB 和 TEXT 有什么区别？</h4><ol>
+<li>BLOB 是一个二进制对象，可以容纳可变数量的数据。TEXT 是一个不区分大小写的 BLOB。</li>
+<li>BLOB 和 TEXT 类型之间的唯一区别在于对 BLOB 值进行排序和比较时区分大小写，对 TEXT 值不区分大小写。</li>
+</ol>
+<h4 id="mysql-fetch-array-和-mysql-fetch-object-的区别是什么？"><a href="#mysql-fetch-array-和-mysql-fetch-object-的区别是什么？" class="headerlink" title="mysql_fetch_array 和 mysql_fetch_object 的区别是什么？"></a>mysql_fetch_array 和 mysql_fetch_object 的区别是什么？</h4><p>PHP 不记。</p>
+<ol>
+<li>mysql_fetch_array – 将结果行作为关联数组或来自数据库的常规数组返回。</li>
+<li>mysql_fetch_object – 从数据库返回结果行作为对象。</li>
+</ol>
+<h4 id="MyISAM-表格将在哪里存储，并且还提供其存储格式？"><a href="#MyISAM-表格将在哪里存储，并且还提供其存储格式？" class="headerlink" title="MyISAM 表格将在哪里存储，并且还提供其存储格式？"></a>MyISAM 表格将在哪里存储，并且还提供其存储格式？</h4><p>在没有指定的情况下，MySQL 数据存储在 <code>./data</code> 目录下。</p>
+<p>每个 MyISAM 表格以三种格式存储在磁盘上：</p>
+<ol>
+<li><code>.frm</code> 文件存储表定义</li>
+<li><code>.MYD</code> 文件存储表数据</li>
+<li><code>.MYI</code> 文件存储表索引</li>
+</ol>
+<h4 id="MySQL-如何优化-DISTINCT？"><a href="#MySQL-如何优化-DISTINCT？" class="headerlink" title="MySQL 如何优化 DISTINCT？"></a>MySQL 如何优化 DISTINCT？</h4><p><code>DISTINCT</code> 在所有列上转换为 <code>GROUP BY</code>，并与 <code>ORDER BY</code> 子句结合使用。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> t1.a <span class="keyword">FROM</span> t1, t2 <span class="keyword">WHERE</span> t1.a = t2.a;</span><br></pre></td></tr></table></figure>
+<h4 id="如何显示前-50-行？"><a href="#如何显示前-50-行？" class="headerlink" title="如何显示前 50 行？"></a>如何显示前 50 行？</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table_name <span class="keyword">LIMIT</span> <span class="number">0</span>, <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="可以使用多少列创建索引？"><a href="#可以使用多少列创建索引？" class="headerlink" title="可以使用多少列创建索引？"></a>可以使用多少列创建索引？</h4><p>任何标准表最多可以创建 16 个索引列。</p>
+<h4 id="NOW-和-CURRENT-DATE-有什么区别？"><a href="#NOW-和-CURRENT-DATE-有什么区别？" class="headerlink" title="NOW() 和 CURRENT_DATE() 有什么区别？"></a>NOW() 和 CURRENT_DATE() 有什么区别？</h4><ol>
+<li><code>NOW()</code> 命令用于显示当前年份，月份，日期，小时，分钟和秒。</li>
+<li><code>CURRENT_DATE()</code> 仅显示当前年份，月份和日期。</li>
+</ol>
+<h4 id="什么是非标准字符串类型？"><a href="#什么是非标准字符串类型？" class="headerlink" title="什么是非标准字符串类型？"></a>什么是非标准字符串类型？</h4><ol>
+<li>TINYTEXT</li>
+<li>TEXT</li>
+<li>MEDIUMTEXT</li>
+<li>LONGTEXT</li>
+</ol>
+<h4 id="什么是通用-SQL-函数？"><a href="#什么是通用-SQL-函数？" class="headerlink" title="什么是通用 SQL 函数？"></a>什么是通用 SQL 函数？</h4><h4 id="MySQL-支持事务吗？"><a href="#MySQL-支持事务吗？" class="headerlink" title="MySQL 支持事务吗？"></a>MySQL 支持事务吗？</h4><ol>
+<li>MySQL 默认的 InnoDB 存储引擎是支持事务的，其它存储引擎不支持</li>
+<li>缺省模式下，MySQL 是 autocommit 模式的，所有的数据库更新操作都会即时提交。</li>
+<li>可以设置 <code>SET AUTOCOMMIT = 0</code> 关闭 autocommit 模式，在这种情况下，你必须使用 COMMIT 来提交你的更改，或者用 ROLLBACK 来回滚你的更改。</li>
+</ol>
+<h4 id="MySQL-里记录货币用什么字段类型好"><a href="#MySQL-里记录货币用什么字段类型好" class="headerlink" title="MySQL 里记录货币用什么字段类型好"></a>MySQL 里记录货币用什么字段类型好</h4><p>NUMERIC 和 DECIMAL 类型被 MySQL 实现为同样的类型，这在 SQL92 标准允许。他们被用于保存值，该值的准确精度是极其重要的值，例如与金钱有关的数据。当声明一个类是这些类型之一时，精度和规模的能被(并且通常是)指定。</p>
+<p>例如：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">salary DECIMAL(9,2)</span><br></pre></td></tr></table></figure></p>
+<p>在这个例子中，9 代表将被用于存储值的总的小数位数，而 2 代表将被用于存储小数点后的位数。</p>
+<p>因此，在这种情况下，能被存储在salary列中的值的范围是从 -9999999.99 到 9999999.99。</p>
+<h4 id="MySQL-有关权限的表都有哪几个？"><a href="#MySQL-有关权限的表都有哪几个？" class="headerlink" title="MySQL 有关权限的表都有哪几个？"></a>MySQL 有关权限的表都有哪几个？</h4><p>MySQL 服务器通过权限表来控制用户对数据库的访问，权限表存放在 MySQL 数据库里，由 mysql_install_db 脚本初始化。这些权限表分别 user，db，table_priv，columns_priv 和 host。</p>
+<h4 id="列的字符串类型可以是什么？"><a href="#列的字符串类型可以是什么？" class="headerlink" title="列的字符串类型可以是什么？"></a>列的字符串类型可以是什么？</h4><p>字符串类型是：</p>
+<ol>
+<li>SET</li>
+<li>ENUM</li>
+<li>CHAR</li>
+<li>VARCHAR</li>
+<li>BLOB</li>
+<li>TEXT</li>
+</ol>
+<p>???</p>
+<h4 id="MySQL-数据库作发布系统的存储，一天五万条以上的增量，预计运维三年-怎么优化？"><a href="#MySQL-数据库作发布系统的存储，一天五万条以上的增量，预计运维三年-怎么优化？" class="headerlink" title="MySQL 数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？"></a>MySQL 数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？</h4><ol>
+<li>选择合适的表字段数据类型和存储引擎，适当的添加索引。</li>
+<li>MySQL 库主从读写分离。</li>
+<li>找规律分表，减少单表中的数据量提高查询速度。</li>
+<li>添加缓存机制，比如 memcached，apc 等。</li>
+<li>不经常改动的页面，生成静态页面。</li>
+<li>书写高效率的SQL。比如 SELECT * FROM TABEL 改为 SELECT field_1, field_2, field_3 FROM TABLE.</li>
+</ol>
+<p>???</p>
+<h4 id="锁的优化策略"><a href="#锁的优化策略" class="headerlink" title="锁的优化策略"></a>锁的优化策略</h4><ol>
+<li>读写分离</li>
+<li>分段加锁</li>
+<li>减少锁持有的时间</li>
+<li>多个线程尽量以相同的顺序去获取资源</li>
+</ol>
+<p>不能将锁的粒度过于细化，不然可能会出现线程的加锁和释放次数过多，反而效率不如一次加一把大锁。</p>
+<h4 id="索引的底层实现原理和优化"><a href="#索引的底层实现原理和优化" class="headerlink" title="索引的底层实现原理和优化"></a>索引的底层实现原理和优化</h4><p>B+ 树，经过优化的 B 树</p>
+<p>主要是在所有的叶子结点中增加了指向下一个叶子节点的指针，因此InnoDB建议为大部分表使用默认自增的主键作为主索引。</p>
+<h4 id="什么情况下设置了索引但无法使用"><a href="#什么情况下设置了索引但无法使用" class="headerlink" title="什么情况下设置了索引但无法使用"></a>什么情况下设置了索引但无法使用</h4><ol>
+<li>以“%”开头的LIKE语句，模糊匹配</li>
+<li>OR语句前后没有同时使用索引</li>
+<li>数据类型出现隐式转化（如varchar不加单引号的话可能会自动转换为int型）</li>
+</ol>
+<h4 id="实践中如何优化MySQL"><a href="#实践中如何优化MySQL" class="headerlink" title="实践中如何优化MySQL"></a>实践中如何优化MySQL</h4><p>最好是按照以下顺序优化：</p>
+<ol>
+<li>SQL语句及索引的优化</li>
+<li>数据库表结构的优化</li>
+<li>系统配置的优化</li>
+<li>硬件的优化</li>
+</ol>
+<h4 id="优化数据库的方法"><a href="#优化数据库的方法" class="headerlink" title="优化数据库的方法"></a>优化数据库的方法</h4><p>选取最适用的字段属性，尽可能减少定义字段宽度，尽量把字段设置NOTNULL，例如’省份’、’性别’最好适用ENUM<br> 使用连接(JOIN)来代替子查询<br> 适用联合(UNION)来代替手动创建的临时表<br> 事务处理<br> 锁定表、优化事务处理<br> 适用外键，优化锁定表<br> 建立索引<br> 优化查询语句</p>
+<h4 id="简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）"><a href="#简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）" class="headerlink" title="简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）"></a>简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）</h4><p>索引是一种特殊的文件(InnoDB数据表上的索引是表空间的一个组成部分)，它们包含着对数据表里所有记录的引用指针。</p>
+<p>普通索引(由关键字KEY或INDEX定义的索引)的唯一任务是加快对数据的访问速度。</p>
+<p>普通索引允许被索引的数据列包含重复的值。如果能确定某个数据列将只包含彼此各不相同的值，在为这个数据列创建索引的时候就应该用关键字UNIQUE把它定义为一个唯一索引。也就是说，唯一索引可以保证数据记录的唯一性。</p>
+<p>主键，是一种特殊的唯一索引，在一张表中只能定义一个主键索引，主键用于唯一标识一条记录，使用关键字 PRIMARY KEY 来创建。</p>
+<p>索引可以覆盖多个数据列，如像INDEX(columnA, columnB)索引，这就是联合索引。</p>
+<p>索引可以极大的提高数据的查询速度，但是会降低插入、删除、更新表的速度，因为在执行这些写操作时，还要操作索引文件。</p>
+<h4 id="数据库中的事务是什么"><a href="#数据库中的事务是什么" class="headerlink" title="数据库中的事务是什么?"></a>数据库中的事务是什么?</h4><p>事务（transaction）是作为一个单元的一组有序的数据库操作。如果组中的所有操作都成功，则认为事务成功，即使只有一个操作失败，事务也不成功。如果所有操作完成，事务则提交，其修改将作用于所有其他数据库进程。如果一个操作失败，则事务将回滚，该事务所有操作的影响都将取消。</p>
+<p>事务特性：</p>
+<p>（1）原子性：即不可分割性，事务要么全部被执行，要么就全部不被执行。</p>
+<p>（2）一致性或可串性。事务的执行使得数据库从一种正确状态转换成另一种正确状态</p>
+<p>（3）隔离性。在事务正确提交之前，不允许把该事务对数据的任何改变提供给任何其他事务，</p>
+<p>（4） 持久性。事务正确提交后，其结果将永久保存在数据库中，即使在事务提交后有了其他故障，事务的处理结果也会得到保存。</p>
+<p>或者这样理解：</p>
+<p>事务就是被绑定在一起作为一个逻辑工作单元的SQL语句分组，如果任何一个语句操作失败那么整个操作就被失败，以后操作就会回滚到操作前状态，或者是上有个节点。为了确保要么执行，要么不执行，就可以使用事务。要将有组语句作为事务考虑，就需要通过ACID测试，即原子性，一致性，隔离性和持久性。</p>
+<h4 id="SQL注入漏洞产生的原因？如何防止？"><a href="#SQL注入漏洞产生的原因？如何防止？" class="headerlink" title="SQL注入漏洞产生的原因？如何防止？"></a>SQL注入漏洞产生的原因？如何防止？</h4><p>SQL注入产生的原因：程序开发过程中不注意规范书写sql语句和对特殊字符进行过滤，导致客户端可以通过全局变量POST和GET提交一些sql语句正常执行。</p>
+<p>防止SQL注入的方式：<br>开启配置文件中的magic_quotes_gpc 和 magic_quotes_runtime设置</p>
+<p>执行sql语句时使用addslashes进行sql语句转换</p>
+<p>Sql语句书写尽量不要省略双引号和单引号。</p>
+<p>过滤掉sql语句中的一些关键词：update、insert、delete、select、 * 。</p>
+<p>提高数据库表和字段的命名技巧，对一些重要的字段根据程序的特点命名，取不易被猜到的。</p>
+<h4 id="为表中得字段选择合适得数据类型"><a href="#为表中得字段选择合适得数据类型" class="headerlink" title="为表中得字段选择合适得数据类型"></a>为表中得字段选择合适得数据类型</h4><p>字段类型优先级: 整形&gt;date,time&gt;enum,char&gt;varchar&gt;blob,text</p>
+<p>优先考虑数字类型，其次是日期或者二进制类型，最后是字符串类型，同级别得数据类型，应该优先选择占用空间小的数据类型</p>
+<h4 id="存储时期"><a href="#存储时期" class="headerlink" title="存储时期"></a>存储时期</h4><p>Datatime:以 YYYY-MM-DD HH:MM:SS 格式存储时期时间，精确到秒，占用8个字节得存储空间，datatime类型与时区无关<br>Timestamp:以时间戳格式存储，占用4个字节，范围小1970-1-1到2038-1-19，显示依赖于所指定得时区，默认在第一个列行的数据修改时可以自动得修改timestamp列得值<br>Date:（生日）占用得字节数比使用字符串.datatime.int储存要少，使用date只需要3个字节，存储日期月份，还可以利用日期时间函数进行日期间得计算<br>Time: 存储时间部分得数据<br>注意: 不要使用字符串类型来存储日期时间数据（通常比字符串占用得储存空间小，在进行查找过滤可以利用日期得函数）<br>使用int存储日期时间不如使用timestamp类型</p>
+<h4 id="索引的目的是什么？"><a href="#索引的目的是什么？" class="headerlink" title="索引的目的是什么？"></a>索引的目的是什么？</h4><p>快速访问数据表中的特定信息，提高检索速度<br>创建唯一性索引，保证数据库表中每一行数据的唯一性。<br>加速表和表之间的连接</p>
+<p>使用分组和排序子句进行数据检索时，可以显著减少查询中分组和排序的时间</p>
+<h4 id="索引对数据库系统的负面影响是什么？"><a href="#索引对数据库系统的负面影响是什么？" class="headerlink" title="索引对数据库系统的负面影响是什么？"></a>索引对数据库系统的负面影响是什么？</h4><p>创建索引和维护索引需要耗费时间，这个时间随着数据量的增加而增加；索引需要占用物理空间，不光是表需要占用数据空间，每个索引也需要占用物理空间；当对表进行增、删、改、的时候索引也要动态维护，这样就降低了数据的维护速度。</p>
+<h4 id="为数据表建立索引的原则有哪些？"><a href="#为数据表建立索引的原则有哪些？" class="headerlink" title="为数据表建立索引的原则有哪些？"></a>为数据表建立索引的原则有哪些？</h4><p>在最频繁使用的、用以缩小查询范围的字段上建立索引。</p>
+<p>在频繁使用的、需要排序的字段上建立索引</p>
+<h4 id="什么情况下不宜建立索引？"><a href="#什么情况下不宜建立索引？" class="headerlink" title="什么情况下不宜建立索引？"></a>什么情况下不宜建立索引？</h4><p>对于查询中很少涉及的列或者重复值比较多的列，不宜建立索引。</p>
+<p>对于一些特殊的数据类型，不宜建立索引，比如文本字段（text）等</p>
+<h4 id="解释-MySQL-外连接、内连接与自连接的区别"><a href="#解释-MySQL-外连接、内连接与自连接的区别" class="headerlink" title="解释 MySQL 外连接、内连接与自连接的区别"></a>解释 MySQL 外连接、内连接与自连接的区别</h4><p>先说什么是交叉连接: 交叉连接又叫笛卡尔积，它是指不使用任何条件，直接将一个表的所有记录和另一个表中的所有记录一一匹配。</p>
+<p>内连接 则是只有条件的交叉连接，根据某个条件筛选出符合条件的记录，不符合条件的记录不会出现在结果集中，即内连接只连接匹配的行。</p>
+<p>外连接 其结果集中不仅包含符合连接条件的行，而且还会包括左表、右表或两个表中的所有数据行，这三种情况依次称之为左外连接，右外连接，和全外连接。</p>
+<p>左外连接，也称左连接，左表为主表，左表中的所有记录都会出现在结果集中，对于那些在右表中并没有匹配的记录，仍然要显示，右边对应的那些字段值以NULL来填充。右外连接，也称右连接，右表为主表，右表中的所有记录都会出现在结果集中。左连接和右连接可以互换，MySQL目前还不支持全外连接。</p>
+<h4 id="MySQL-中的事务回滚机制概述"><a href="#MySQL-中的事务回滚机制概述" class="headerlink" title="MySQL 中的事务回滚机制概述"></a>MySQL 中的事务回滚机制概述</h4><p>事务是用户定义的一个数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位，事务回滚是指将该事务已经完成的对数据库的更新操作撤销。</p>
+<p>要同时修改数据库中两个不同表时，如果它们不是一个事务的话，当第一个表修改完，可能第二个表修改过程中出现了异常而没能修改，此时就只有第二个表依旧是未修改之前的状态，而第一个表已经被修改完毕。而当你把它们设定为一个事务的时候，当第一个表修改完，第二表修改出现异常而没能修改，第一个表和第二个表都要回到未修改的状态，这就是所谓的事务回滚</p>
+<h4 id="SQL语言包括哪几部分？每部分都有哪些操作关键字？"><a href="#SQL语言包括哪几部分？每部分都有哪些操作关键字？" class="headerlink" title="SQL语言包括哪几部分？每部分都有哪些操作关键字？"></a>SQL语言包括哪几部分？每部分都有哪些操作关键字？</h4><p>SQL语言包括数据定义(DDL)、数据操纵(DML),数据控制(DCL)和数据查询（DQL）四个部分。</p>
+<p>数据定义：Create Table,Alter Table,Drop Table, Create/Drop Index等</p>
+<p>数据操纵：Select ,insert, update, delete,</p>
+<p>数据控制：grant,revoke</p>
+<p>数据查询：select</p>
+<h4 id="完整性约束包括哪些？"><a href="#完整性约束包括哪些？" class="headerlink" title="完整性约束包括哪些？"></a>完整性约束包括哪些？</h4><p>数据完整性(Data Integrity)是指数据的精确(Accuracy)和可靠性(Reliability)。</p>
+<p>分为以下四类：</p>
+<p>1) 实体完整性：规定表的每一行在表中是惟一的实体。</p>
+<p>2) 域完整性：是指表中的列必须满足某种特定的数据类型约束，其中约束又包括取值范围、精度等规定。</p>
+<p>3) 参照完整性：是指两个表的主关键字和外关键字的数据应一致，保证了表之间的数据的一致性，防止了数据丢失或无意义的数据在数据库中扩散。</p>
+<p>4) 用户定义的完整性：不同的关系数据库系统根据其应用环境的不同，往往还需要一些特殊的约束条件。用户定义的完整性即是针对某个特定关系数据库的约束条件，它反映某一具体应用必须满足的语义要求。</p>
+<p>与表有关的约束：包括列约束(NOT NULL（非空约束）)和表约束(PRIMARY KEY、foreign key、check、UNIQUE) 。</p>
+<h4 id="什么是锁？"><a href="#什么是锁？" class="headerlink" title="什么是锁？"></a>什么是锁？</h4><p>数据库是一个多用户使用的共享资源。当多个用户并发地存取数据时，在数据库中就会产生多个事务同时存取同一数据的情况。若对并发操作不加控制就可能会读取和存储不正确的数据，破坏数据库的一致性。</p>
+<p>加锁是实现数据库并发控制的一个非常重要的技术。当事务在对某个数据对象进行操作前，先向系统发出请求，对其加锁。加锁后事务就对该数据对象有了一定的控制，在该事务释放锁之前，其他的事务不能对此数据对象进行更新操作。</p>
+<p>基本锁类型：锁包括行级锁和表级锁</p>
+<h4 id="什么叫视图？游标是什么？"><a href="#什么叫视图？游标是什么？" class="headerlink" title="什么叫视图？游标是什么？"></a>什么叫视图？游标是什么？</h4><p>视图是一种虚拟的表，具有和物理表相同的功能。可以对视图进行增，改，查，操作，视图通常是有一个表或者多个表的行或列的子集。对视图的修改不影响基本表。它使得我们获取数据更容易，相比多表查询。</p>
+<p>游标：是对查询出来的结果集作为一个单元来有效的处理。游标可以定在该单元中的特定行，从结果集的当前行检索一行或多行。可以对结果集当前行做修改。一般不使用游标，但是需要逐条处理数据的时候，游标显得十分重要。</p>
+<h4 id="什么是存储过程？用什么来调用？"><a href="#什么是存储过程？用什么来调用？" class="headerlink" title="什么是存储过程？用什么来调用？"></a>什么是存储过程？用什么来调用？</h4><p>存储过程是一个预编译的SQL语句，优点是允许模块化的设计，就是说只需创建一次，以后在该程序中就可以调用多次。如果某次操作需要执行多次SQL，使用存储过程比单纯SQL语句执行要快。可以用一个命令对象来调用存储过程。</p>
+<h4 id="如何通俗地理解三个范式？"><a href="#如何通俗地理解三个范式？" class="headerlink" title="如何通俗地理解三个范式？"></a>如何通俗地理解三个范式？</h4><p>答：第一范式：1NF是对属性的原子性约束，要求属性具有原子性，不可再分解；</p>
+<p>第二范式：2NF是对记录的惟一性约束，要求记录有惟一标识，即实体的惟一性；</p>
+<p>第三范式：3NF是对字段冗余性的约束，即任何字段不能由其他字段派生出来，它要求字段没有冗余。。</p>
+<p>范式化设计优缺点:</p>
+<p>优点:</p>
+<p>可以尽量得减少数据冗余，使得更新快，体积小</p>
+<p>缺点:对于查询需要多个表进行关联，减少写得效率增加读得效率，更难进行索引优化</p>
+<p>反范式化:</p>
+<p>优点:可以减少表得关联，可以更好得进行索引优化</p>
+<p>缺点:数据冗余以及数据异常，数据得修改需要更多的成本</p>
+<h4 id="什么是基本表？什么是视图？"><a href="#什么是基本表？什么是视图？" class="headerlink" title="什么是基本表？什么是视图？"></a>什么是基本表？什么是视图？</h4><ol>
+<li>基本表是本身独立存在的表，在 SQL 中一个关系就对应一个表。</li>
+<li>视图是从一个或几个基本表导出的表。视图本身不独立存储在数据库中，是一个虚表</li>
+</ol>
+<h4 id="试述视图的优点？"><a href="#试述视图的优点？" class="headerlink" title="试述视图的优点？"></a>试述视图的优点？</h4><ol>
+<li>视图能够简化用户的操作</li>
+<li>视图使用户能以多种角度看待同一数据</li>
+<li>视图为数据库提供了一定程度的逻辑独立性</li>
+<li>视图能够对机密数据提供安全保护</li>
+</ol>
+<h4 id="NULL-是什么意思"><a href="#NULL-是什么意思" class="headerlink" title="NULL 是什么意思"></a>NULL 是什么意思</h4><ol>
+<li>NULL 这个值表示 UNKNOWN（未知），它不表示“”（空字符串）</li>
+<li>对 NULL 这个值的任何比较都会生产一个 NULL 值。您不能把任何值与一个 NULL 值进行比较，并在逻辑上希望获得一个答案</li>
+<li>使用 IS  NULL 来进行 NULL 判断</li>
+</ol>
+<h4 id="主键、外键和索引的区别？"><a href="#主键、外键和索引的区别？" class="headerlink" title="主键、外键和索引的区别？"></a>主键、外键和索引的区别？</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th>定义</th>
+<th>作用</th>
+<th>个数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">主键</td>
+<td>唯一标识一条记录，不能有重复的，不允许为空</td>
+<td>用来保证数据完整性</td>
+<td>主键只能有一个</td>
+</tr>
+<tr>
+<td style="text-align:left">外键</td>
+<td>表的外键是另一表的主键, 外键可以有重复的, 可以是空值</td>
+<td>用来和其他表建立联系用的</td>
+<td>一个表可以有多个外键</td>
+</tr>
+<tr>
+<td style="text-align:left">索引</td>
+<td>该字段没有重复值，但可以有一个空值（？）</td>
+<td>是提高查询排序的速度</td>
+<td>一个表可以有多个唯一索引</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="你可以用什么来确保表格里的字段只接受特定范围里的值"><a href="#你可以用什么来确保表格里的字段只接受特定范围里的值" class="headerlink" title="你可以用什么来确保表格里的字段只接受特定范围里的值?"></a>你可以用什么来确保表格里的字段只接受特定范围里的值?</h4><h4 id="说说对SQL语句优化有哪些方法？（选择几条）"><a href="#说说对SQL语句优化有哪些方法？（选择几条）" class="headerlink" title="说说对SQL语句优化有哪些方法？（选择几条）"></a>说说对SQL语句优化有哪些方法？（选择几条）</h4><p>（1）Where子句中：where表之间的连接必须写在其他Where条件之前，那些可以过滤掉最大数量记录的条件必须写在Where子句的末尾.HAVING最后。</p>
+<p>（2）用EXISTS替代IN、用NOT EXISTS替代NOT IN。</p>
+<p>（3） 避免在索引列上使用计算</p>
+<p>（4）避免在索引列上使用IS NULL和IS NOT NULL</p>
+<p>（5）对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。</p>
+<p>（6）应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描</p>
+<p>（7）应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描</p>
+<h2 id="108道Java面试题-工作10年，面试超过500人想进阿里总结出的"><a href="#108道Java面试题-工作10年，面试超过500人想进阿里总结出的" class="headerlink" title="108道Java面试题:工作10年，面试超过500人想进阿里总结出的!"></a>108道Java面试题:工作10年，面试超过500人想进阿里总结出的!</h2><h4 id="数据库三范式及判断、E-R-图"><a href="#数据库三范式及判断、E-R-图" class="headerlink" title="数据库三范式及判断、E-R 图"></a>数据库三范式及判断、E-R 图</h4><h4 id="InnoDB-和-MyISAM-存储引擎的区别"><a href="#InnoDB-和-MyISAM-存储引擎的区别" class="headerlink" title="InnoDB 和 MyISAM 存储引擎的区别"></a>InnoDB 和 MyISAM 存储引擎的区别</h4><h4 id="索引分类，最左前缀原则，哪些条件无法使用索引"><a href="#索引分类，最左前缀原则，哪些条件无法使用索引" class="headerlink" title="索引分类，最左前缀原则，哪些条件无法使用索引"></a>索引分类，最左前缀原则，哪些条件无法使用索引</h4><h4 id="B-树、B-树区别，索引为何使用-B-树"><a href="#B-树、B-树区别，索引为何使用-B-树" class="headerlink" title="B 树、B+ 树区别，索引为何使用 B+ 树"></a>B 树、B+ 树区别，索引为何使用 B+ 树</h4><h4 id="聚集索引与非聚集索引（使用非聚集索引的查询过程）"><a href="#聚集索引与非聚集索引（使用非聚集索引的查询过程）" class="headerlink" title="聚集索引与非聚集索引（使用非聚集索引的查询过程）"></a>聚集索引与非聚集索引（使用非聚集索引的查询过程）</h4><h4 id="事务的ACID（原子性、一致性、隔离性、持久性）"><a href="#事务的ACID（原子性、一致性、隔离性、持久性）" class="headerlink" title="事务的ACID（原子性、一致性、隔离性、持久性）"></a>事务的ACID（原子性、一致性、隔离性、持久性）</h4><h4 id="事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"><a href="#事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）" class="headerlink" title="事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"></a>事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）</h4><h4 id="乐观锁和悲观锁、行锁与表锁、共享锁与排他锁"><a href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁" class="headerlink" title="乐观锁和悲观锁、行锁与表锁、共享锁与排他锁"></a>乐观锁和悲观锁、行锁与表锁、共享锁与排他锁</h4><h4 id="MVCC（增加两个版本号）及delete、update、select时的具体控制"><a href="#MVCC（增加两个版本号）及delete、update、select时的具体控制" class="headerlink" title="MVCC（增加两个版本号）及delete、update、select时的具体控制"></a>MVCC（增加两个版本号）及delete、update、select时的具体控制</h4><h4 id="死锁判定原理和具体场景"><a href="#死锁判定原理和具体场景" class="headerlink" title="死锁判定原理和具体场景"></a>死锁判定原理和具体场景</h4><h4 id="查询缓慢和解决方式（explain、慢查询日志、show-profile等）"><a href="#查询缓慢和解决方式（explain、慢查询日志、show-profile等）" class="headerlink" title="查询缓慢和解决方式（explain、慢查询日志、show profile等）"></a>查询缓慢和解决方式（explain、慢查询日志、show profile等）</h4><h4 id="drop、truncate、delete-区别"><a href="#drop、truncate、delete-区别" class="headerlink" title="drop、truncate、delete 区别"></a>drop、truncate、delete 区别</h4><h4 id="查询语句不同元素（where、jion、limit、group-by、having等等）执行先后顺序"><a href="#查询语句不同元素（where、jion、limit、group-by、having等等）执行先后顺序" class="headerlink" title="查询语句不同元素（where、jion、limit、group by、having等等）执行先后顺序"></a>查询语句不同元素（where、jion、limit、group by、having等等）执行先后顺序</h4><h4 id="mysql优化，读写分离、主从复制"><a href="#mysql优化，读写分离、主从复制" class="headerlink" title="mysql优化，读写分离、主从复制"></a>mysql优化，读写分离、主从复制</h4><h4 id="数据库崩溃时事务的恢复机制（REDO-日志和-UNDO-日志）"><a href="#数据库崩溃时事务的恢复机制（REDO-日志和-UNDO-日志）" class="headerlink" title="数据库崩溃时事务的恢复机制（REDO 日志和 UNDO 日志）"></a>数据库崩溃时事务的恢复机制（REDO 日志和 UNDO 日志）</h4><h2 id="2019-最全支付宝高级Java现场面试37题"><a href="#2019-最全支付宝高级Java现场面试37题" class="headerlink" title="2019 最全支付宝高级Java现场面试37题"></a>2019 最全支付宝高级Java现场面试37题</h2><h4 id="SQL优化，常用的索引？"><a href="#SQL优化，常用的索引？" class="headerlink" title="SQL优化，常用的索引？"></a>SQL优化，常用的索引？</h4><h4 id="数据库性能调优如何做"><a href="#数据库性能调优如何做" class="headerlink" title="数据库性能调优如何做"></a>数据库性能调优如何做</h4><h4 id="数据库事务属性"><a href="#数据库事务属性" class="headerlink" title="数据库事务属性"></a>数据库事务属性</h4><h2 id="2019-最全阿里天猫Java-3面真题，含面试题答案！"><a href="#2019-最全阿里天猫Java-3面真题，含面试题答案！" class="headerlink" title="2019 最全阿里天猫Java 3面真题，含面试题答案！"></a>2019 最全阿里天猫Java 3面真题，含面试题答案！</h2><p>无</p>
+<h2 id="2019-最新阿里中间件Java-4轮面试题！60万年薪起步"><a href="#2019-最新阿里中间件Java-4轮面试题！60万年薪起步" class="headerlink" title="2019 最新阿里中间件Java 4轮面试题！60万年薪起步~"></a>2019 最新阿里中间件Java 4轮面试题！60万年薪起步~</h2><h4 id="数据库索引，表锁；乐观锁；悲观锁"><a href="#数据库索引，表锁；乐观锁；悲观锁" class="headerlink" title="数据库索引，表锁；乐观锁；悲观锁"></a>数据库索引，表锁；乐观锁；悲观锁</h4><h2 id="2019蚂蚁金服-Java面试题目！涵盖现场3面真题"><a href="#2019蚂蚁金服-Java面试题目！涵盖现场3面真题" class="headerlink" title="2019蚂蚁金服 Java面试题目！涵盖现场3面真题"></a>2019蚂蚁金服 Java面试题目！涵盖现场3面真题</h2><h4 id="如何做的-MySQL-优化"><a href="#如何做的-MySQL-优化" class="headerlink" title="如何做的 MySQL 优化"></a>如何做的 MySQL 优化</h4><h2 id="阿里蚂蚁金服中间件-Java-4轮面试题含答案-：Redis缓存-线程锁-微服务等"><a href="#阿里蚂蚁金服中间件-Java-4轮面试题含答案-：Redis缓存-线程锁-微服务等" class="headerlink" title="阿里蚂蚁金服中间件(Java 4轮面试题含答案)：Redis缓存+线程锁+微服务等"></a>阿里蚂蚁金服中间件(Java 4轮面试题含答案)：Redis缓存+线程锁+微服务等</h2><h4 id="MySQL-事务隔离级别以及-MVCC-机制"><a href="#MySQL-事务隔离级别以及-MVCC-机制" class="headerlink" title="MySQL 事务隔离级别以及 MVCC 机制"></a>MySQL 事务隔离级别以及 MVCC 机制</h4><h2 id="2019-阿里Java-4轮面试题，含必考题答案参考！"><a href="#2019-阿里Java-4轮面试题，含必考题答案参考！" class="headerlink" title="2019 阿里Java 4轮面试题，含必考题答案参考！"></a>2019 阿里Java 4轮面试题，含必考题答案参考！</h2><h4 id="MySQL-数据库优化会涉及到哪些？"><a href="#MySQL-数据库优化会涉及到哪些？" class="headerlink" title="MySQL 数据库优化会涉及到哪些？"></a>MySQL 数据库优化会涉及到哪些？</h4><h4 id="MySQL-的事务隔离级别，分别解决什么问题？"><a href="#MySQL-的事务隔离级别，分别解决什么问题？" class="headerlink" title="MySQL 的事务隔离级别，分别解决什么问题？"></a>MySQL 的事务隔离级别，分别解决什么问题？</h4><h4 id="从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？"><a href="#从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？" class="headerlink" title="从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？"></a>从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？</h4><h2 id="最新2019-蚂蚁金服4面-Java-面试题"><a href="#最新2019-蚂蚁金服4面-Java-面试题" class="headerlink" title="最新2019 蚂蚁金服4面(Java)面试题"></a>最新2019 蚂蚁金服4面(Java)面试题</h2><h4 id="MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。"><a href="#MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。" class="headerlink" title="MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。"></a>MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。</h4><h2 id="2018阿里集团中间件Java面试题-4面"><a href="#2018阿里集团中间件Java面试题-4面" class="headerlink" title="2018阿里集团中间件Java面试题(4面)"></a>2018阿里集团中间件Java面试题(4面)</h2><h2 id="蚂蚁金服4轮面经-Java研发）-G1收集器-连接池-分布式架构"><a href="#蚂蚁金服4轮面经-Java研发）-G1收集器-连接池-分布式架构" class="headerlink" title="蚂蚁金服4轮面经(Java研发）:G1收集器+连接池+分布式架构"></a>蚂蚁金服4轮面经(Java研发）:G1收集器+连接池+分布式架构</h2><h4 id="MySql-默认存储引擎？MyISAM、InnoDB、MEMORY的区别"><a href="#MySql-默认存储引擎？MyISAM、InnoDB、MEMORY的区别" class="headerlink" title="MySql 默认存储引擎？MyISAM、InnoDB、MEMORY的区别"></a>MySql 默认存储引擎？MyISAM、InnoDB、MEMORY的区别</h4><h4 id="什么是幻读，如何解决"><a href="#什么是幻读，如何解决" class="headerlink" title="什么是幻读，如何解决"></a>什么是幻读，如何解决</h4><h4 id="事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？"><a href="#事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？" class="headerlink" title="事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？"></a>事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？</h4><h4 id="乐观锁与悲观锁的使用场景"><a href="#乐观锁与悲观锁的使用场景" class="headerlink" title="乐观锁与悲观锁的使用场景"></a>乐观锁与悲观锁的使用场景</h4><h4 id="数据库主从同步数据一致性如何解决？技术方案的优劣势比较？"><a href="#数据库主从同步数据一致性如何解决？技术方案的优劣势比较？" class="headerlink" title="数据库主从同步数据一致性如何解决？技术方案的优劣势比较？"></a>数据库主从同步数据一致性如何解决？技术方案的优劣势比较？</h4><h2 id="天猫研发Java团队-4面全题目）：并发压测-Mina-事务-集群-秒杀架构"><a href="#天猫研发Java团队-4面全题目）：并发压测-Mina-事务-集群-秒杀架构" class="headerlink" title="天猫研发Java团队(4面全题目）：并发压测+Mina+事务+集群+秒杀架构"></a>天猫研发Java团队(4面全题目）：并发压测+Mina+事务+集群+秒杀架构</h2><h4 id="MySQL-数据库默认存储引擎，有什么优点"><a href="#MySQL-数据库默认存储引擎，有什么优点" class="headerlink" title="MySQL 数据库默认存储引擎，有什么优点"></a>MySQL 数据库默认存储引擎，有什么优点</h4><h4 id="MySQL-的事务隔离级别，分别解决什么问题。"><a href="#MySQL-的事务隔离级别，分别解决什么问题。" class="headerlink" title="MySQL 的事务隔离级别，分别解决什么问题。"></a>MySQL 的事务隔离级别，分别解决什么问题。</h4><h4 id="四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><a href="#四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学" class="headerlink" title="四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学"></a>四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_1</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> table_2</span><br></pre></td></tr></table></figure>
+<h4 id="数据库分库分表一般数据量多大才需要？"><a href="#数据库分库分表一般数据量多大才需要？" class="headerlink" title="数据库分库分表一般数据量多大才需要？"></a>数据库分库分表一般数据量多大才需要？</h4><h4 id="MySQL的慢-SQL-优化一般如何来做？除此外还有什么方法优化？"><a href="#MySQL的慢-SQL-优化一般如何来做？除此外还有什么方法优化？" class="headerlink" title="MySQL的慢 SQL 优化一般如何来做？除此外还有什么方法优化？"></a>MySQL的慢 SQL 优化一般如何来做？除此外还有什么方法优化？</h4><h2 id="2019-最新蚂蚁花呗Java三面题目：红黑树-并发容器-CAS-Solr-分布式等"><a href="#2019-最新蚂蚁花呗Java三面题目：红黑树-并发容器-CAS-Solr-分布式等" class="headerlink" title="2019 最新蚂蚁花呗Java三面题目：红黑树+并发容器+CAS+Solr+分布式等"></a>2019 最新蚂蚁花呗Java三面题目：红黑树+并发容器+CAS+Solr+分布式等</h2><h4 id="查询中哪些情况不会使用索引？"><a href="#查询中哪些情况不会使用索引？" class="headerlink" title="查询中哪些情况不会使用索引？"></a>查询中哪些情况不会使用索引？</h4><h4 id="数据库索引，底层是怎样实现的，为什么要用B树索引？"><a href="#数据库索引，底层是怎样实现的，为什么要用B树索引？" class="headerlink" title="数据库索引，底层是怎样实现的，为什么要用B树索引？"></a>数据库索引，底层是怎样实现的，为什么要用B树索引？</h4><h4 id="MySql-主从同步的实现原理？"><a href="#MySql-主从同步的实现原理？" class="headerlink" title="MySql 主从同步的实现原理？"></a>MySql 主从同步的实现原理？</h4><h4 id="MySQL-是怎么用B-树？"><a href="#MySQL-是怎么用B-树？" class="headerlink" title="MySQL 是怎么用B+树？"></a>MySQL 是怎么用B+树？</h4><h4 id="谈谈数据库乐观锁与悲观锁"><a href="#谈谈数据库乐观锁与悲观锁" class="headerlink" title="谈谈数据库乐观锁与悲观锁?"></a>谈谈数据库乐观锁与悲观锁?</h4><h2 id="牛逼！支付宝高级Java三面题目：线程锁-事务-雪崩-Docker等"><a href="#牛逼！支付宝高级Java三面题目：线程锁-事务-雪崩-Docker等" class="headerlink" title="牛逼！支付宝高级Java三面题目：线程锁+事务+雪崩+Docker等"></a>牛逼！支付宝高级Java三面题目：线程锁+事务+雪崩+Docker等</h2><h4 id="MySql-如何在RR隔离级别下避免幻读问题"><a href="#MySql-如何在RR隔离级别下避免幻读问题" class="headerlink" title="MySql 如何在RR隔离级别下避免幻读问题"></a>MySql 如何在RR隔离级别下避免幻读问题</h4><h4 id="MySql范式和反范式的区别以及彼此的优缺点"><a href="#MySql范式和反范式的区别以及彼此的优缺点" class="headerlink" title="MySql范式和反范式的区别以及彼此的优缺点"></a>MySql范式和反范式的区别以及彼此的优缺点</h4><h4 id="MySql-索引类别有哪些，什么是覆盖索引"><a href="#MySql-索引类别有哪些，什么是覆盖索引" class="headerlink" title="MySql 索引类别有哪些，什么是覆盖索引"></a>MySql 索引类别有哪些，什么是覆盖索引</h4><h4 id="mysql如何获取慢SQL，以及慢查询的解决方式"><a href="#mysql如何获取慢SQL，以及慢查询的解决方式" class="headerlink" title="mysql如何获取慢SQL，以及慢查询的解决方式"></a>mysql如何获取慢SQL，以及慢查询的解决方式</h4><h4 id="MySql-主从同步如何配置，工作原理"><a href="#MySql-主从同步如何配置，工作原理" class="headerlink" title="MySql 主从同步如何配置，工作原理"></a>MySql 主从同步如何配置，工作原理</h4><h4 id="乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）"><a href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）" class="headerlink" title="乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）"></a>乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）</h4><h4 id="死锁判定原理和具体场景-1"><a href="#死锁判定原理和具体场景-1" class="headerlink" title="死锁判定原理和具体场景"></a>死锁判定原理和具体场景</h4><h4 id="谈谈事务的ACID"><a href="#谈谈事务的ACID" class="headerlink" title="谈谈事务的ACID"></a>谈谈事务的ACID</h4><h4 id="数据库崩溃时事务的恢复机制"><a href="#数据库崩溃时事务的恢复机制" class="headerlink" title="数据库崩溃时事务的恢复机制"></a>数据库崩溃时事务的恢复机制</h4><h2 id="蚂蚁花呗团队面试题：LinkedHashMap-SpringCloud-线程锁-分布式"><a href="#蚂蚁花呗团队面试题：LinkedHashMap-SpringCloud-线程锁-分布式" class="headerlink" title="蚂蚁花呗团队面试题：LinkedHashMap+SpringCloud+线程锁+分布式"></a>蚂蚁花呗团队面试题：LinkedHashMap+SpringCloud+线程锁+分布式</h2><h4 id="数据库索引有哪些？底层怎么实现的？数据库怎么优化？"><a href="#数据库索引有哪些？底层怎么实现的？数据库怎么优化？" class="headerlink" title="数据库索引有哪些？底层怎么实现的？数据库怎么优化？"></a>数据库索引有哪些？底层怎么实现的？数据库怎么优化？</h4><h4 id="数据库的事务，四个性质说一下，分别有什么用，怎么实现的？"><a href="#数据库的事务，四个性质说一下，分别有什么用，怎么实现的？" class="headerlink" title="数据库的事务，四个性质说一下，分别有什么用，怎么实现的？"></a>数据库的事务，四个性质说一下，分别有什么用，怎么实现的？</h4><h4 id="MySql存储引擎"><a href="#MySql存储引擎" class="headerlink" title="MySql存储引擎"></a>MySql存储引擎</h4><h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><h4 id="不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）"><a href="#不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）" class="headerlink" title="不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）"></a>不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）</h4><h4 id="MySQL-有哪几种-join-方式，底层原理是什么"><a href="#MySQL-有哪几种-join-方式，底层原理是什么" class="headerlink" title="MySQL 有哪几种 join 方式，底层原理是什么"></a>MySQL 有哪几种 join 方式，底层原理是什么</h4><h4 id="MySQL数据库怎么实现分库分表，以及数据同步？"><a href="#MySQL数据库怎么实现分库分表，以及数据同步？" class="headerlink" title="MySQL数据库怎么实现分库分表，以及数据同步？"></a>MySQL数据库怎么实现分库分表，以及数据同步？</h4><h2 id="最全蚂蚁金服高级Java面试题目-3面"><a href="#最全蚂蚁金服高级Java面试题目-3面" class="headerlink" title="最全蚂蚁金服高级Java面试题目(3面)"></a>最全蚂蚁金服高级Java面试题目(3面)</h2><h4 id="在工作中，SQL语句的优化和注意的事项"><a href="#在工作中，SQL语句的优化和注意的事项" class="headerlink" title="在工作中，SQL语句的优化和注意的事项"></a>在工作中，SQL语句的优化和注意的事项</h4><h4 id="MySql同步机制原理，有哪几种同步方法"><a href="#MySql同步机制原理，有哪几种同步方法" class="headerlink" title="MySql同步机制原理，有哪几种同步方法"></a>MySql同步机制原理，有哪几种同步方法</h4><h4 id="数据库主从同步如何实现，事务如何实现"><a href="#数据库主从同步如何实现，事务如何实现" class="headerlink" title="数据库主从同步如何实现，事务如何实现"></a>数据库主从同步如何实现，事务如何实现</h4><h2 id="2018-支付宝Java开发四面-Ngnix-MQ队列-集群-并发抢购"><a href="#2018-支付宝Java开发四面-Ngnix-MQ队列-集群-并发抢购" class="headerlink" title="2018 支付宝Java开发四面:Ngnix+MQ队列+集群+并发抢购"></a>2018 支付宝Java开发四面:Ngnix+MQ队列+集群+并发抢购</h2><h4 id="MySql-limit-分页如何保证可靠性"><a href="#MySql-limit-分页如何保证可靠性" class="headerlink" title="MySql limit 分页如何保证可靠性"></a>MySql limit 分页如何保证可靠性</h4><h4 id="MySQL引擎及区别，项目用的哪个，为什么"><a href="#MySQL引擎及区别，项目用的哪个，为什么" class="headerlink" title="MySQL引擎及区别，项目用的哪个，为什么"></a>MySQL引擎及区别，项目用的哪个，为什么</h4><h4 id="mycat-分库分表、读写分离的实现"><a href="#mycat-分库分表、读写分离的实现" class="headerlink" title="mycat 分库分表、读写分离的实现"></a>mycat 分库分表、读写分离的实现</h4><h2 id="蚂蚁三面题目-java开发岗）-Java锁机制-JVM-线程池-事务-中间件"><a href="#蚂蚁三面题目-java开发岗）-Java锁机制-JVM-线程池-事务-中间件" class="headerlink" title="蚂蚁三面题目(java开发岗）:Java锁机制+JVM+线程池+事务+中间件"></a>蚂蚁三面题目(java开发岗）:Java锁机制+JVM+线程池+事务+中间件</h2><h4 id="MySQL的表锁-amp-行锁-amp-乐观锁-amp-悲观锁-各自的使用场景"><a href="#MySQL的表锁-amp-行锁-amp-乐观锁-amp-悲观锁-各自的使用场景" class="headerlink" title="MySQL的表锁&amp;行锁&amp;乐观锁&amp;悲观锁,各自的使用场景"></a>MySQL的表锁&amp;行锁&amp;乐观锁&amp;悲观锁,各自的使用场景</h4><h4 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h4><h4 id="事务的二段提交机制？"><a href="#事务的二段提交机制？" class="headerlink" title="事务的二段提交机制？"></a>事务的二段提交机制？</h4><h4 id="聚簇索引-amp-非聚簇索引"><a href="#聚簇索引-amp-非聚簇索引" class="headerlink" title="聚簇索引&amp;非聚簇索引"></a>聚簇索引&amp;非聚簇索引</h4><h4 id="ACID-CAP-BASE理论，以及RPC过程。"><a href="#ACID-CAP-BASE理论，以及RPC过程。" class="headerlink" title="ACID CAP BASE理论，以及RPC过程。"></a>ACID CAP BASE理论，以及RPC过程。</h4><h2 id="蚂蚁中间件团队Java面试题：Netty-Redis-Kafka-MongoDB-分布式"><a href="#蚂蚁中间件团队Java面试题：Netty-Redis-Kafka-MongoDB-分布式" class="headerlink" title="蚂蚁中间件团队Java面试题：Netty+Redis+Kafka+MongoDB+分布式"></a>蚂蚁中间件团队Java面试题：Netty+Redis+Kafka+MongoDB+分布式</h2><h4 id="索引什么时候会失效变成全表扫描"><a href="#索引什么时候会失效变成全表扫描" class="headerlink" title="索引什么时候会失效变成全表扫描"></a>索引什么时候会失效变成全表扫描</h4><h4 id="数据库万级变成亿级，你如何来解决。"><a href="#数据库万级变成亿级，你如何来解决。" class="headerlink" title="数据库万级变成亿级，你如何来解决。"></a>数据库万级变成亿级，你如何来解决。</h4><h2 id="最新阿里聚划算Java-5轮面试题-涵盖GC收集器、多线程锁等"><a href="#最新阿里聚划算Java-5轮面试题-涵盖GC收集器、多线程锁等" class="headerlink" title="最新阿里聚划算Java 5轮面试题,涵盖GC收集器、多线程锁等"></a>最新阿里聚划算Java 5轮面试题,涵盖GC收集器、多线程锁等</h2><h4 id="MySQL采用了什么存储引擎，为什么？"><a href="#MySQL采用了什么存储引擎，为什么？" class="headerlink" title="MySQL采用了什么存储引擎，为什么？"></a>MySQL采用了什么存储引擎，为什么？</h4><h4 id="索引的类型，索引的底层实现原理"><a href="#索引的类型，索引的底层实现原理" class="headerlink" title="索引的类型，索引的底层实现原理"></a>索引的类型，索引的底层实现原理</h4><h4 id="MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别"><a href="#MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别" class="headerlink" title="MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别"></a>MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别</h4><h4 id="MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？"><a href="#MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？" class="headerlink" title="MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？"></a>MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？</h4><h4 id="MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别"><a href="#MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别" class="headerlink" title="MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别"></a>MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别</h4><h4 id="Redis-和数据库如何保证数据一致性"><a href="#Redis-和数据库如何保证数据一致性" class="headerlink" title="Redis 和数据库如何保证数据一致性"></a>Redis 和数据库如何保证数据一致性</h4><h4 id="谈谈MySQL的查询优化方法，重点谈谈优化步骤。"><a href="#谈谈MySQL的查询优化方法，重点谈谈优化步骤。" class="headerlink" title="谈谈MySQL的查询优化方法，重点谈谈优化步骤。"></a>谈谈MySQL的查询优化方法，重点谈谈优化步骤。</h4><h2 id="最新天猫Java3轮面试题目：虚拟机-并发锁-Sql防注入-Zookeeper"><a href="#最新天猫Java3轮面试题目：虚拟机-并发锁-Sql防注入-Zookeeper" class="headerlink" title="最新天猫Java3轮面试题目：虚拟机+并发锁+Sql防注入+Zookeeper"></a>最新天猫Java3轮面试题目：虚拟机+并发锁+Sql防注入+Zookeeper</h2><h4 id="如何防止sql注入，了解哪些加密算法，rsa过程说下"><a href="#如何防止sql注入，了解哪些加密算法，rsa过程说下" class="headerlink" title="如何防止sql注入，了解哪些加密算法，rsa过程说下"></a>如何防止sql注入，了解哪些加密算法，rsa过程说下</h4><h4 id="MySql索引设计，联合索引，SQL-语句优化，abc-索引，搜索b，会使用索引吗（走索引要回表）"><a href="#MySql索引设计，联合索引，SQL-语句优化，abc-索引，搜索b，会使用索引吗（走索引要回表）" class="headerlink" title="MySql索引设计，联合索引，SQL 语句优化，abc 索引，搜索b，会使用索引吗（走索引要回表）"></a>MySql索引设计，联合索引，SQL 语句优化，abc 索引，搜索b，会使用索引吗（走索引要回表）</h4><h2 id="非常全面的阿里的Java面试题目-涵盖Java基础-高级-架构"><a href="#非常全面的阿里的Java面试题目-涵盖Java基础-高级-架构" class="headerlink" title="非常全面的阿里的Java面试题目,涵盖Java基础+高级+架构"></a>非常全面的阿里的Java面试题目,涵盖Java基础+高级+架构</h2><h4 id="数据库隔离级别-脏读-幻读-ACID-mysql的隔离级别"><a href="#数据库隔离级别-脏读-幻读-ACID-mysql的隔离级别" class="headerlink" title="数据库隔离级别 脏读 幻读 ACID mysql的隔离级别"></a>数据库隔离级别 脏读 幻读 ACID mysql的隔离级别</h4><h4 id="mysql索引实现，如何解决慢查询"><a href="#mysql索引实现，如何解决慢查询" class="headerlink" title="mysql索引实现，如何解决慢查询"></a>mysql索引实现，如何解决慢查询</h4><h4 id="数据库锁是怎么实现的"><a href="#数据库锁是怎么实现的" class="headerlink" title="数据库锁是怎么实现的"></a>数据库锁是怎么实现的</h4><h4 id="用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？"><a href="#用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？" class="headerlink" title="用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？"></a>用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？</h4><h2 id="淘宝网Java五面：现场面试49题含答案！"><a href="#淘宝网Java五面：现场面试49题含答案！" class="headerlink" title="淘宝网Java五面：现场面试49题含答案！"></a>淘宝网Java五面：现场面试49题含答案！</h2><h4 id="讲一下数据库的隔离等级"><a href="#讲一下数据库的隔离等级" class="headerlink" title="讲一下数据库的隔离等级"></a>讲一下数据库的隔离等级</h4><h4 id="说一聚簇索引和非聚簇索引的有什么不同"><a href="#说一聚簇索引和非聚簇索引的有什么不同" class="headerlink" title="说一聚簇索引和非聚簇索引的有什么不同"></a>说一聚簇索引和非聚簇索引的有什么不同</h4><h4 id="mysql用的什么存储引擎，这个存储引擎用的什么数据结构-，有哪些优缺点，怎么使用"><a href="#mysql用的什么存储引擎，这个存储引擎用的什么数据结构-，有哪些优缺点，怎么使用" class="headerlink" title="mysql用的什么存储引擎，这个存储引擎用的什么数据结构 ，有哪些优缺点，怎么使用"></a>mysql用的什么存储引擎，这个存储引擎用的什么数据结构 ，有哪些优缺点，怎么使用</h4><h2 id="史上最全阿里Java面试题目大汇总！强烈建议收藏"><a href="#史上最全阿里Java面试题目大汇总！强烈建议收藏" class="headerlink" title="史上最全阿里Java面试题目大汇总！强烈建议收藏~"></a>史上最全阿里Java面试题目大汇总！强烈建议收藏~</h2><h4 id="MySQL的常见优化方式、定为慢查询"><a href="#MySQL的常见优化方式、定为慢查询" class="headerlink" title="MySQL的常见优化方式、定为慢查询"></a>MySQL的常见优化方式、定为慢查询</h4><h4 id="数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）"><a href="#数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）" class="headerlink" title="数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）"></a>数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）</h4><h4 id="sql语法（join，union，子查询，having，group-by）"><a href="#sql语法（join，union，子查询，having，group-by）" class="headerlink" title="sql语法（join，union，子查询，having，group by）"></a>sql语法（join，union，子查询，having，group by）</h4><h4 id="引擎对比（InnoDB，MyISAM）"><a href="#引擎对比（InnoDB，MyISAM）" class="headerlink" title="引擎对比（InnoDB，MyISAM）"></a>引擎对比（InnoDB，MyISAM）</h4><h4 id="数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select-sql方式）"><a href="#数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select-sql方式）" class="headerlink" title="数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select sql方式）"></a>数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select sql方式）</h4><h4 id="隔离级别，依次解决的问题（脏读、不可重复读、幻读）"><a href="#隔离级别，依次解决的问题（脏读、不可重复读、幻读）" class="headerlink" title="隔离级别，依次解决的问题（脏读、不可重复读、幻读）"></a>隔离级别，依次解决的问题（脏读、不可重复读、幻读）</h4><h4 id="事务的ACID"><a href="#事务的ACID" class="headerlink" title="事务的ACID"></a>事务的ACID</h4><h4 id="优化（explain，慢查询，show-profile）"><a href="#优化（explain，慢查询，show-profile）" class="headerlink" title="优化（explain，慢查询，show profile）"></a>优化（explain，慢查询，show profile）</h4><h4 id="数据库的范式"><a href="#数据库的范式" class="headerlink" title="数据库的范式"></a>数据库的范式</h4><h4 id="分库分表，主从复制，读写分离。"><a href="#分库分表，主从复制，读写分离。" class="headerlink" title="分库分表，主从复制，读写分离。"></a>分库分表，主从复制，读写分离。</h4><h2 id="最全Java面试180题：阿里11面试-网易-百度-美团！含答案大赠送！"><a href="#最全Java面试180题：阿里11面试-网易-百度-美团！含答案大赠送！" class="headerlink" title="最全Java面试180题：阿里11面试+网易+百度+美团！含答案大赠送！"></a>最全Java面试180题：阿里11面试+网易+百度+美团！含答案大赠送！</h2><p><a href="https://youzhixueyuan.com/most-of-ali-baidu-netease-interview-180-questions.html">最全Java面试180题</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#最全-MySQL-面试-60-题和答案"><span class="toc-number">1.</span> <span class="toc-text">最全 MySQL 面试 60 题和答案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中有哪几种锁？"><span class="toc-number">1.0.1.</span> <span class="toc-text">MySQL 中有哪几种锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中有哪些不同的表格（存储引擎）？"><span class="toc-number">1.0.2.</span> <span class="toc-text">MySQL 中有哪些不同的表格（存储引擎）？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简述在-MySQL-数据库中-MyISAM-和-InnoDB-的区别"><span class="toc-number">1.0.3.</span> <span class="toc-text">简述在 MySQL 数据库中 MyISAM 和 InnoDB 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中-InnoDB-支持的四种事务隔离级别名称，以及逐级之间的区别？"><span class="toc-number">1.0.4.</span> <span class="toc-text">MySQL 中 InnoDB 支持的四种事务隔离级别名称，以及逐级之间的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CHAR-和-VARCHAR-的区别？"><span class="toc-number">1.0.5.</span> <span class="toc-text">CHAR 和 VARCHAR 的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主键和候选键有什么区别？"><span class="toc-number">1.0.6.</span> <span class="toc-text">主键和候选键有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#myisamchk-是用来做什么的？"><span class="toc-number">1.0.7.</span> <span class="toc-text">myisamchk 是用来做什么的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyISAM-Static-和-MyISAM-Dynamic-有什么区别？"><span class="toc-number">1.0.8.</span> <span class="toc-text">MyISAM Static 和 MyISAM Dynamic 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如果一个表有一列定义为TIMESTAMP，将发生什么？"><span class="toc-number">1.0.9.</span> <span class="toc-text">如果一个表有一列定义为TIMESTAMP，将发生什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列设置为-AUTO-INCREMENT-时，如果在表中达到最大值，会发生什么情况？"><span class="toc-number">1.0.10.</span> <span class="toc-text">列设置为 AUTO INCREMENT 时，如果在表中达到最大值，会发生什么情况？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#怎样才能找出最后一次插入时分配了哪个自动增量？"><span class="toc-number">1.0.11.</span> <span class="toc-text">怎样才能找出最后一次插入时分配了哪个自动增量？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#你怎么看到为表格定义的所有索引？"><span class="toc-number">1.0.12.</span> <span class="toc-text">你怎么看到为表格定义的所有索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#like-声明中的-％-和-是什么意思？"><span class="toc-number">1.0.13.</span> <span class="toc-text">like 声明中的 ％ 和 _ 是什么意思？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何在-Unix-和-MySQL-时间戳之间进行转换？"><span class="toc-number">1.0.14.</span> <span class="toc-text">如何在 Unix 和 MySQL 时间戳之间进行转换？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列对比运算符是什么？"><span class="toc-number">1.0.15.</span> <span class="toc-text">列对比运算符是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BLOB-和-TEXT-有什么区别？"><span class="toc-number">1.0.16.</span> <span class="toc-text">BLOB 和 TEXT 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql-fetch-array-和-mysql-fetch-object-的区别是什么？"><span class="toc-number">1.0.17.</span> <span class="toc-text">mysql_fetch_array 和 mysql_fetch_object 的区别是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyISAM-表格将在哪里存储，并且还提供其存储格式？"><span class="toc-number">1.0.18.</span> <span class="toc-text">MyISAM 表格将在哪里存储，并且还提供其存储格式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-如何优化-DISTINCT？"><span class="toc-number">1.0.19.</span> <span class="toc-text">MySQL 如何优化 DISTINCT？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何显示前-50-行？"><span class="toc-number">1.0.20.</span> <span class="toc-text">如何显示前 50 行？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可以使用多少列创建索引？"><span class="toc-number">1.0.21.</span> <span class="toc-text">可以使用多少列创建索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NOW-和-CURRENT-DATE-有什么区别？"><span class="toc-number">1.0.22.</span> <span class="toc-text">NOW() 和 CURRENT_DATE() 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是非标准字符串类型？"><span class="toc-number">1.0.23.</span> <span class="toc-text">什么是非标准字符串类型？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是通用-SQL-函数？"><span class="toc-number">1.0.24.</span> <span class="toc-text">什么是通用 SQL 函数？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-支持事务吗？"><span class="toc-number">1.0.25.</span> <span class="toc-text">MySQL 支持事务吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-里记录货币用什么字段类型好"><span class="toc-number">1.0.26.</span> <span class="toc-text">MySQL 里记录货币用什么字段类型好</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-有关权限的表都有哪几个？"><span class="toc-number">1.0.27.</span> <span class="toc-text">MySQL 有关权限的表都有哪几个？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列的字符串类型可以是什么？"><span class="toc-number">1.0.28.</span> <span class="toc-text">列的字符串类型可以是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库作发布系统的存储，一天五万条以上的增量，预计运维三年-怎么优化？"><span class="toc-number">1.0.29.</span> <span class="toc-text">MySQL 数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锁的优化策略"><span class="toc-number">1.0.30.</span> <span class="toc-text">锁的优化策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的底层实现原理和优化"><span class="toc-number">1.0.31.</span> <span class="toc-text">索引的底层实现原理和优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么情况下设置了索引但无法使用"><span class="toc-number">1.0.32.</span> <span class="toc-text">什么情况下设置了索引但无法使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实践中如何优化MySQL"><span class="toc-number">1.0.33.</span> <span class="toc-text">实践中如何优化MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化数据库的方法"><span class="toc-number">1.0.34.</span> <span class="toc-text">优化数据库的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）"><span class="toc-number">1.0.35.</span> <span class="toc-text">简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库中的事务是什么"><span class="toc-number">1.0.36.</span> <span class="toc-text">数据库中的事务是什么?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL注入漏洞产生的原因？如何防止？"><span class="toc-number">1.0.37.</span> <span class="toc-text">SQL注入漏洞产生的原因？如何防止？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为表中得字段选择合适得数据类型"><span class="toc-number">1.0.38.</span> <span class="toc-text">为表中得字段选择合适得数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储时期"><span class="toc-number">1.0.39.</span> <span class="toc-text">存储时期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的目的是什么？"><span class="toc-number">1.0.40.</span> <span class="toc-text">索引的目的是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引对数据库系统的负面影响是什么？"><span class="toc-number">1.0.41.</span> <span class="toc-text">索引对数据库系统的负面影响是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为数据表建立索引的原则有哪些？"><span class="toc-number">1.0.42.</span> <span class="toc-text">为数据表建立索引的原则有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么情况下不宜建立索引？"><span class="toc-number">1.0.43.</span> <span class="toc-text">什么情况下不宜建立索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解释-MySQL-外连接、内连接与自连接的区别"><span class="toc-number">1.0.44.</span> <span class="toc-text">解释 MySQL 外连接、内连接与自连接的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-中的事务回滚机制概述"><span class="toc-number">1.0.45.</span> <span class="toc-text">MySQL 中的事务回滚机制概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL语言包括哪几部分？每部分都有哪些操作关键字？"><span class="toc-number">1.0.46.</span> <span class="toc-text">SQL语言包括哪几部分？每部分都有哪些操作关键字？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完整性约束包括哪些？"><span class="toc-number">1.0.47.</span> <span class="toc-text">完整性约束包括哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是锁？"><span class="toc-number">1.0.48.</span> <span class="toc-text">什么是锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么叫视图？游标是什么？"><span class="toc-number">1.0.49.</span> <span class="toc-text">什么叫视图？游标是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是存储过程？用什么来调用？"><span class="toc-number">1.0.50.</span> <span class="toc-text">什么是存储过程？用什么来调用？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何通俗地理解三个范式？"><span class="toc-number">1.0.51.</span> <span class="toc-text">如何通俗地理解三个范式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是基本表？什么是视图？"><span class="toc-number">1.0.52.</span> <span class="toc-text">什么是基本表？什么是视图？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#试述视图的优点？"><span class="toc-number">1.0.53.</span> <span class="toc-text">试述视图的优点？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NULL-是什么意思"><span class="toc-number">1.0.54.</span> <span class="toc-text">NULL 是什么意思</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主键、外键和索引的区别？"><span class="toc-number">1.0.55.</span> <span class="toc-text">主键、外键和索引的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#你可以用什么来确保表格里的字段只接受特定范围里的值"><span class="toc-number">1.0.56.</span> <span class="toc-text">你可以用什么来确保表格里的字段只接受特定范围里的值?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说说对SQL语句优化有哪些方法？（选择几条）"><span class="toc-number">1.0.57.</span> <span class="toc-text">说说对SQL语句优化有哪些方法？（选择几条）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#108道Java面试题-工作10年，面试超过500人想进阿里总结出的"><span class="toc-number">2.</span> <span class="toc-text">108道Java面试题:工作10年，面试超过500人想进阿里总结出的!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库三范式及判断、E-R-图"><span class="toc-number">2.0.1.</span> <span class="toc-text">数据库三范式及判断、E-R 图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InnoDB-和-MyISAM-存储引擎的区别"><span class="toc-number">2.0.2.</span> <span class="toc-text">InnoDB 和 MyISAM 存储引擎的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引分类，最左前缀原则，哪些条件无法使用索引"><span class="toc-number">2.0.3.</span> <span class="toc-text">索引分类，最左前缀原则，哪些条件无法使用索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-树、B-树区别，索引为何使用-B-树"><span class="toc-number">2.0.4.</span> <span class="toc-text">B 树、B+ 树区别，索引为何使用 B+ 树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚集索引与非聚集索引（使用非聚集索引的查询过程）"><span class="toc-number">2.0.5.</span> <span class="toc-text">聚集索引与非聚集索引（使用非聚集索引的查询过程）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的ACID（原子性、一致性、隔离性、持久性）"><span class="toc-number">2.0.6.</span> <span class="toc-text">事务的ACID（原子性、一致性、隔离性、持久性）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"><span class="toc-number">2.0.7.</span> <span class="toc-text">事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁"><span class="toc-number">2.0.8.</span> <span class="toc-text">乐观锁和悲观锁、行锁与表锁、共享锁与排他锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVCC（增加两个版本号）及delete、update、select时的具体控制"><span class="toc-number">2.0.9.</span> <span class="toc-text">MVCC（增加两个版本号）及delete、update、select时的具体控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#死锁判定原理和具体场景"><span class="toc-number">2.0.10.</span> <span class="toc-text">死锁判定原理和具体场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询缓慢和解决方式（explain、慢查询日志、show-profile等）"><span class="toc-number">2.0.11.</span> <span class="toc-text">查询缓慢和解决方式（explain、慢查询日志、show profile等）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#drop、truncate、delete-区别"><span class="toc-number">2.0.12.</span> <span class="toc-text">drop、truncate、delete 区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询语句不同元素（where、jion、limit、group-by、having等等）执行先后顺序"><span class="toc-number">2.0.13.</span> <span class="toc-text">查询语句不同元素（where、jion、limit、group by、having等等）执行先后顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql优化，读写分离、主从复制"><span class="toc-number">2.0.14.</span> <span class="toc-text">mysql优化，读写分离、主从复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库崩溃时事务的恢复机制（REDO-日志和-UNDO-日志）"><span class="toc-number">2.0.15.</span> <span class="toc-text">数据库崩溃时事务的恢复机制（REDO 日志和 UNDO 日志）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最全支付宝高级Java现场面试37题"><span class="toc-number">3.</span> <span class="toc-text">2019 最全支付宝高级Java现场面试37题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL优化，常用的索引？"><span class="toc-number">3.0.1.</span> <span class="toc-text">SQL优化，常用的索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库性能调优如何做"><span class="toc-number">3.0.2.</span> <span class="toc-text">数据库性能调优如何做</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库事务属性"><span class="toc-number">3.0.3.</span> <span class="toc-text">数据库事务属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最全阿里天猫Java-3面真题，含面试题答案！"><span class="toc-number">4.</span> <span class="toc-text">2019 最全阿里天猫Java 3面真题，含面试题答案！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最新阿里中间件Java-4轮面试题！60万年薪起步"><span class="toc-number">5.</span> <span class="toc-text">2019 最新阿里中间件Java 4轮面试题！60万年薪起步~</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引，表锁；乐观锁；悲观锁"><span class="toc-number">5.0.1.</span> <span class="toc-text">数据库索引，表锁；乐观锁；悲观锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019蚂蚁金服-Java面试题目！涵盖现场3面真题"><span class="toc-number">6.</span> <span class="toc-text">2019蚂蚁金服 Java面试题目！涵盖现场3面真题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何做的-MySQL-优化"><span class="toc-number">6.0.1.</span> <span class="toc-text">如何做的 MySQL 优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阿里蚂蚁金服中间件-Java-4轮面试题含答案-：Redis缓存-线程锁-微服务等"><span class="toc-number">7.</span> <span class="toc-text">阿里蚂蚁金服中间件(Java 4轮面试题含答案)：Redis缓存+线程锁+微服务等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-事务隔离级别以及-MVCC-机制"><span class="toc-number">7.0.1.</span> <span class="toc-text">MySQL 事务隔离级别以及 MVCC 机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-阿里Java-4轮面试题，含必考题答案参考！"><span class="toc-number">8.</span> <span class="toc-text">2019 阿里Java 4轮面试题，含必考题答案参考！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库优化会涉及到哪些？"><span class="toc-number">8.0.1.</span> <span class="toc-text">MySQL 数据库优化会涉及到哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-的事务隔离级别，分别解决什么问题？"><span class="toc-number">8.0.2.</span> <span class="toc-text">MySQL 的事务隔离级别，分别解决什么问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？"><span class="toc-number">8.0.3.</span> <span class="toc-text">从SQL、JVM、架构、数据库四个方面讲讲优化思路，以及如何优先排序？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新2019-蚂蚁金服4面-Java-面试题"><span class="toc-number">9.</span> <span class="toc-text">最新2019 蚂蚁金服4面(Java)面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。"><span class="toc-number">9.0.1.</span> <span class="toc-text">MySQL的主从复制怎么做的，具体原理是什么，有什么优缺点。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2018阿里集团中间件Java面试题-4面"><span class="toc-number">10.</span> <span class="toc-text">2018阿里集团中间件Java面试题(4面)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁金服4轮面经-Java研发）-G1收集器-连接池-分布式架构"><span class="toc-number">11.</span> <span class="toc-text">蚂蚁金服4轮面经(Java研发）:G1收集器+连接池+分布式架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-默认存储引擎？MyISAM、InnoDB、MEMORY的区别"><span class="toc-number">11.0.1.</span> <span class="toc-text">MySql 默认存储引擎？MyISAM、InnoDB、MEMORY的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是幻读，如何解决"><span class="toc-number">11.0.2.</span> <span class="toc-text">什么是幻读，如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？"><span class="toc-number">11.0.3.</span> <span class="toc-text">事务隔离级别有什么？通过什么来实现的？分别解决了什么问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁与悲观锁的使用场景"><span class="toc-number">11.0.4.</span> <span class="toc-text">乐观锁与悲观锁的使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库主从同步数据一致性如何解决？技术方案的优劣势比较？"><span class="toc-number">11.0.5.</span> <span class="toc-text">数据库主从同步数据一致性如何解决？技术方案的优劣势比较？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#天猫研发Java团队-4面全题目）：并发压测-Mina-事务-集群-秒杀架构"><span class="toc-number">12.</span> <span class="toc-text">天猫研发Java团队(4面全题目）：并发压测+Mina+事务+集群+秒杀架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-数据库默认存储引擎，有什么优点"><span class="toc-number">12.0.1.</span> <span class="toc-text">MySQL 数据库默认存储引擎，有什么优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-的事务隔离级别，分别解决什么问题。"><span class="toc-number">12.0.2.</span> <span class="toc-text">MySQL 的事务隔离级别，分别解决什么问题。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><span class="toc-number">12.0.3.</span> <span class="toc-text">四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库分库分表一般数据量多大才需要？"><span class="toc-number">12.0.4.</span> <span class="toc-text">数据库分库分表一般数据量多大才需要？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的慢-SQL-优化一般如何来做？除此外还有什么方法优化？"><span class="toc-number">12.0.5.</span> <span class="toc-text">MySQL的慢 SQL 优化一般如何来做？除此外还有什么方法优化？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2019-最新蚂蚁花呗Java三面题目：红黑树-并发容器-CAS-Solr-分布式等"><span class="toc-number">13.</span> <span class="toc-text">2019 最新蚂蚁花呗Java三面题目：红黑树+并发容器+CAS+Solr+分布式等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查询中哪些情况不会使用索引？"><span class="toc-number">13.0.1.</span> <span class="toc-text">查询中哪些情况不会使用索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引，底层是怎样实现的，为什么要用B树索引？"><span class="toc-number">13.0.2.</span> <span class="toc-text">数据库索引，底层是怎样实现的，为什么要用B树索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-主从同步的实现原理？"><span class="toc-number">13.0.3.</span> <span class="toc-text">MySql 主从同步的实现原理？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-是怎么用B-树？"><span class="toc-number">13.0.4.</span> <span class="toc-text">MySQL 是怎么用B+树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈数据库乐观锁与悲观锁"><span class="toc-number">13.0.5.</span> <span class="toc-text">谈谈数据库乐观锁与悲观锁?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#牛逼！支付宝高级Java三面题目：线程锁-事务-雪崩-Docker等"><span class="toc-number">14.</span> <span class="toc-text">牛逼！支付宝高级Java三面题目：线程锁+事务+雪崩+Docker等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-如何在RR隔离级别下避免幻读问题"><span class="toc-number">14.0.1.</span> <span class="toc-text">MySql 如何在RR隔离级别下避免幻读问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql范式和反范式的区别以及彼此的优缺点"><span class="toc-number">14.0.2.</span> <span class="toc-text">MySql范式和反范式的区别以及彼此的优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-索引类别有哪些，什么是覆盖索引"><span class="toc-number">14.0.3.</span> <span class="toc-text">MySql 索引类别有哪些，什么是覆盖索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql如何获取慢SQL，以及慢查询的解决方式"><span class="toc-number">14.0.4.</span> <span class="toc-text">mysql如何获取慢SQL，以及慢查询的解决方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-主从同步如何配置，工作原理"><span class="toc-number">14.0.5.</span> <span class="toc-text">MySql 主从同步如何配置，工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）"><span class="toc-number">14.0.6.</span> <span class="toc-text">乐观锁和悲观锁、行锁与表锁、共享锁与排他锁（inndob如何手动加共享锁与排他锁）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#死锁判定原理和具体场景-1"><span class="toc-number">14.0.7.</span> <span class="toc-text">死锁判定原理和具体场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈事务的ACID"><span class="toc-number">14.0.8.</span> <span class="toc-text">谈谈事务的ACID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库崩溃时事务的恢复机制"><span class="toc-number">14.0.9.</span> <span class="toc-text">数据库崩溃时事务的恢复机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁花呗团队面试题：LinkedHashMap-SpringCloud-线程锁-分布式"><span class="toc-number">15.</span> <span class="toc-text">蚂蚁花呗团队面试题：LinkedHashMap+SpringCloud+线程锁+分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库索引有哪些？底层怎么实现的？数据库怎么优化？"><span class="toc-number">15.0.1.</span> <span class="toc-text">数据库索引有哪些？底层怎么实现的？数据库怎么优化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的事务，四个性质说一下，分别有什么用，怎么实现的？"><span class="toc-number">15.0.2.</span> <span class="toc-text">数据库的事务，四个性质说一下，分别有什么用，怎么实现的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql存储引擎"><span class="toc-number">15.0.3.</span> <span class="toc-text">MySql存储引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别"><span class="toc-number">15.0.4.</span> <span class="toc-text">事务隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）"><span class="toc-number">15.0.5.</span> <span class="toc-text">不可重复度和幻读，怎么避免，底层怎么实现（行锁表锁）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-有哪几种-join-方式，底层原理是什么"><span class="toc-number">15.0.6.</span> <span class="toc-text">MySQL 有哪几种 join 方式，底层原理是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库怎么实现分库分表，以及数据同步？"><span class="toc-number">15.0.7.</span> <span class="toc-text">MySQL数据库怎么实现分库分表，以及数据同步？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最全蚂蚁金服高级Java面试题目-3面"><span class="toc-number">16.</span> <span class="toc-text">最全蚂蚁金服高级Java面试题目(3面)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在工作中，SQL语句的优化和注意的事项"><span class="toc-number">16.0.1.</span> <span class="toc-text">在工作中，SQL语句的优化和注意的事项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql同步机制原理，有哪几种同步方法"><span class="toc-number">16.0.2.</span> <span class="toc-text">MySql同步机制原理，有哪几种同步方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库主从同步如何实现，事务如何实现"><span class="toc-number">16.0.3.</span> <span class="toc-text">数据库主从同步如何实现，事务如何实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2018-支付宝Java开发四面-Ngnix-MQ队列-集群-并发抢购"><span class="toc-number">17.</span> <span class="toc-text">2018 支付宝Java开发四面:Ngnix+MQ队列+集群+并发抢购</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql-limit-分页如何保证可靠性"><span class="toc-number">17.0.1.</span> <span class="toc-text">MySql limit 分页如何保证可靠性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL引擎及区别，项目用的哪个，为什么"><span class="toc-number">17.0.2.</span> <span class="toc-text">MySQL引擎及区别，项目用的哪个，为什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mycat-分库分表、读写分离的实现"><span class="toc-number">17.0.3.</span> <span class="toc-text">mycat 分库分表、读写分离的实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁三面题目-java开发岗）-Java锁机制-JVM-线程池-事务-中间件"><span class="toc-number">18.</span> <span class="toc-text">蚂蚁三面题目(java开发岗）:Java锁机制+JVM+线程池+事务+中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的表锁-amp-行锁-amp-乐观锁-amp-悲观锁-各自的使用场景"><span class="toc-number">18.0.1.</span> <span class="toc-text">MySQL的表锁&amp;行锁&amp;乐观锁&amp;悲观锁,各自的使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务四大特性"><span class="toc-number">18.0.2.</span> <span class="toc-text">事务四大特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的二段提交机制？"><span class="toc-number">18.0.3.</span> <span class="toc-text">事务的二段提交机制？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚簇索引-amp-非聚簇索引"><span class="toc-number">18.0.4.</span> <span class="toc-text">聚簇索引&amp;非聚簇索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACID-CAP-BASE理论，以及RPC过程。"><span class="toc-number">18.0.5.</span> <span class="toc-text">ACID CAP BASE理论，以及RPC过程。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蚂蚁中间件团队Java面试题：Netty-Redis-Kafka-MongoDB-分布式"><span class="toc-number">19.</span> <span class="toc-text">蚂蚁中间件团队Java面试题：Netty+Redis+Kafka+MongoDB+分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引什么时候会失效变成全表扫描"><span class="toc-number">19.0.1.</span> <span class="toc-text">索引什么时候会失效变成全表扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库万级变成亿级，你如何来解决。"><span class="toc-number">19.0.2.</span> <span class="toc-text">数据库万级变成亿级，你如何来解决。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新阿里聚划算Java-5轮面试题-涵盖GC收集器、多线程锁等"><span class="toc-number">20.</span> <span class="toc-text">最新阿里聚划算Java 5轮面试题,涵盖GC收集器、多线程锁等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL采用了什么存储引擎，为什么？"><span class="toc-number">20.0.1.</span> <span class="toc-text">MySQL采用了什么存储引擎，为什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引的类型，索引的底层实现原理"><span class="toc-number">20.0.2.</span> <span class="toc-text">索引的类型，索引的底层实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别"><span class="toc-number">20.0.3.</span> <span class="toc-text">MySQL数据库对应的行锁、表锁、悲观锁、乐观锁的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？"><span class="toc-number">20.0.4.</span> <span class="toc-text">MySQL数据库引擎？应用场景？查询优化？NoSQL有用或了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别"><span class="toc-number">20.0.5.</span> <span class="toc-text">MySql事务讲一下，事务定义，四个性质，事务并发引起的问题，事务的四个隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-和数据库如何保证数据一致性"><span class="toc-number">20.0.6.</span> <span class="toc-text">Redis 和数据库如何保证数据一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#谈谈MySQL的查询优化方法，重点谈谈优化步骤。"><span class="toc-number">20.0.7.</span> <span class="toc-text">谈谈MySQL的查询优化方法，重点谈谈优化步骤。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新天猫Java3轮面试题目：虚拟机-并发锁-Sql防注入-Zookeeper"><span class="toc-number">21.</span> <span class="toc-text">最新天猫Java3轮面试题目：虚拟机+并发锁+Sql防注入+Zookeeper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如何防止sql注入，了解哪些加密算法，rsa过程说下"><span class="toc-number">21.0.1.</span> <span class="toc-text">如何防止sql注入，了解哪些加密算法，rsa过程说下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySql索引设计，联合索引，SQL-语句优化，abc-索引，搜索b，会使用索引吗（走索引要回表）"><span class="toc-number">21.0.2.</span> <span class="toc-text">MySql索引设计，联合索引，SQL 语句优化，abc 索引，搜索b，会使用索引吗（走索引要回表）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非常全面的阿里的Java面试题目-涵盖Java基础-高级-架构"><span class="toc-number">22.</span> <span class="toc-text">非常全面的阿里的Java面试题目,涵盖Java基础+高级+架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库隔离级别-脏读-幻读-ACID-mysql的隔离级别"><span class="toc-number">22.0.1.</span> <span class="toc-text">数据库隔离级别 脏读 幻读 ACID mysql的隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql索引实现，如何解决慢查询"><span class="toc-number">22.0.2.</span> <span class="toc-text">mysql索引实现，如何解决慢查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库锁是怎么实现的"><span class="toc-number">22.0.3.</span> <span class="toc-text">数据库锁是怎么实现的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？"><span class="toc-number">22.0.4.</span> <span class="toc-text">用过mysql吗？为啥加索引会变快？聚簇型索引和非聚簇型索引的区别？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#淘宝网Java五面：现场面试49题含答案！"><span class="toc-number">23.</span> <span class="toc-text">淘宝网Java五面：现场面试49题含答案！</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#讲一下数据库的隔离等级"><span class="toc-number">23.0.1.</span> <span class="toc-text">讲一下数据库的隔离等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说一聚簇索引和非聚簇索引的有什么不同"><span class="toc-number">23.0.2.</span> <span class="toc-text">说一聚簇索引和非聚簇索引的有什么不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql用的什么存储引擎，这个存储引擎用的什么数据结构-，有哪些优缺点，怎么使用"><span class="toc-number">23.0.3.</span> <span class="toc-text">mysql用的什么存储引擎，这个存储引擎用的什么数据结构 ，有哪些优缺点，怎么使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#史上最全阿里Java面试题目大汇总！强烈建议收藏"><span class="toc-number">24.</span> <span class="toc-text">史上最全阿里Java面试题目大汇总！强烈建议收藏~</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的常见优化方式、定为慢查询"><span class="toc-number">24.0.1.</span> <span class="toc-text">MySQL的常见优化方式、定为慢查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）"><span class="toc-number">24.0.2.</span> <span class="toc-text">数据库（最多的还是mysql，Nosql有redis）索引（包括分类及优化方式，失效条件，底层结构）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sql语法（join，union，子查询，having，group-by）"><span class="toc-number">24.0.3.</span> <span class="toc-text">sql语法（join，union，子查询，having，group by）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#引擎对比（InnoDB，MyISAM）"><span class="toc-number">24.0.4.</span> <span class="toc-text">引擎对比（InnoDB，MyISAM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select-sql方式）"><span class="toc-number">24.0.5.</span> <span class="toc-text">数据库的锁（行锁，表锁，页级锁，意向锁，读锁，写锁，悲观锁，乐观锁，以及加锁的select sql方式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#隔离级别，依次解决的问题（脏读、不可重复读、幻读）"><span class="toc-number">24.0.6.</span> <span class="toc-text">隔离级别，依次解决的问题（脏读、不可重复读、幻读）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的ACID"><span class="toc-number">24.0.7.</span> <span class="toc-text">事务的ACID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化（explain，慢查询，show-profile）"><span class="toc-number">24.0.8.</span> <span class="toc-text">优化（explain，慢查询，show profile）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的范式"><span class="toc-number">24.0.9.</span> <span class="toc-text">数据库的范式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分库分表，主从复制，读写分离。"><span class="toc-number">24.0.10.</span> <span class="toc-text">分库分表，主从复制，读写分离。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最全Java面试180题：阿里11面试-网易-百度-美团！含答案大赠送！"><span class="toc-number">25.</span> <span class="toc-text">最全Java面试180题：阿里11面试+网易+百度+美团！含答案大赠送！</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&text=abc"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&is_video=false&description=abc"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=abc&body=Check out this article: http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&title=abc"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/28/MySQL 指南/MySQL 锁4/&name=abc&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

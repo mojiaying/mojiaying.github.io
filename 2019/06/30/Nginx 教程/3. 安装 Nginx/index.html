@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="源码安装 下载源码 123sudo mkdir /home/downloadssudo cd /home/downloadssudo wget http://nginx.org/download/nginx-1.8.0.tar.gz  解压 12sudo tar -zxvf nginx-1.8.0.tar.gzcd nginx-1.8.0  编译安装 12345678910111213# 安装pc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装 Nginx">
+<meta property="og:url" content="http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="源码安装 下载源码 123sudo mkdir /home/downloadssudo cd /home/downloadssudo wget http://nginx.org/download/nginx-1.8.0.tar.gz  解压 12sudo tar -zxvf nginx-1.8.0.tar.gzcd nginx-1.8.0  编译安装 12345678910111213# 安装pc">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安装 Nginx">
+<meta name="twitter:description" content="源码安装 下载源码 123sudo mkdir /home/downloadssudo cd /home/downloadssudo wget http://nginx.org/download/nginx-1.8.0.tar.gz  解压 12sudo tar -zxvf nginx-1.8.0.tar.gzcd nginx-1.8.0  编译安装 12345678910111213# 安装pc">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>安装 Nginx</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/06/30/Linux 教程/防火墙设置/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&text=安装 Nginx"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&is_video=false&description=安装 Nginx"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安装 Nginx&body=Check out this article: http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&name=安装 Nginx&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码安装"><span class="toc-number">1.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试2"><span class="toc-number">3.</span> <span class="toc-text">测试2</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        安装 Nginx
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-29T16:00:00.000Z" itemprop="datePublished">2019-06-30</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Nginx-教程/">Nginx 教程</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h2><ol>
+<li><p>下载源码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /home/downloads</span><br><span class="line">sudo cd /home/downloads</span><br><span class="line">sudo wget http://nginx.org/download/nginx-1.8.0.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf nginx-1.8.0.tar.gz</span><br><span class="line">cd nginx-1.8.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装pcre库</span></span><br><span class="line">sudo yum install -y pcre pcre-devel</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装zlib库</span></span><br><span class="line">sudo yum install -y zlib zlib-devel</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装gcc g++（可选）</span></span><br><span class="line">sudo yum install gcc</span><br><span class="line">sudo yum install gcc-c++</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装SSL modules require the OpenSSL library</span></span><br><span class="line">yum -y install openssl openssl-devel</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装nginx</span></span><br><span class="line">sudo ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br><span class="line">sudo make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 检测配置文件</span></span><br><span class="line">sudo /usr/local/nginx/sbin/nginx -t</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">sudo /usr/local/nginx/sbin/nginx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止</span></span><br><span class="line">sudo /usr/local/nginx/sbin/nginx –s stop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 systemctl 服务<br> 在系统服务目录里创建 nginx.service 文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+<p> nginx.service 内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]                                              # 服务的说明</span><br><span class="line">Description=nginx                                   # 描述服务</span><br><span class="line">After=network.target                                # 描述服务类别</span><br><span class="line">  </span><br><span class="line">[Service]                                           # 服务运行参数的设置，注意：[Service]的启动、重启、停止命令全部要求使用绝对路径</span><br><span class="line">Type=forking                                        # 是后台运行的形式</span><br><span class="line">ExecStart=/usr/local/nginx/sbin/nginx               # 为服务的具体运行命令</span><br><span class="line">ExecReload=/usr/local/nginx/sbin/nginx -s reload    # 为重启命令</span><br><span class="line">ExecStop=/usr/local/nginx/sbin/nginx -s quit        # 为停止命令</span><br><span class="line">PrivateTmp=true                                     # 表示给服务分配独立的临时空间</span><br><span class="line">  </span><br><span class="line">[Install]                                           # 运行级别下服务安装的相关设置，可设置为多用户，即系统运行级别为3</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p> 常用操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置开机启动</span></span><br><span class="line">systemctl enable nginx.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止开机自启动</span></span><br><span class="line">systemctl disable nginx.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看服务当前状态</span></span><br><span class="line">systemctl status nginx.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动 nginx 服务</span></span><br><span class="line">systemctl start nginx.service　</span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止 nginx 服务</span></span><br><span class="line">systemctl stop nginx.service　</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重新启动服务</span></span><br><span class="line">systemctl restart nginx.service　</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看所有已启动的服务</span></span><br><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h2 id="测试2"><a href="#测试2" class="headerlink" title="测试2"></a>测试2</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码安装"><span class="toc-number">1.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试2"><span class="toc-number">3.</span> <span class="toc-text">测试2</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&text=安装 Nginx"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&is_video=false&description=安装 Nginx"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安装 Nginx&body=Check out this article: http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&title=安装 Nginx"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/30/Nginx 教程/3. 安装 Nginx/&name=安装 Nginx&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

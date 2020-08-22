@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="基准测试是指通过设计科学的测试方法、测试工具和测试系统，实现对一类测试对象的某项性能指标进行定量的和可对比的测试。 性能指标  RT：响应时间。包括平均响应时间、最小响应时间、最大响应时间、每个响应时间的查询占比。比较需要重点关注的是，前 95-99% 的最大响应时间。因为它决定了大多数情况下的短板。 TPS：Transactions Per Second ，即数据库每秒执行的事务数，以 comm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 基准测试">
+<meta property="og:url" content="http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="基准测试是指通过设计科学的测试方法、测试工具和测试系统，实现对一类测试对象的某项性能指标进行定量的和可对比的测试。 性能指标  RT：响应时间。包括平均响应时间、最小响应时间、最大响应时间、每个响应时间的查询占比。比较需要重点关注的是，前 95-99% 的最大响应时间。因为它决定了大多数情况下的短板。 TPS：Transactions Per Second ，即数据库每秒执行的事务数，以 comm">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 基准测试">
+<meta name="twitter:description" content="基准测试是指通过设计科学的测试方法、测试工具和测试系统，实现对一类测试对象的某项性能指标进行定量的和可对比的测试。 性能指标  RT：响应时间。包括平均响应时间、最小响应时间、最大响应时间、每个响应时间的查询占比。比较需要重点关注的是，前 95-99% 的最大响应时间。因为它决定了大多数情况下的短板。 TPS：Transactions Per Second ，即数据库每秒执行的事务数，以 comm">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>MySQL 基准测试</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/07/07/MySQL 手册/MySQL 读写分离/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/07/07/MySQL 手册/MySQL 性能分析/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&text=MySQL 基准测试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&is_video=false&description=MySQL 基准测试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL 基准测试&body=Check out this article: http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&name=MySQL 基准测试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sysbench-介绍"><span class="toc-number">1.</span> <span class="toc-text">sysbench 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备数据"><span class="toc-number">3.</span> <span class="toc-text">准备数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行测试"><span class="toc-number">4.</span> <span class="toc-text">执行测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清理数据"><span class="toc-number">5.</span> <span class="toc-text">清理数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试结果"><span class="toc-number">6.</span> <span class="toc-text">测试结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#请求延迟"><span class="toc-number">6.0.1.</span> <span class="toc-text">请求延迟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程数量"><span class="toc-number">6.0.2.</span> <span class="toc-text">线程数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不同版本"><span class="toc-number">6.0.3.</span> <span class="toc-text">不同版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#记录大小"><span class="toc-number">6.0.4.</span> <span class="toc-text">记录大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#机器配置"><span class="toc-number">6.0.5.</span> <span class="toc-text">机器配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器测试"><span class="toc-number">6.0.6.</span> <span class="toc-text">容器测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读写分离"><span class="toc-number">6.0.7.</span> <span class="toc-text">读写分离</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它"><span class="toc-number">7.</span> <span class="toc-text">其它</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附一：MySQL-数据库压力测试报告"><span class="toc-number">8.</span> <span class="toc-text">附一：MySQL 数据库压力测试报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附二：MySQL压测④—压测报告"><span class="toc-number">9.</span> <span class="toc-text">附二：MySQL压测④—压测报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附三：MySQL-数据量-性能测试报告version1"><span class="toc-number">10.</span> <span class="toc-text">附三：MySQL 数据量-性能测试报告version1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附四：MySQL-并发测试中，线程数和数据库连接池的实验"><span class="toc-number">11.</span> <span class="toc-text">附四：MySQL 并发测试中，线程数和数据库连接池的实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">12.</span> <span class="toc-text">常见问题</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MySQL 基准测试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-06T16:00:02.000Z" itemprop="datePublished">2020-07-07</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/MySQL-手册/">MySQL 手册</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>基准测试是指通过设计科学的测试方法、测试工具和测试系统，实现对一类测试对象的某项性能指标进行定量的和可对比的测试。</p>
+<p>性能指标</p>
+<ol>
+<li>RT：响应时间。包括平均响应时间、最小响应时间、最大响应时间、每个响应时间的查询占比。比较需要重点关注的是，前 95-99% 的最大响应时间。因为它决定了大多数情况下的短板。</li>
+<li>TPS：Transactions Per Second ，即数据库每秒执行的事务数，以 commit 成功次数为准。</li>
+<li>QPS：Queries Per Second ，即数据库每秒执行的 SQL 数（含 insert、select、update、delete 等）。</li>
+<li>Concurrency Threads：并发量，每秒可处理的查询请求的数量。</li>
+</ol>
+<p>总结来说，实际就是 2 个维度：</p>
+<ol>
+<li>延迟</li>
+<li>吞吐量</li>
+</ol>
+<h2 id="sysbench-介绍"><a href="#sysbench-介绍" class="headerlink" title="sysbench 介绍"></a>sysbench 介绍</h2><p>sysbench 是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。</p>
+<p>它主要包括以下几种方式的测试：</p>
+<ol>
+<li>CPU 性能</li>
+<li>磁盘 IO 性能</li>
+<li>调度程序性能</li>
+<li>内存分配及传输速度</li>
+<li>POSIX 线程性能</li>
+<li>数据库性能(OLTP 基准测试)</li>
+</ol>
+<p>目前 sysbench 主要支持 MySQL、PgSQL、Oracle 这 3 种数据库。</p>
+<p>sysbench 也是目前 DBA 最喜欢用来做 MySQL 性能的测试工具。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>centos 安装，需要到 /usr/share/sysbench/ 目录使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y sysbench</span><br></pre></td></tr></table></figure>
+<p>mac 安装，需要到 /usr/local/Cellar/sysbench/1.0.17_1/share/sysbench 目录使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo brew install sysbench</span><br></pre></td></tr></table></figure>
+<h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>执行以下命令，sysbench 会自动在数据库常见相应的测试数据。<code>oltp_common.lua</code> 是要执行的测试脚本。这里使用自带的 lua 测试脚本。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sysbench oltp_common.lua \</span><br><span class="line">    --mysql-host=216.155.135.22 \</span><br><span class="line">    --mysql-port=3306 \</span><br><span class="line">    --mysql-user=sptest \</span><br><span class="line">    --mysql-password=sptest \</span><br><span class="line">    --mysql-db=sptest \</span><br><span class="line">    --table-size=100000 \</span><br><span class="line">    --tables=9 \</span><br><span class="line">    prepare</span><br></pre></td></tr></table></figure></p>
+<p>MySQL 相关参数：</p>
+<ol>
+<li>mysql-host<br> MySQL server IP  。</li>
+<li>mysql-port<br> MySQL server port 。</li>
+<li>mysql-db<br> MySQL Server 数据库名。</li>
+<li>mysql-user<br> MySQL server 账号。</li>
+<li>mysql-password<br> MySQL server 密码。</li>
+</ol>
+<p>sysbench 相关参数：</p>
+<ol>
+<li>time<br>最大的总执行时间，以秒为单位，默认为 10 秒。</li>
+<li>tables<br> 表数。</li>
+<li>table-size<br> 表记录条数。</li>
+<li>threads<br> 要使用的线程数，默认 1 个。</li>
+<li>report-interval<br> 以秒为单位定期报告具有指定间隔的中间统计信息，默认为 0 ，表示禁用中间报告。</li>
+<li>prepare<br> 执行准备数据</li>
+</ol>
+<h2 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h2><p>执行下面命令开始对数据库进行测试。<code>oltp_read_write.lua</code> 表示混合读写。在一个事务中，默认比例是：select:update_key:update_non_key:delete:insert = 14:1:1:1:1 。这也是为什么，我们测试出来的 TPS 和 QPS 的比例，大概在 1:18~20 左右。相当于说，一个事务中，有 18 个读写操作。<code>run</code> 表示执行测试命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sysbench oltp_read_write.lua \</span><br><span class="line">	--mysql-host=216.155.135.22 \</span><br><span class="line">	--mysql-port=3306 \</span><br><span class="line">	--mysql-user=sptest \</span><br><span class="line">	--mysql-password=sptest \</span><br><span class="line">	--mysql-db=sptest  \</span><br><span class="line">	--threads=32 \</span><br><span class="line">	--time=60 \</span><br><span class="line">	--report-interval=10  \</span><br><span class="line">	run</span><br></pre></td></tr></table></figure>
+<p>执行结果说明：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">sysbench 1.0.14 (using bundled LuaJIT 2.1.0-beta2)</span><br><span class="line"></span><br><span class="line">Running the <span class="built_in">test</span> with following options:</span><br><span class="line">Number of threads: 10</span><br><span class="line">Report intermediate results every 10 second(s)</span><br><span class="line">Initializing random number generator from current time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">--线程启动</span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line">-- 每10秒钟报告一次测试结果，tps、每秒读、每秒写、95%以上的响应时长统计</span><br><span class="line">[ 10s ] thds: 10 tps: 956.45 qps: 19139.38 (r/w/o: 13399.56/3825.92/1913.91) lat (ms,95%): 29.72 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 20s ] thds: 10 tps: 989.71 qps: 19804.24 (r/w/o: 13862.17/3962.55/1979.52) lat (ms,95%): 28.67 err/s: 0.10 reconn/s: 0.00</span><br><span class="line">[ 30s ] thds: 10 tps: 995.44 qps: 19909.03 (r/w/o: 13936.11/3982.05/1990.87) lat (ms,95%): 27.66 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 40s ] thds: 10 tps: 983.30 qps: 19660.90 (r/w/o: 13764.23/3930.08/1966.59) lat (ms,95%): 27.66 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 50s ] thds: 10 tps: 994.20 qps: 19882.58 (r/w/o: 13918.26/3975.92/1988.41) lat (ms,95%): 29.19 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            1663326 --读总数</span><br><span class="line">        write:                           475233 -- 写总数  </span><br><span class="line">        other:                           237617 -- 其他操作总数(SELECT、INSERT、UPDATE、DELETE之外的操作，例如COMMIT等)  </span><br><span class="line">        total:                           2376176 -- 全部总数</span><br><span class="line">    transactions:                        118808 (989.85 per sec.) -- 总事务数(每秒事务数)</span><br><span class="line">    queries:                             2376176 (19797.13 per sec.)</span><br><span class="line">    ignored errors:                      1      (0.01 per sec.) --总忽略错误总数(每秒忽略错误次数)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.) --重连总数(每秒重连次数)</span><br><span class="line"></span><br><span class="line">General statistics: --常规统计</span><br><span class="line">    total time:                          120.0244s --总耗时</span><br><span class="line">    total number of events:              118808 --共发生多少事务数</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                    6.08 --最小耗时</span><br><span class="line">         avg:                                   10.10 --平均耗时</span><br><span class="line">         max:                                   87.65 --最长耗时</span><br><span class="line">         95th percentile:                       28.16 --超过95%平均耗时</span><br><span class="line">         sum:                              1199522.76</span><br><span class="line"></span><br><span class="line">Threads fairness: --并发统计</span><br><span class="line">    events (avg/stddev):           11880.8000/273.15 --总处理事件数/标准偏差</span><br><span class="line">    execution time (avg/stddev):   119.9523/0.00 --总执行时间/标准偏差</span><br></pre></td></tr></table></figure>
+<h2 id="清理数据"><a href="#清理数据" class="headerlink" title="清理数据"></a>清理数据</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sysbench oltp_read_write.lua \</span><br><span class="line">	--mysql-host=216.155.135.22 \</span><br><span class="line">	--mysql-port=3306 \</span><br><span class="line">	--mysql-user=sptest \</span><br><span class="line">	--mysql-password=sptest \</span><br><span class="line">	--mysql-db=sptest  \</span><br><span class="line">    --tables=9 \</span><br><span class="line">	cleanup</span><br></pre></td></tr></table></figure>
+<h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p>下面是针对 MySQL 进行不同维度的测试结果。</p>
+<h4 id="请求延迟"><a href="#请求延迟" class="headerlink" title="请求延迟"></a>请求延迟</h4><p>测试延迟对 MySQL 并发的影响，结论：每 20 ms 的延迟都使得 MySQL 并发降低一半。</p>
+<p>MySQL 数据：</p>
+<ol>
+<li>机器配置：1核 1024MB</li>
+<li>CPU 使用率：0%</li>
+<li>Mem 使用率：50%/360MB</li>
+<li>测试线程数：32</li>
+</ol>
+<p>韩国测试机器：180ms ping、CPU 10% 使用率、Mem 65%/500MB 使用率。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            34678</span><br><span class="line">        write:                           9883</span><br><span class="line">        other:                           4945</span><br><span class="line">        total:                           49506</span><br><span class="line">    transactions:                        2468   (8.11 per sec.)</span><br><span class="line">    queries:                             49506  (162.73 per sec.)</span><br><span class="line">    ignored errors:                      9      (0.03 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          304.2212s</span><br><span class="line">    total number of events:              2468</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                 3646.35</span><br><span class="line">         avg:                                 3917.42</span><br><span class="line">         max:                                 7517.01</span><br><span class="line">         95th percentile:                     4437.27</span><br><span class="line">         sum:                              9668200.40</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           77.1250/1.60</span><br><span class="line">    execution time (avg/stddev):   302.1313/1.22</span><br><span class="line"></span><br><span class="line">tps: 6.30 qps: 156.27 (r/w/o: 115.08/25.29/15.90) lat (ms,95%): 5409.26 err/s: 0.10 reconn/s: 0.00</span><br></pre></td></tr></table></figure></p>
+<p>纽约测试机器：1ms ping、CPU 85% 使用率、Mem 65%/500MB 使用率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            891128</span><br><span class="line">        write:                           254245</span><br><span class="line">        other:                           127161</span><br><span class="line">        total:                           1272534</span><br><span class="line">    transactions:                        63509  (211.55 per sec.)</span><br><span class="line">    queries:                             1272534 (4238.85 per sec.)</span><br><span class="line">    ignored errors:                      143    (0.48 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          300.2053s</span><br><span class="line">    total number of events:              63509</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   22.98</span><br><span class="line">         avg:                                  151.22</span><br><span class="line">         max:                                  647.85</span><br><span class="line">         95th percentile:                      186.54</span><br><span class="line">         sum:                              9603770.62</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1984.6562/12.64</span><br><span class="line">    execution time (avg/stddev):   300.1178/0.05</span><br><span class="line"></span><br><span class="line">tps: 197.49 qps: 3996.19 (r/w/o: 2804.28/793.04/398.87) lat (ms,95%): 223.34 err/s: 0.70 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<h4 id="线程数量"><a href="#线程数量" class="headerlink" title="线程数量"></a>线程数量</h4><p>测试不同的线程数对 MySQL 并发的影响。结论：线程多的话容易死机。</p>
+<p>MySQL 数据：</p>
+<ol>
+<li>延迟：1ms ping</li>
+<li>机器配置：1核 1024MB</li>
+<li>CPU 使用率：0%</li>
+<li>Mem 使用率：50%/360MB</li>
+</ol>
+<p>纽约测试机器：1 threads、CPU 35% 使用率、Mem 51% 使用率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            206374</span><br><span class="line">        write:                           58964</span><br><span class="line">        other:                           29482</span><br><span class="line">        total:                           294820</span><br><span class="line">    transactions:                        14741  (49.13 per sec.)</span><br><span class="line">    queries:                             294820 (982.67 per sec.)</span><br><span class="line">    ignored errors:                      0      (0.00 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          300.0153s</span><br><span class="line">    total number of events:              14741</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   12.93</span><br><span class="line">         avg:                                   20.34</span><br><span class="line">         max:                                  142.58</span><br><span class="line">         95th percentile:                       29.19</span><br><span class="line">         sum:                               299784.93</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           14741.0000/0.00</span><br><span class="line">    execution time (avg/stddev):   299.7849/0.00</span><br></pre></td></tr></table></figure>
+<p>纽约测试机器：16 threads、CPU 81% 使用率、Mem 59% 使用率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            204008</span><br><span class="line">        write:                           58243</span><br><span class="line">        other:                           29126</span><br><span class="line">        total:                           291377</span><br><span class="line">    transactions:                        14554  (145.23 per sec.)</span><br><span class="line">    queries:                             291377 (2907.52 per sec.)</span><br><span class="line">    ignored errors:                      18     (0.18 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          100.2105s</span><br><span class="line">    total number of events:              14554</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   22.33</span><br><span class="line">         avg:                                  110.06</span><br><span class="line">         max:                                  359.90</span><br><span class="line">         95th percentile:                      147.61</span><br><span class="line">         sum:                              1601767.80</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           909.6250/11.37</span><br><span class="line">    execution time (avg/stddev):   100.1105/0.04</span><br><span class="line"></span><br><span class="line">tps: 148.87 qps: 2998.68 (r/w/o: 2103.43/596.00/299.25) lat (ms,95%): 134.90 err/s: 0.00 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>纽约测试机器：32 threads、CPU 83% 使用率、Mem 62% 使用率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            216020</span><br><span class="line">        write:                           61610</span><br><span class="line">        other:                           30816</span><br><span class="line">        total:                           308446</span><br><span class="line">    transactions:                        15386  (153.49 per sec.)</span><br><span class="line">    queries:                             308446 (3077.06 per sec.)</span><br><span class="line">    ignored errors:                      44     (0.44 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          100.2361s</span><br><span class="line">    total number of events:              15386</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   28.93</span><br><span class="line">         avg:                                  208.24</span><br><span class="line">         max:                                  692.07</span><br><span class="line">         95th percentile:                      262.64</span><br><span class="line">         sum:                              3204016.01</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           480.8125/3.92</span><br><span class="line">    execution time (avg/stddev):   100.1255/0.06</span><br><span class="line"></span><br><span class="line">tps: 151.34 qps: 3048.14 (r/w/o: 2138.99/606.07/303.08) lat (ms,95%): 267.41 err/s: 0.30 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>纽约测试机器：64 threads、CPU 85% 使用率、Mem 66% 使用率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试到一半死机</span></span><br><span class="line">tps: 160.19 qps: 3345.46 (r/w/o: 2363.85/652.14/329.47) lat (ms,95%): 707.07 err/s: 2.70 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<h4 id="不同版本"><a href="#不同版本" class="headerlink" title="不同版本"></a>不同版本</h4><h4 id="记录大小"><a href="#记录大小" class="headerlink" title="记录大小"></a>记录大小</h4><p>测试不同的表的数据量对并发的影响。结论：没有发现有影响，可能是因为表结构太简单了。</p>
+<p>MySQL 数据：</p>
+<ol>
+<li>机器配置：1核 1024MB</li>
+<li>CPU 使用率：0%</li>
+<li>Mem 使用率：50%/360MB</li>
+<li>测试线程数：32</li>
+</ol>
+<p>1w 数据：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            914830</span><br><span class="line">        write:                           260914</span><br><span class="line">        other:                           130505</span><br><span class="line">        total:                           1306249</span><br><span class="line">    transactions:                        65160  (217.05 per sec.)</span><br><span class="line">    queries:                             1306249 (4351.21 per sec.)</span><br><span class="line">    ignored errors:                      185    (0.62 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          300.2017s</span><br><span class="line">    total number of events:              65160</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   20.28</span><br><span class="line">         avg:                                  147.38</span><br><span class="line">         max:                                 2627.49</span><br><span class="line">         95th percentile:                      186.54</span><br><span class="line">         sum:                              9603145.85</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           2036.2500/14.71</span><br><span class="line">    execution time (avg/stddev):   300.0983/0.05</span><br><span class="line"></span><br><span class="line">tps: 207.40 qps: 4156.87 (r/w/o: 2912.25/829.21/415.41) lat (ms,95%): 200.47 err/s: 0.40 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>10w 条数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            194726</span><br><span class="line">        write:                           55406</span><br><span class="line">        other:                           27728</span><br><span class="line">        total:                           277860</span><br><span class="line">    transactions:                        13819  (229.45 per sec.)</span><br><span class="line">    queries:                             277860 (4613.49 per sec.)</span><br><span class="line">    ignored errors:                      90     (1.49 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.2256s</span><br><span class="line">    total number of events:              13819</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   14.97</span><br><span class="line">         avg:                                  139.16</span><br><span class="line">         max:                                 2190.64</span><br><span class="line">         95th percentile:                      179.94</span><br><span class="line">         sum:                              1923116.42</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           431.8438/3.48</span><br><span class="line">    execution time (avg/stddev):   60.0974/0.04</span><br><span class="line"></span><br><span class="line">tps: 235.40 qps: 4748.13 (r/w/o: 3332.62/943.01/472.50) lat (ms,95%): 183.21 err/s: 1.70 reconn/s: 0.00</span><br></pre></td></tr></table></figure></p>
+<p>100w 条数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            210938</span><br><span class="line">        write:                           60047</span><br><span class="line">        other:                           30047</span><br><span class="line">        total:                           301032</span><br><span class="line">    transactions:                        14980  (249.26 per sec.)</span><br><span class="line">    queries:                             301032 (5009.10 per sec.)</span><br><span class="line">    ignored errors:                      87     (1.45 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0949s</span><br><span class="line">    total number of events:              14980</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   13.19</span><br><span class="line">         avg:                                  128.30</span><br><span class="line">         max:                                  444.92</span><br><span class="line">         95th percentile:                      164.45</span><br><span class="line">         sum:                              1921953.92</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           468.1250/3.76</span><br><span class="line">    execution time (avg/stddev):   60.0611/0.02</span><br><span class="line"></span><br><span class="line">tps: 236.21 qps: 4765.82 (r/w/o: 3347.28/944.22/474.31) lat (ms,95%): 170.48 err/s: 1.80 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>500w 条数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            187712</span><br><span class="line">        write:                           53519</span><br><span class="line">        other:                           26770</span><br><span class="line">        total:                           268001</span><br><span class="line">    transactions:                        13362  (222.05 per sec.)</span><br><span class="line">    queries:                             268001 (4453.65 per sec.)</span><br><span class="line">    ignored errors:                      46     (0.76 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.1732s</span><br><span class="line">    total number of events:              13362</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   19.09</span><br><span class="line">         avg:                                  143.94</span><br><span class="line">         max:                                  520.59</span><br><span class="line">         95th percentile:                      186.54</span><br><span class="line">         sum:                              1923285.64</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           417.5625/5.21</span><br><span class="line">    execution time (avg/stddev):   60.1027/0.04</span><br><span class="line"></span><br><span class="line">tps: 229.90 qps: 4597.61 (r/w/o: 3217.74/919.78/460.09) lat (ms,95%): 179.94 err/s: 0.30 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>1000w 条数据（只测试了一张表，因为准备数据时机器卡死了）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            178374</span><br><span class="line">        write:                           50785</span><br><span class="line">        other:                           25413</span><br><span class="line">        total:                           254572</span><br><span class="line">    transactions:                        12672  (210.55 per sec.)</span><br><span class="line">    queries:                             254572 (4229.71 per sec.)</span><br><span class="line">    ignored errors:                      69     (1.15 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.1844s</span><br><span class="line">    total number of events:              12672</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   17.12</span><br><span class="line">         avg:                                  151.73</span><br><span class="line">         max:                                  617.00</span><br><span class="line">         95th percentile:                      196.89</span><br><span class="line">         sum:                              1922761.62</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           396.0000/4.53</span><br><span class="line">    execution time (avg/stddev):   60.0863/0.04</span><br><span class="line"></span><br><span class="line">tps: 207.90 qps: 4184.34 (r/w/o: 2935.26/832.49/416.59) lat (ms,95%): 196.89 err/s: 0.80 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>5000w 条数据（原来机器放不进去，升级了配置。1核 2GB，只放了2张表各3000万数据）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            982030</span><br><span class="line">        write:                           251411</span><br><span class="line">        other:                           129139</span><br><span class="line">        total:                           1362580</span><br><span class="line">    transactions:                        58994  (196.55 per sec.)</span><br><span class="line">    queries:                             1362580 (4539.77 per sec.)</span><br><span class="line">    ignored errors:                      11151  (37.15 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          300.1406s</span><br><span class="line">    total number of events:              58994</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   12.36</span><br><span class="line">         avg:                                  162.76</span><br><span class="line">         max:                                 1126.37</span><br><span class="line">         95th percentile:                      325.98</span><br><span class="line">         sum:                              9602150.23</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1843.5625/21.19</span><br><span class="line">    execution time (avg/stddev):   300.0672/0.04</span><br><span class="line"></span><br><span class="line">tps: 178.60 qps: 4189.60 (r/w/o: 3028.60/765.90/395.10) lat (ms,95%): 383.33 err/s: 37.90 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<h4 id="机器配置"><a href="#机器配置" class="headerlink" title="机器配置"></a>机器配置</h4><p>测试不同的配置对MySQL性能的影响。结论：CPU对性能影响大，但是达到最多只能利用到5核，再高不生效，可能是线程数未饱和或者达到磁盘的上限。内存占了1.5G后不再占。</p>
+<p>定量参数</p>
+<ol>
+<li>1 毫秒延迟 </li>
+<li>32 并发线程</li>
+<li>100 万数据量</li>
+</ol>
+<p>Vultr 1核 1GB 机器测试数据请参考上面的。</p>
+<p>Vultr 1核 2GB 机器测试数据：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用24%，剩余1.10GB。</li>
+<li>测试中CPU使用85%，内存使用33%，剩余0.95GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            184702</span><br><span class="line">        write:                           52769</span><br><span class="line">        other:                           26385</span><br><span class="line">        total:                           263856</span><br><span class="line">    transactions:                        13192  (219.48 per sec.)</span><br><span class="line">    queries:                             263856 (4389.85 per sec.)</span><br><span class="line">    ignored errors:                      1      (0.02 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.1039s</span><br><span class="line">    total number of events:              13192</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   19.85</span><br><span class="line">         avg:                                  145.66</span><br><span class="line">         max:                                  888.30</span><br><span class="line">         95th percentile:                      227.40</span><br><span class="line">         sum:                              1921576.18</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           412.2500/4.32</span><br><span class="line">    execution time (avg/stddev):   60.0493/0.03</span><br><span class="line"></span><br><span class="line">tps: 209.37 qps: 4197.11 (r/w/o: 2933.59/844.78/418.74) lat (ms,95%): 204.11 err/s: 0.00 reconn/</span><br></pre></td></tr></table></figure>
+<p>Vultr 2核 4GB 机器测试数据：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用11%，剩余2.90GB。</li>
+<li>测试中CPU使用180%，内存使用16%，剩余2.70GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            424830</span><br><span class="line">        write:                           121378</span><br><span class="line">        other:                           60689</span><br><span class="line">        total:                           606897</span><br><span class="line">    transactions:                        30344  (504.89 per sec.)</span><br><span class="line">    queries:                             606897 (10098.06 per sec.)</span><br><span class="line">    ignored errors:                      1      (0.02 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0983s</span><br><span class="line">    total number of events:              30344</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   12.07</span><br><span class="line">         avg:                                   63.32</span><br><span class="line">         max:                                  507.75</span><br><span class="line">         95th percentile:                      132.49</span><br><span class="line">         sum:                              1921309.62</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           948.2500/19.28</span><br><span class="line">    execution time (avg/stddev):   60.0409/0.02</span><br><span class="line"></span><br><span class="line">541.70 qps: 10844.67 (r/w/o: 7594.55/2166.71/1083.41) lat (ms,95%): 121.08 err/s: 0.00 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>Vultr 4核 8GB 机器测试数据：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用5.7%，剩余6.80GB。</li>
+<li>测试中CPU使用291%，内存使用8.1%，剩余6.60GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            706692</span><br><span class="line">        write:                           201904</span><br><span class="line">        other:                           100953</span><br><span class="line">        total:                           1009549</span><br><span class="line">    transactions:                        50475  (839.97 per sec.)</span><br><span class="line">    queries:                             1009549 (16800.20 per sec.)</span><br><span class="line">    ignored errors:                      3      (0.05 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0894s</span><br><span class="line">    total number of events:              50475</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   13.32</span><br><span class="line">         avg:                                   38.06</span><br><span class="line">         max:                                  252.14</span><br><span class="line">         95th percentile:                       53.85</span><br><span class="line">         sum:                              1921237.24</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1577.3438/20.87</span><br><span class="line">    execution time (avg/stddev):   60.0387/0.03</span><br><span class="line"></span><br><span class="line">tps: 890.41 qps: 17809.03 (r/w/o: 12467.56/3560.35/1781.12) lat (ms,95%): 49.21 err/s: 0.10 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>Vultr 6核 16GB 机器测试数据：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用2.6%，剩余14.00GB。</li>
+<li>测试中CPU使用400%，内存使用4.0%，剩余14.00GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            816844</span><br><span class="line">        write:                           233381</span><br><span class="line">        other:                           116691</span><br><span class="line">        total:                           1166916</span><br><span class="line">    transactions:                        58345  (970.80 per sec.)</span><br><span class="line">    queries:                             1166916 (19416.24 per sec.)</span><br><span class="line">    ignored errors:                      1      (0.02 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0980s</span><br><span class="line">    total number of events:              58345</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   10.44</span><br><span class="line">         avg:                                   32.93</span><br><span class="line">         max:                                  101.59</span><br><span class="line">         95th percentile:                       47.47</span><br><span class="line">         sum:                              1921311.68</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1823.2812/62.38</span><br><span class="line">    execution time (avg/stddev):   60.0410/0.03</span><br><span class="line"></span><br><span class="line">tps: 1004.72 qps: 20100.10 (r/w/o: 14070.78/4019.78/2009.54) lat (ms,95%): 46.63 err/s: 0.00 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<p>Vultr 8核 32GB 机器测试数据：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用1.4%，剩余30.00GB。</li>
+<li>测试中CPU使用430%，内存使用2.0%，剩余30.00GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            848246</span><br><span class="line">        write:                           242354</span><br><span class="line">        other:                           121177</span><br><span class="line">        total:                           1211777</span><br><span class="line">    transactions:                        60588  (1008.20 per sec.)</span><br><span class="line">    queries:                             1211777 (20164.37 per sec.)</span><br><span class="line">    ignored errors:                      1      (0.02 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0925s</span><br><span class="line">    total number of events:              60588</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   10.65</span><br><span class="line">         avg:                                   31.71</span><br><span class="line">         max:                                  103.03</span><br><span class="line">         95th percentile:                       47.47</span><br><span class="line">         sum:                              1921241.97</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1893.3750/62.98</span><br><span class="line">    execution time (avg/stddev):   60.0388/0.03</span><br><span class="line"></span><br><span class="line">tps: 1100.03 qps: 21998.38 (r/w/o: 15399.41/4398.92/2200.06) lat (ms,95%): 44.98 err/s: 0.00 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<h4 id="容器测试"><a href="#容器测试" class="headerlink" title="容器测试"></a>容器测试</h4><p>测试 MySQL 安装在容器对性能的影响。结论：没有感觉有耗损或者很小。</p>
+<p>定量参数：</p>
+<ol>
+<li>1 核 2GB 配置</li>
+<li>1 毫秒延迟</li>
+<li>32 并发线程</li>
+<li>100 万数据量</li>
+</ol>
+<p>直接安装在机器上的测试结果参考上面。</p>
+<p>MySQL Docker 测试结果：</p>
+<ol>
+<li>测试前CPU使用0%，内存使用20.6%，剩余1.00GB。</li>
+<li>测试中CPU使用75%，内存使用25.1%，剩余0.9514.00GB。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            226576</span><br><span class="line">        write:                           64540</span><br><span class="line">        other:                           32292</span><br><span class="line">        total:                           323408</span><br><span class="line">    transactions:                        16108  (268.29 per sec.)</span><br><span class="line">    queries:                             323408 (5386.62 per sec.)</span><br><span class="line">    ignored errors:                      76     (1.27 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          60.0372s</span><br><span class="line">    total number of events:              16108</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                   12.44</span><br><span class="line">         avg:                                  119.22</span><br><span class="line">         max:                                  652.27</span><br><span class="line">         95th percentile:                      262.64</span><br><span class="line">         sum:                              1920468.18</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           503.3750/10.23</span><br><span class="line">    execution time (avg/stddev):   60.0146/0.01</span><br><span class="line"></span><br><span class="line">tps: 269.60 qps: 5415.63 (r/w/o: 3793.42/1081.71/540.50) lat (ms,95%): 253.35 err/s: 1.30 reconn/s: 0.00</span><br></pre></td></tr></table></figure>
+<h4 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h4><h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">CPU</th>
+<th>Mem</th>
+<th>Ping</th>
+<th>Binlog</th>
+<th>Threads</th>
+<th>Table Size</th>
+<th>Files Size</th>
+<th>CPU Used</th>
+<th>Mem Used</th>
+<th>TPS</th>
+<th>QPS</th>
+<th>ERR</th>
+<th>Latency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td>2048MB</td>
+<td>1ms</td>
+<td>on</td>
+<td>32</td>
+<td>100w</td>
+<td>240MB</td>
+<td>78%</td>
+<td>100MB</td>
+<td>259.03</td>
+<td>5201.16</td>
+<td>1.25</td>
+<td>123.52</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td>2048MB</td>
+<td>1ms</td>
+<td>off</td>
+<td>32</td>
+<td>100w</td>
+<td>240MB</td>
+<td>78%</td>
+<td>100MB</td>
+<td>279.17</td>
+<td>5590.35</td>
+<td>0.43</td>
+<td>114.61</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td>2048MB</td>
+<td>1ms</td>
+<td>off</td>
+<td>32</td>
+<td>1000w</td>
+<td>2328MB</td>
+<td>78%</td>
+<td>140MB</td>
+<td>240.51</td>
+<td>4817.03</td>
+<td>0.41</td>
+<td>133.03</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td>2048MB</td>
+<td>1ms</td>
+<td>off</td>
+<td>32</td>
+<td>5000w</td>
+<td>10240MB</td>
+<td>78%</td>
+<td>170MB</td>
+<td>236.42</td>
+<td>4734.64</td>
+<td>0.38</td>
+<td>135.34</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注1：Binlog 不影响读性能，影响写、修、删性能。</p>
+<h2 id="附一：MySQL-数据库压力测试报告"><a href="#附一：MySQL-数据库压力测试报告" class="headerlink" title="附一：MySQL 数据库压力测试报告"></a>附一：MySQL 数据库压力测试报告</h2><p><a href="http://blog.itpub.net/29734436/viewspace-2140565/">http://blog.itpub.net/29734436/viewspace-2140565/</a></p>
+<h2 id="附二：MySQL压测④—压测报告"><a href="#附二：MySQL压测④—压测报告" class="headerlink" title="附二：MySQL压测④—压测报告"></a>附二：MySQL压测④—压测报告</h2><p><a href="https://www.jianshu.com/p/f15d2a35dfd7">https://www.jianshu.com/p/f15d2a35dfd7</a></p>
+<h2 id="附三：MySQL-数据量-性能测试报告version1"><a href="#附三：MySQL-数据量-性能测试报告version1" class="headerlink" title="附三：MySQL 数据量-性能测试报告version1"></a>附三：MySQL 数据量-性能测试报告version1</h2><p><a href="http://www.docin.com/p-2023784875.html">http://www.docin.com/p-2023784875.html</a></p>
+<h2 id="附四：MySQL-并发测试中，线程数和数据库连接池的实验"><a href="#附四：MySQL-并发测试中，线程数和数据库连接池的实验" class="headerlink" title="附四：MySQL 并发测试中，线程数和数据库连接池的实验"></a>附四：MySQL 并发测试中，线程数和数据库连接池的实验</h2><p><a href="http://www.520mwx.com/view/28965">http://www.520mwx.com/view/28965</a></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li>error 2059: Authentication plugin ‘caching_sha2_password’<br>参考章节「MySQL 安装」。</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sysbench-介绍"><span class="toc-number">1.</span> <span class="toc-text">sysbench 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备数据"><span class="toc-number">3.</span> <span class="toc-text">准备数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行测试"><span class="toc-number">4.</span> <span class="toc-text">执行测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清理数据"><span class="toc-number">5.</span> <span class="toc-text">清理数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试结果"><span class="toc-number">6.</span> <span class="toc-text">测试结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#请求延迟"><span class="toc-number">6.0.1.</span> <span class="toc-text">请求延迟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程数量"><span class="toc-number">6.0.2.</span> <span class="toc-text">线程数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不同版本"><span class="toc-number">6.0.3.</span> <span class="toc-text">不同版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#记录大小"><span class="toc-number">6.0.4.</span> <span class="toc-text">记录大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#机器配置"><span class="toc-number">6.0.5.</span> <span class="toc-text">机器配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器测试"><span class="toc-number">6.0.6.</span> <span class="toc-text">容器测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读写分离"><span class="toc-number">6.0.7.</span> <span class="toc-text">读写分离</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它"><span class="toc-number">7.</span> <span class="toc-text">其它</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附一：MySQL-数据库压力测试报告"><span class="toc-number">8.</span> <span class="toc-text">附一：MySQL 数据库压力测试报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附二：MySQL压测④—压测报告"><span class="toc-number">9.</span> <span class="toc-text">附二：MySQL压测④—压测报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附三：MySQL-数据量-性能测试报告version1"><span class="toc-number">10.</span> <span class="toc-text">附三：MySQL 数据量-性能测试报告version1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附四：MySQL-并发测试中，线程数和数据库连接池的实验"><span class="toc-number">11.</span> <span class="toc-text">附四：MySQL 并发测试中，线程数和数据库连接池的实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">12.</span> <span class="toc-text">常见问题</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&text=MySQL 基准测试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&is_video=false&description=MySQL 基准测试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL 基准测试&body=Check out this article: http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&title=MySQL 基准测试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/07/07/MySQL 手册/MySQL 基准测试/&name=MySQL 基准测试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

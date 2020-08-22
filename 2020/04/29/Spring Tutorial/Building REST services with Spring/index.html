@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="REST has quickly become the de-facto (事实上) standard for building web services on the web because they’re easy to build and easy to consume (消费). There’re much larger discussion to be had about how RES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building REST services with Spring">
+<meta property="og:url" content="http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="REST has quickly become the de-facto (事实上) standard for building web services on the web because they’re easy to build and easy to consume (消费). There’re much larger discussion to be had about how RES">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building REST services with Spring">
+<meta name="twitter:description" content="REST has quickly become the de-facto (事实上) standard for building web services on the web because they’re easy to build and easy to consume (消费). There’re much larger discussion to be had about how RES">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Building REST services with Spring</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/18/分布式/Chapter 1.1 分布式锁/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/28/MySQL 指南/MySQL 锁/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&text=Building REST services with Spring"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&is_video=false&description=Building REST services with Spring"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Building REST services with Spring&body=Check out this article: http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&name=Building REST services with Spring&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-Started"><span class="toc-number">1.</span> <span class="toc-text">Getting Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Story-so-Far…"><span class="toc-number">2.</span> <span class="toc-text">The Story so Far…</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-is-the-Platform"><span class="toc-number">3.</span> <span class="toc-text">HTTP is the Platform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-makes-something-RESTful"><span class="toc-number">4.</span> <span class="toc-text">What makes something RESTful?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simplifying-Link-Creation"><span class="toc-number">5.</span> <span class="toc-text">Simplifying Link Creation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evolving-REST-APIs"><span class="toc-number">6.</span> <span class="toc-text">Evolving REST APIs</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Building REST services with Spring
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished">2020-04-29</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Spring-Tutorial/">Spring Tutorial</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>REST has quickly become the de-facto (事实上) standard for building web services on the web because they’re easy to build and easy to consume (消费).</p>
+<p>There’re much larger discussion to be had about how REST fits in the world of microservices, but for this tutorial - let’s just look at building RESTful services.</p>
+<p>Why REST? REST embraces (拥抱) the precepts (方案) of the web, including its architecture (架构), benefits (优势), and everything else.  This is no surpise given its author, Roy Fielding, was involved (参与) in probably a dozen specs which govern (统治) how the web operates.</p>
+<p>What benefits? The web and its core protocol, HTTP, provide a stack of features:</p>
+<ul>
+<li>Stiable (合适的) action (GET, POST, PUT, DELETE, …)</li>
+<li>Caching</li>
+<li>Redirection and forwarding</li>
+<li>Security (encryption 加密 and authentication)</li>
+</ul>
+<p>There are all critical factors (要害因素) on building resilient (有适应力的) services. But that is not all. The web is built out of lots of tiny specs, hence (因此) it’s been able to evolve easily, without getting bogged down in “standards wars”.</p>
+<p>Developers are able to draw upon (凭借) 3rd party toolkits that implement these diverse (不同的) sepcs and instantly (立刻) have both client and server technology at their fingertips (指尖).</p>
+<p>So  building on top of HTTP, REST APIs provide the means to build flexible APIs that can:</p>
+<ul>
+<li>Support backward compatibility (兼容)</li>
+<li>Evolvable (可展开的) APIs</li>
+<li>Scaleable services</li>
+<li>Securable services</li>
+<li>A spectrum (系列) of stateless (无状态) to stateful (有状态) servcie</li>
+</ul>
+<p>What’s important to realize is that REST, however ubiquitous (似乎无所不在的), is not a standard, per se (本质上), but an approach, a style, a set of constraints (约束) on your architecture that can help you build web-scale systems. In this tutorial we will use the Spring protfolio (作品集) to build a RESTful service while leveraging (对…施加影响) the stackless features of REST.</p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p>As we work through this tutorial, we’ll use Spring Boot. Go to Spring Initializr and select the follow:</p>
+<ul>
+<li>Web</li>
+<li>JPA</li>
+<li>H2</li>
+<li>Lombok</li>
+</ul>
+<p>Then choose “Generate Project”. A <code>.zip</code> will downloaded. Unzip it. Inside you’ll find a simple, Maven-based project including a <code>pom.xml</code> build file (NOTE: You can use Gradle. The example in this tutorial will be Maven based.)</p>
+<p>Spring Boot can work with any IDE. You can use Eclipse, IntelliJ IDEA, Netbeans, etc. The Spring Tool suite is an open-source, Eclipse-based IDE distribution (发行) that provides a superset of the Java EE distribution of Eclipse. It includes features that making working with Spring application even easier. It is, by no means, required. But consider it if you want that extra oomph (特质) for your keystrokes (按键). Here’s a video demonstrating how to get started with STS and Spring Boot. THis is a general introduction to familiarize you with the tools.</p>
+<p>If you pukc up IntelliJ IDEA as your IDE for this tutorial, you have to install lombok plugin. In order to see how we install plugin in IntelliJ please have a look at managing-pulginss. After this you have to ensure that “Enable annotation processing” checkbox is ticked under: Perferences -&gt; Complier -&gt; Annotation Processors, as it is described <a href="https://stackoverflow.com/questions/14866765/building-with-lomboks-slf4j-and-intellij-cannot-find-symbol-log">here</a>.</p>
+<h2 id="The-Story-so-Far…"><a href="#The-Story-so-Far…" class="headerlink" title="The Story so Far…"></a>The Story so Far…</h2><p>Let’s start off with the simplest thing we can construct. In fact, to make it as simple as possible, we can even leave out the concepts of REST. (Later on, we’ll add REST to understand the differencne.)</p>
+<p>our example models a simple payroll service that managers the employees of a company. Simply put, you need to store employee objects in an H2 in-memory database, and access them via JPA. This will be warpped with a Spring MVC layer to access remotely.</p>
+<p>nonrest/src/main/java/payroll/Employee.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="meta">@Id</span> <span class="meta">@GeneratedValue</span> Long id;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> String role;</span><br><span class="line"></span><br><span class="line">  Employee() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  Employee(String name, String role) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.role = role;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Despite being small, this Java class contains much:</p>
+<ul>
+<li>@Data is a Lombok annotation to create all the getters, setters, equals, hash, and toString methods, based on the fields.</li>
+<li>@Entity is a JPA annotation to make this object ready for storage in a JPA-based data store.</li>
+<li>id, name, and role are the attribute for our domain object, the first being marked with more JPA annotations to indicate it’s the primary key and automatically populated by the JPA provider.</li>
+<li>a custom constructor is created when we need to create a new instance, bu don’t yet have an id.</li>
+</ul>
+<p>With the domain object definition, we can now turn to Spring Data JPA to handle the tedious (冗长的) database interactions. Spring Data repositories are interfaces with methods supporting reading, updating, deleting, and creating records against a back end store. Some repositories also support data paging, and sorting, where appropriate (适当的). Spring Data synthesizes (整合) implementations based on conventions found in the naming of the methods in the interface.</p>
+<blockquote>
+<p>There are multiple repository implementations besides JPA. You can use Spring Data MongoDB, Spring Data GemFire, Spring Data Cassandra, etc. For this tutorial, we’ll stick with JPA.</p>
+</blockquote>
+<p>nonrest/src/main/java/payroll/EmployeeRepostiory.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Employee</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This interface extends Spring Dat JPA’s <code>JpaRepository</code>, specifying the domain type as Employee and the id types as Long. This interface, though empty on the surface, packs a punch (能击出有力的一拳) given it supports:</p>
+<ul>
+<li>Creating new instances</li>
+<li>Updating existing ones</li>
+<li>Deleting</li>
+<li>Finding (one, all, by simple or complex properties)</li>
+</ul>
+<p>Spring Data’s repository solution makes it possible to sidestep data store specifics and instead solve a majority or problems using domain-specific terminology.</p>
+<p>Believe it or not, this is enough to launch an application! A Spring Data application is, at a minimum, a <code>public static void main</code> entry-point and the <code>@SpringBootApplication</code> annotation. This tells Spring Boot to help out, wherever possible.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PayrollApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">    SpringApplication.run(PayrollApplication.class, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@SpringBootApplication</code> is a meta-annotation that pulls in component scanning, autoconfiguration, and property support. We won’t dive into the details of Spring Boot in this tutorial, bu in essence, it will fire up a servlet container and serve up our service.</p>
+<p>Nevertheless (然而), an application with no data isn’t very interesting, so let’s preload it. The follow class will get loaded automatically by Spring:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoadDatabase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function">CommandLineRunner <span class="title">initDatabase</span><span class="params">(EmployeeRepository repository)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> args -&gt; &#123;</span><br><span class="line">      log.info(<span class="string">"Preloading "</span> + repository.save(<span class="keyword">new</span> Employee(<span class="string">"Bilbo Baggins"</span>, <span class="string">"burglar"</span>)));</span><br><span class="line">      log.info(<span class="string">"Preloading "</span> + repository.save(<span class="keyword">new</span> Employee(<span class="string">"Frodo Baggins"</span>, <span class="string">"thief"</span>)));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>What happens when it gets loaded?</p>
+<ul>
+<li>Spring Boot will run ALL CommandLineRunner beans once the application context is loaded.</li>
+<li>This runner will request a copy of the EmployeeRepository you just created.</li>
+<li>Using it, it wll create two entities and store them.</li>
+<li>@Slf4j is a Lombok annotation to autocreate an Slf4j-based LoggerFactory as log, allowing us to log these newly created “employees”.</li>
+</ul>
+<p>Right-click and Run PayRollApplication, and this is what you get:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Fragment of console output showing preloading of dataW</span><br><span class="line">...</span><br><span class="line">2018-08-09 11:36:26.169  INFO 74611 --- [main] payroll.LoadDatabase : Preloading Employee(id=1, name=Bilbo Baggins, role=burglar)</span><br><span class="line">2018-08-09 11:36:26.174  INFO 74611 --- [main] payroll.LoadDatabase : Preloading Employee(id=2, name=Frodo Baggins, role=thief)</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>This isn’t the whole log, but just the key bits of preloading data. (Indeed, check out the whole console. It’s glorious.)</p>
+<h2 id="HTTP-is-the-Platform"><a href="#HTTP-is-the-Platform" class="headerlink" title="HTTP is the Platform"></a>HTTP is the Platform</h2><p>To warp your repository with a web layer, you must turn to Spring MVC. Thanks to Spring Boot, there is little in infrastructure (基础建设) to code. Instead, we can focus on actions:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> EmployeeRepository repository;</span><br><span class="line"></span><br><span class="line">  EmployeeController(EmployeeRepository repository) &#123;</span><br><span class="line">    <span class="keyword">this</span>.repository = repository;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Aggregate root</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@GetMapping</span>(<span class="string">"/employees"</span>)</span><br><span class="line">  <span class="function">List&lt;Employee&gt; <span class="title">all</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> repository.findAll();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PostMapping</span>(<span class="string">"/employees"</span>)</span><br><span class="line">  <span class="function">Employee <span class="title">newEmployee</span><span class="params">(@RequestBody Employee newEmployee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> repository.save(newEmployee);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Single item</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@GetMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line">  <span class="function">Employee <span class="title">one</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> repository.findById(id)</span><br><span class="line">      .orElseThrow(() -&gt; <span class="keyword">new</span> EmployeeNotFoundException(id));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PutMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line">  <span class="function">Employee <span class="title">replaceEmployee</span><span class="params">(@RequestBody Employee newEmployee, @PathVariable Long id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> repository.findById(id)</span><br><span class="line">      .map(employee -&gt; &#123;</span><br><span class="line">        employee.setName(newEmployee.getName());</span><br><span class="line">        employee.setRole(newEmployee.getRole());</span><br><span class="line">        <span class="keyword">return</span> repository.save(employee);</span><br><span class="line">      &#125;)</span><br><span class="line">      .orElseGet(() -&gt; &#123;</span><br><span class="line">        newEmployee.setId(id);</span><br><span class="line">        <span class="keyword">return</span> repository.save(newEmployee);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@DeleteMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">deleteEmployee</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</span><br><span class="line">    repository.deleteById(id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>@RestController indicates that the data returned by each will be written straight into the reponse body instead of rendering a template.</li>
+<li>An EmployeeRepository is injected by constructor into the controller.</li>
+<li>We have for each operations (<code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PutMapping</code> and <code>@DeleteMpaaing</code>, corresponding to HTTP GET, POST, PUT, and DELETE calls). (NOTE: It’s useful to read each method and understand what they do.)</li>
+<li>EmloyeeNotFoundException is an exception used to indicate when an employee is looked up but not found.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeeNotFoundException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  EmployeeNotFoundException(Long id) &#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="string">"Could not find employee "</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When an EmployeeNotFoundException is thrown, this extra tidbit (花絮) of Spring MVC configuration is used to render an HTTP 404:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeeNotFoundAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ResponseBody</span></span><br><span class="line">  <span class="meta">@ExceptionHandler</span>(EmployeeNotFoundException.class)</span><br><span class="line">  <span class="meta">@ResponseStatus</span>(HttpStatus.NOT_FOUND)</span><br><span class="line">  <span class="function">String <span class="title">employeeNotFoundHandler</span><span class="params">(EmployeeNotFoundException ex)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ex.getMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>@ResponseBody</strong> signals taht this advice is rendered straight (笔直地) into the response body.</li>
+<li><strong>@ExceptionHandler</strong> configures the advice to only respond if an EmployeeNotFoundException is thrown.</li>
+<li><strong>@ResponseStatus</strong> says to issue an <strong>HttpStatus.NOT_FOUND</strong>, i.e. an <strong>HTTP 404</strong>.</li>
+<li>The body of the advice generates the content. In this case, it gives the message of the exception.</li>
+</ul>
+<p>To lanuch the application, either right-click the <strong>public static void main</strong> in <strong>PayRollApplication</strong> and select Run from your IDE, or:</p>
+<p>Spring initializr uses maven warpper so type this:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./mvnw clean spring-boot:run</span><br></pre></td></tr></table></figure></p>
+<p>Alternatively using your installed maven version type this:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mvn clean spring-boot:run</span><br></pre></td></tr></table></figure></p>
+<p>When the app starts, we can immediately interrogate (interrogate) it:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -v localhost:8080/employees</span><br></pre></td></tr></table></figure></p>
+<p>This will yield:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*   Trying ::1...</span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to localhost (::1) port 8080 (#0)</span><br><span class="line">&gt; GET /employees HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.54.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt;</span><br><span class="line">&lt; HTTP/1.1 200</span><br><span class="line">&lt; Content-Type: application/json;charset=UTF-8</span><br><span class="line">&lt; Transfer-Encoding: chunked</span><br><span class="line">&lt; Date: Thu, 09 Aug 2018 17:58:00 GMT</span><br><span class="line">&lt;</span><br><span class="line">* Connection #0 to host localhost left intact</span><br><span class="line">[&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;Bilbo Baggins&quot;,&quot;role&quot;:&quot;burglar&quot;&#125;,&#123;&quot;id&quot;:2,&quot;name&quot;:&quot;Frodo Baggins&quot;,&quot;role&quot;:&quot;thief&quot;&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>Here you can see the pre-loaded data, in a compacted format.</p>
+<p>If you try and query a user that doesn’t exist…</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -v localhost:8080/employees/99</span><br></pre></td></tr></table></figure>
+<p>You get…</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*   Trying ::1...</span><br><span class="line">* TCP_NODELAY <span class="built_in">set</span></span><br><span class="line">* Connected to localhost (::1) port 8080 (<span class="comment">#0)</span></span><br><span class="line">&gt; GET /employees/99 HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.54.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt;</span><br><span class="line">&lt; HTTP/1.1 404</span><br><span class="line">&lt; Content-Type: text/plain;charset=UTF-8</span><br><span class="line">&lt; Content-Length: 26</span><br><span class="line">&lt; Date: Thu, 09 Aug 2018 18:00:56 GMT</span><br><span class="line">&lt;</span><br><span class="line">* Connection <span class="comment">#0 to host localhost left intact</span></span><br><span class="line">Could not find employee 99</span><br></pre></td></tr></table></figure>
+<p>This message nicely shows an <strong>HTTP 404</strong> error with the custom message <strong>Cound not find employee 99</strong>.</p>
+<p>It’s not hard to show the currently coded interactions…</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X POST localhost:8080/employees -H <span class="string">'Content-type:application/json'</span> -d <span class="string">'&#123;"name": "Samwise Gamgee", "role": "gardener"&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>Creates a new <strong>Employee</strong> record, and then sends the content back to us:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;:3,&quot;name&quot;:&quot;Samwise Gamgee&quot;,&quot;role&quot;:&quot;gardener&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>You can alter (更改) the user:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X PUT localhost:8080/employees/3 -H &apos;Content-type:application/json&apos; -d &apos;&#123;&quot;name&quot;: &quot;Samwise Gamgee&quot;, &quot;role&quot;: &quot;ring bearer&quot;&#125;&apos;</span><br></pre></td></tr></table></figure></p>
+<p>Updates the user:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;:3,&quot;name&quot;:&quot;Samwise Gamgee&quot;,&quot;role&quot;:&quot;ring bearer&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Depending on how you construct your service can have significant impacts (有很大关系). In this situation, replace is a better description than update. For example, if the name was NOT provided, it would instead get nulled out.</p>
+</blockquote>
+<p>And you can delete…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X DELETE localhost:8080/employees/3</span><br><span class="line">$ curl localhost:8080/employees/3</span><br><span class="line">Could not find employee 3</span><br></pre></td></tr></table></figure>
+<p>This is all well and good, but do we have RESTful service yet? (IF you didn’t catch the hint, the answer is no.)</p>
+<p>What’s missing?</p>
+<h2 id="What-makes-something-RESTful"><a href="#What-makes-something-RESTful" class="headerlink" title="What makes something RESTful?"></a>What makes something RESTful?</h2><p>So far, you have a web-based service that handles the core operations involving employee data. But that’s not enough to make things “RESTful”.</p>
+<ul>
+<li>Pretty URLs like /employees/3 aren’t REST.</li>
+<li>Merely using <strong>GET</strong>, <strong>POST</strong>, etc. aren’t REST.</li>
+<li>Having all the CRUD operations laid out arent’t REST.</li>
+</ul>
+<p>In fact, what we have built so far is better described as <strong>RPC</strong> (Remote Procedure Call 远程过程调用). That’s because there is no way to know how to interact with this service. If you published this today, you’d also have to write a document or host a developer’s portal somewhere with all the details.</p>
+<p>This <strong>statement</strong> (报告) of Roy Fielding may further lend a clue (线索) to the difference between <strong>REST</strong> and <strong>RPC</strong>:</p>
+<blockquote>
+<p>I am getting frustrated (沮丧) by the number of people calling any HTTP-based interface a REST API. Today’s example is the socialsite (社交网站) REST API. That is RPC. It screams RPC. There is so much coupling (结合) on display that it should be given an X rating.</p>
+<p>What needs to be done to make the REST architectural (建筑) style clear on the notion that hypertext is a constraint (约束)? In other words, if the engine of application state (and hence the API) is not being driven by hypertext, then it cannot be RESTful and cannot be a REST API. Period. Is there some broken manual somewhere that needs to be fixed?</p>
+</blockquote>
+<p>The side effect of NOT including hypermedia in our representationsis that clients MUST hard code URIs to navigate the API. This leads to the same brittle nature (脆弱性) that predated the rise of e-commerce (电子商务) on the web. It’s a signal that our JSON output needs a little help.</p>
+<p>Introducing Spring HEATEOAS, a Spring project aimed at helping you write hypermedia-driven outputs. To upgrade your service to being RESTful, add this to your build:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-hateoas<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>This tiny library will give us the constructs to define a RESTful service and then render it in an acceptable format for client consumption (消费).</p>
+<p>A critical ingredient (关键成分) to any RESTful service is adding links to relvant (相关性) oprations. To make your controller more RESTful, add links like this:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function">EntityModel&lt;Employee&gt; <span class="title">one</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  Employee employee = repository.findById(id)</span><br><span class="line">    .orElseThrow(() -&gt; <span class="keyword">new</span> EmployeeNotFoundException(id));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> EntityModel&lt;&gt;(employee,</span><br><span class="line">    linkTo(methodOn(EmployeeController.class).one(id)).withSelfRel(),</span><br><span class="line">    linkTo(methodOn(EmployeeController.class).all()).withRel(<span class="string">"employees"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This is very similar to what we had bedore, but a few things have changed:</p>
+<ul>
+<li>The return type of the method has changed from <strong>Empoyee</strong> to <strong>EntityMode</strong>. <strong>EntityMode</strong> is a generic container from Spring HATEOAS that includes not only the data but a collcection of links.</li>
+<li><strong>linkTo(MethodOn(EmployeeController.class).one(id).withSelfRel())</strong> asks that Spring HATEOAS build a link to the <strong>EmployeeController</strong>‘s <code>one()</code> method, and flag it as a self link.  </li>
+<li><strong>linkTo(methodOn(EmployeeController.class).all()).withRel(“employees”)</strong> asks Spring HATEOAS to build a link to the aggregate (聚合) root, <strong>all()</strong>, and call it “empolyees”.</li>
+</ul>
+<p>What do we mean by “build a link”? One of Spring HATEOAS’s core types is <strong>Link</strong>. It includes a <strong>URI</strong> and a <strong>rel</strong> (relation). Links are what empower (授权) the web. Before the World Wide Web, other document systems would render information or links, but it was the linking of documents WITH data that stitched (缝合) the web together.</p>
+<p>Roy Fielding encourages bulding APIs with the same techniques that make the web successful, and links are one of them.</p>
+<p>If you restart the application and query the employee record of <strong>Bilbo</strong>, you’ll get a slightly different response than earlier:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># RESTful representation of a singe employee</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: 1,</span><br><span class="line">  &quot;name&quot;: &quot;Bilbo Baggins&quot;,</span><br><span class="line">  &quot;role&quot;: &quot;burglar&quot;,</span><br><span class="line">  &quot;_links&quot;: &#123;</span><br><span class="line">    &quot;self&quot;: &#123;</span><br><span class="line">      &quot;href&quot;: &quot;http://localhost:8080/employees/1&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;employees&quot;: &#123;</span><br><span class="line">      &quot;href&quot;: &quot;http://localhost:8080/employees&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This decompressed output shows not only the data elements you saw earlier (<strong>id</strong>, <strong>name</strong> and <strong>role</strong>), but also a <strong>_links</strong> entry containing two URIs. This entire document is formatted using <strong>HAL</strong>.</p>
+<p>HAL is a lightweight mediatype that allows encoding not just data but also hypermedia controls, alerting consumers to other parts of the API they can navigate toward. In this case, there is a “self” link (kink of like a “this” statement in code) along with a link back to the <strong>aggregate root</strong>.</p>
+<p>To make the aggregate root ALSO more RESTful, you want to include top level links while ALSO including any RESTful components within:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Getting an aggregate root resource</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/employees"</span>)</span><br><span class="line">CollectionModel&lt;EntityModel&lt;Employee&gt;&gt; all() &#123;</span><br><span class="line"></span><br><span class="line">  List&lt;EntityModel&lt;Employee&gt;&gt; employees = repository.findAll().stream()</span><br><span class="line">    .map(employee -&gt; <span class="keyword">new</span> EntityModel&lt;&gt;(employee,</span><br><span class="line">      linkTo(methodOn(EmployeeController.class).one(employee.getId())).withSelfRel(),</span><br><span class="line">      linkTo(methodOn(EmployeeController.class).all()).withRel(<span class="string">"employees"</span>)))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> CollectionModel&lt;&gt;(employees,</span><br><span class="line">    linkTo(methodOn(EmployeeController.class).all()).withSelfRel());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Wow! That method, which used to just be <code>repository.findAll()</code> has grown big! Let’s unpack it.</p>
+<p><strong>CollectionModel</strong> is another Spring HATEOAS container aimed at encapsulating  (压缩) collections. it, too, also lets you include links. Don’t let that first statement slip by (流逝). What does “encapsulating collections” mean? Collections of employees?</p>
+<p>Not quite.</p>
+<p>Since we’re talking REST, it should encapsulate collections of <strong>empoyee resources</strong>.</p>
+<p>That’s why you fetch (取回) all the employees, but then tranform them into a list of <strong>EmtityModel</strong> objects. (Tanks Java 8 Stream API!!)</p>
+<p>If you restart the appllcation and fetch the aggregate root, you can see what this looks like.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># RESTful representation of a collection of employee resources</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"_embedded"</span>: &#123;</span><br><span class="line">    <span class="string">"employeeList"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">"name"</span>: <span class="string">"Bilbo Baggins"</span>,</span><br><span class="line">        <span class="string">"role"</span>: <span class="string">"burglar"</span>,</span><br><span class="line">        <span class="string">"_links"</span>: &#123;</span><br><span class="line">          <span class="string">"self"</span>: &#123;</span><br><span class="line">            <span class="string">"href"</span>: <span class="string">"http://localhost:8080/employees/1"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"employees"</span>: &#123;</span><br><span class="line">            <span class="string">"href"</span>: <span class="string">"http://localhost:8080/employees"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"id"</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">"name"</span>: <span class="string">"Frodo Baggins"</span>,</span><br><span class="line">        <span class="string">"role"</span>: <span class="string">"thief"</span>,</span><br><span class="line">        <span class="string">"_links"</span>: &#123;</span><br><span class="line">          <span class="string">"self"</span>: &#123;</span><br><span class="line">            <span class="string">"href"</span>: <span class="string">"http://localhost:8080/employees/2"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"employees"</span>: &#123;</span><br><span class="line">            <span class="string">"href"</span>: <span class="string">"http://localhost:8080/employees"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"_links"</span>: &#123;</span><br><span class="line">    <span class="string">"self"</span>: &#123;</span><br><span class="line">      <span class="string">"href"</span>: <span class="string">"http://localhost:8080/employees"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>For this aggregate root, which serves up aa collection of employee resources, there is a top-level <strong>“self”</strong> link. The <strong>“Collection”</strong> is listed underneath (在底下) the “_embedded” section. This is how HAL represents collections.</p>
+<p>And each individual member of the collection has their information as well as related links.</p>
+<p>What is the point of adding all these links? It makes it possible to evolve (进化) REST services over time. Existing links can be maintained (维护) while new links are added in the future. Newer clients may take advantage (优势) of the new links, while legacy (遗产) clients can sustain (维持) themselves on the old links. This is especially helpful is services get relocated and moved around. As long as the link structure is maintained, clients can STILL find and interact with things.</p>
+<h2 id="Simplifying-Link-Creation"><a href="#Simplifying-Link-Creation" class="headerlink" title="Simplifying Link Creation"></a>Simplifying Link Creation</h2><p>Did you notice the repetition (重复) in single employee link creation? The code to provide a single link to an employee as well as an “employees” links to the aggregate root was shown twice. If that raised your concern (关心), good! There’s a solution.</p>
+<p>Simply put, you need to define a function that converts <strong>Employee</strong> objects to <strong>EntityModel</strong> objects. While you could easily code this method yourself, there are benefits down the road of implementing Spring HATEOAS’s <strong>RepresentationModelAssembler</strong> interface.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeeModelAssembler</span> <span class="keyword">implements</span> <span class="title">RepresentationModelAssembler</span>&lt;<span class="title">Employee</span>, <span class="title">EntityModel</span>&lt;<span class="title">Employee</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> EntityModel&lt;Employee&gt; <span class="title">toModel</span><span class="params">(Employee employee)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> EntityModel&lt;&gt;(employee,</span><br><span class="line">      linkTo(methodOn(EmployeeController.class).one(employee.getId())).withSelfRel(),</span><br><span class="line">      linkTo(methodOn(EmployeeController.class).all()).withRel(<span class="string">"employees"</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This simple interface has one method: <strong>toModel()</strong>. It is based on converting a non-resource object (<strong>Employee</strong>) into a resource-based object (<strong>EntityModel</strong>).</p>
+<p>All the code you saw earlier in the controller can be moved into this class. And by applying Spring Framework’s <strong>@Conponent</strong>, this component will be automatically created when the app starts.</p>
+<blockquote>
+<p>Spring HATEOAS’s abstract base class for all resources is <strong>RepresentationModel</strong>. But for simplicity, I recomend using <strong>EntityModel</strong> as your mechanism to easily warp all POJOs as resources.</p>
+</blockquote>
+<p>To leverage (生效) this assembler (装配工), you only have to alter the EmployeeController by injecting the assembler in the constructor.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> EmployeeRepository repository;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> EmployeeModelAssembler assembler;</span><br><span class="line"></span><br><span class="line">  EmployeeController(EmployeeRepository repository,</span><br><span class="line">             EmployeeModelAssembler assembler) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.repository = repository;</span><br><span class="line">    <span class="keyword">this</span>.assembler = assembler;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>From here, you can use it in the single-item employee method:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function">EntityModel&lt;Employee&gt; <span class="title">one</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  Employee employee = repository.findById(id)</span><br><span class="line">    .orElseThrow(() -&gt; <span class="keyword">new</span> EmployeeNotFoundException(id));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> assembler.toModel(employee);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This code is almost the same, except instead of creating the <strong>EntityModel</strong> instance here, you delegate it to the assembler. Maybe that doesn’t look like much?</p>
+<p>Applying the same thing in the aggregate root controller method is more impressive (引人注目的):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/employees"</span>)</span><br><span class="line">CollectionModel&lt;EntityModel&lt;Employee&gt;&gt; all() &#123;</span><br><span class="line"></span><br><span class="line">  List&lt;EntityModel&lt;Employee&gt;&gt; employees = repository.findAll().stream()</span><br><span class="line">    .map(assembler::toModel)</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> CollectionModel&lt;&gt;(employees,</span><br><span class="line">    linkTo(methodOn(EmployeeController.class).all()).withSelfRel());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The code is, again, almost the same, however you get to replace all that <strong>EntityModel</strong> creation logic with <strong>map(assembler::toModel)</strong>. Thanks to Java 8 method references, it’s super easy to plug it in and simplify your controller.</p>
+<blockquote>
+<p>A key design goal of Spring HATEOAS is to make it easier to do The Right Thing. In this scenario, adding hypermedia to your service without hard coding a thing.</p>
+</blockquote>
+<p>At this stage (阶段), you’ve created a Spring MVC REST controller that actually produces hypermedia-powered content! Clients that don’t speak HAL can ignore the extra bits while consuming the pure data. Clients that DO speak HAL can navigate your empowered API.</p>
+<p>But that is not the only thing needed to build a truly RESTful service with Spring.</p>
+<h2 id="Evolving-REST-APIs"><a href="#Evolving-REST-APIs" class="headerlink" title="Evolving REST APIs"></a>Evolving REST APIs</h2><p>With one additional library and a few lines of extra code, you have added hypermedia to your application. But that is not the only thing needed to make your service RESTful. An important facet (方面) of REST if the fact that it’s neither a technology stack nor a single standard.</p>
+<p>REST is a collection of architectural constraints (约束) that when adopted (被采用的) make your application much more resilient (有弹性的). A key factor (因素) of resilience is that when you make upgrades to your services, your clients don’t suffer from downtime.</p>
+<p>In the “olden” days, upgrades were notorious (声名狼藉的) for breaking clients. In other words, an upgrade to the server required an update to the client. In this day and age, hours or even minutes of downtime spent doing an upgrade can cost milions in lost revenue (收益).</p>
+<p>Some compaines requre that you present management with a plan to minimize downtime. In the past, you could get away with upgrading at 2:00 a.m. on a Sunday when load was at a minimum. But in today’s Internet-based e-commerce with international coustomers, such strategies are not as effective.</p>
+<p>SOAP-based services and CORBA-based services were incredibly brittle (难以置信的脆弱). It was hard to roll out (推出) a server that could support both old and new clients. With REST-based practices, it’s much easier Especially using the Spring stack.</p>
+<p>Imagine this design problem: You’ve rolled out a system with this <strong>Employee</strong>-based record. The system is a major hit. You’ve sold your system to countless enterprises. Suddenly, the need for an employee’s name to be split into <strong>firstName</strong> and <strong>lastName</strong> arises.</p>
+<p>Uh oh. Didn’t think of that.</p>
+<p>Before you open up the <strong>Employee</strong> class and replace the single field <strong>name</strong> with <strong>firstName</strong> and <strong>lastName</strong>, stop and think for a second. Will that break any clients? How long will it take to upgrade them. Do you even control all the clients accessing your services?</p>
+<p>Downtime = lost money. Is management ready for that?</p>
+<p>There is an old strategy that precedes REST by years.</p>
+<blockquote>
+<p>Never delete a column in a database.</p>
+</blockquote>
+<p>You can always add columns (fields) to a database table. But don’t take one away. The principle in RESTful services is the same. Add new fields to your JSON representations, but don’t take any away. Like this:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"firstName"</span>: <span class="string">"Bilbo"</span>,</span><br><span class="line">  <span class="attr">"lastName"</span>: <span class="string">"Baggins"</span>,</span><br><span class="line">  <span class="attr">"role"</span>: <span class="string">"burglar"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"Bilbo Baggins"</span>,</span><br><span class="line">  <span class="attr">"_links"</span>: &#123;</span><br><span class="line">    <span class="attr">"self"</span>: &#123;</span><br><span class="line">      <span class="attr">"href"</span>: <span class="string">"http://localhost:8080/employees/1"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"employees"</span>: &#123;</span><br><span class="line">      <span class="attr">"href"</span>: <span class="string">"http://localhost:8080/employees"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Notice how this format shows <strong>firstName</strong>, <strong>lastName</strong>, AND <strong>name</strong>? While it sports duplication of information, the purpose is to support both old and new clients. That means you can upgrade the server without requiring clients upgrade at the same time. A good move that should reduce downtime.</p>
+<p>And not only should you show this information in both the “old way” and the “new way”, you should also process incoming data both ways.</p>
+<p>How? Simple. Like this:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="meta">@Id</span> <span class="meta">@GeneratedValue</span> Long id;</span><br><span class="line">  <span class="keyword">private</span> String firstName;</span><br><span class="line">  <span class="keyword">private</span> String lastName;</span><br><span class="line">  <span class="keyword">private</span> String role;</span><br><span class="line"></span><br><span class="line">  Employee() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  Employee(String firstName, String lastName, String role) &#123;</span><br><span class="line">    <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">    <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">    <span class="keyword">this</span>.role = role;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="string">" "</span> + <span class="keyword">this</span>.lastName;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    String[] parts =name.split(<span class="string">" "</span>);</span><br><span class="line">    <span class="keyword">this</span>.firstName = parts[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">this</span>.lastName = parts[<span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This class is very similar to the previous version of <strong>Employee</strong>. Let’s go over the changes:</p>
+<ul>
+<li>Field name has been replaced by firstName and lastName. Lombok will generate getters and setters for those.</li>
+<li>A “virtual” getter for the old <strong>name</strong> property, <strong>getName()</strong> is defined. It uses the <strong>firstName</strong> and <strong>lastName</strong> fileds to produce a value.</li>
+<li>A “virtual” setter for the old <strong>name</strong> property is also defined, <strong>setName()</strong>. It parses an incoming string and stores it into the proper fields.</li>
+</ul>
+<p>Of course not EVERY change to your API is as simple as splitting a string or merging two strings. But it’s surely not impossible to come up with a set of transform for most scenarios (情景), ehh?</p>
+<p>Another fine tuning is to ensure each of your REST methods returns a proper response. Update the POST method like this:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/employees"</span>)</span><br><span class="line">ResponseEntity&lt;?&gt; newEmployee(<span class="meta">@RequestBody</span> Employee newEmployee) <span class="keyword">throws</span> URISyntaxException &#123;</span><br><span class="line"></span><br><span class="line">  EntityModel&lt;Employee&gt; entityModel = assembler.toModel(repository.save(newEmployee));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ResponseEntity</span><br><span class="line">    .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())</span><br><span class="line">    .body(entityModel);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>The new <strong>Employee</strong> object is saved as before. But the resulting object is wrapped using the <strong>EmployeeModelAssembler</strong>.</li>
+<li>Spring MVC’s <strong>responseEntity</strong> is used to create an <strong>HTTP 201 Created</strong> status message. This type of response typically includes a <strong>Location</strong> response header, and we use the URI derived from the model’s self-related link.</li>
+<li>Additionally, return the resource-based version of the saved object.</li>
+</ul>
+<p>With this tweak (微调) in place, you can use the same endpoint to create a new employee resource, and use the legacy <strong>name</strong> field:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -v -X POST localhost:8080/employees -H <span class="string">'Content-Type:application/json'</span> -d <span class="string">'&#123;"name": "Samwise Gamgee", "role": "gardener"&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<p>The output is shown below:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&gt; POST /employees HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.54.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; Content-Type:application/json</span><br><span class="line">&gt; Content-Length: 46</span><br><span class="line">&gt;</span><br><span class="line">&lt; Location: http://localhost:8080/employees/3</span><br><span class="line">&lt; Content-Type: application/hal+json;charset=UTF-8</span><br><span class="line">&lt; Transfer-Encoding: chunked</span><br><span class="line">&lt; Date: Fri, 10 Aug 2018 19:44:43 GMT</span><br><span class="line">&lt;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: 3,</span><br><span class="line">  &quot;firstName&quot;: &quot;Samwise&quot;,</span><br><span class="line">  &quot;lastName&quot;: &quot;Gamgee&quot;,</span><br><span class="line">  &quot;role&quot;: &quot;gardener&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;Samwise Gamgee&quot;,</span><br><span class="line">  &quot;_links&quot;: &#123;</span><br><span class="line">    &quot;self&quot;: &#123;</span><br><span class="line">      &quot;href&quot;: &quot;http://localhost:8080/employees/3&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;employees&quot;: &#123;</span><br><span class="line">      &quot;href&quot;: &quot;http://localhost:8080/employees&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This not only has the resulting object rendered in HAL (both <strong>name</strong> as well as <strong>firstName</strong> / <strong>lastName</strong>), but also the <strong>Location</strong> header populated with <strong><a href="http://localhost:8080/employees/3">http://localhost:8080/employees/3</a></strong>. A hypermedia powered client could opt to “surf” to this new resource and proceed to interact with it.</p>
+<p>The PUT controller method needs similar tweaks:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PutMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line">ResponseEntity&lt;?&gt; replaceEmployee(<span class="meta">@RequestBody</span> Employee newEmployee, <span class="meta">@PathVariable</span> Long id) <span class="keyword">throws</span> URISyntaxException &#123;</span><br><span class="line"></span><br><span class="line">  Employee updatedEmployee = repository.findById(id)</span><br><span class="line">    .map(employee -&gt; &#123;</span><br><span class="line">      employee.setName(newEmployee.getName());</span><br><span class="line">      employee.setRole(newEmployee.getRole());</span><br><span class="line">      <span class="keyword">return</span> repository.save(employee);</span><br><span class="line">    &#125;)</span><br><span class="line">    .orElseGet(() -&gt; &#123;</span><br><span class="line">      newEmployee.setId(id);</span><br><span class="line">      <span class="keyword">return</span> repository.save(newEmployee);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  EntityModel&lt;Employee&gt; entityModel = assembler.toModel(updatedEmployee);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ResponseEntity</span><br><span class="line">    .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())</span><br><span class="line">    .body(entityModel);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The <strong>Employee</strong> object built from the <strong>save()</strong> operation is then wrapped using the <strong>EmployeeModelAssembler</strong> into an <strong>EntityModel</strong> object. Using the <strong>getRequiredLink()</strong> method, you can retrieve (找回) the Link created by the <strong>EmployeeModelAssembler</strong> with a SELF rel. This method returns a Link which must be turned into a URI with the <strong>toUri</strong> method.</p>
+<p>Since we want a more detailed HTTP response code than <strong>200 OK</strong>, we will use Spring MVC’s <strong>ResponseEntity</strong> wrapper. It has handy static method <strong>created()</strong> where we can plug (补充) in the resource’s URI. It’s debatable (有争议的) if <strong>HTTP 201 Created</strong> carries the right semantics (语意) since we aren’t necessarily “creating” a new resource. But it comes pre-loaded with a Location response header, so run with it. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ curl -v -X PUT localhost:8080/employees/3 -H &apos;Content-Type:application/json&apos; -d &apos;&#123;&quot;name&quot;: &quot;Samwise Gamgee&quot;, &quot;role&quot;: &quot;ring bearer&quot;&#125;&apos;</span><br><span class="line"></span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to localhost (::1) port 8080 (#0)</span><br><span class="line">&gt; PUT /employees/3 HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.54.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; Content-Type:application/json</span><br><span class="line">&gt; Content-Length: 49</span><br><span class="line">&gt;</span><br><span class="line">&lt; HTTP/1.1 201</span><br><span class="line">&lt; Location: http://localhost:8080/employees/3</span><br><span class="line">&lt; Content-Type: application/hal+json;charset=UTF-8</span><br><span class="line">&lt; Transfer-Encoding: chunked</span><br><span class="line">&lt; Date: Fri, 10 Aug 2018 19:52:56 GMT</span><br><span class="line">&#123;</span><br><span class="line">	&quot;id&quot;: 3,</span><br><span class="line">	&quot;firstName&quot;: &quot;Samwise&quot;,</span><br><span class="line">	&quot;lastName&quot;: &quot;Gamgee&quot;,</span><br><span class="line">	&quot;role&quot;: &quot;ring bearer&quot;,</span><br><span class="line">	&quot;name&quot;: &quot;Samwise Gamgee&quot;,</span><br><span class="line">	&quot;_links&quot;: &#123;</span><br><span class="line">		&quot;self&quot;: &#123;</span><br><span class="line">			&quot;href&quot;: &quot;http://localhost:8080/employees/3&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;employees&quot;: &#123;</span><br><span class="line">			&quot;href&quot;: &quot;http://localhost:8080/employees&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That employee resource has now been updated and the location URI sent back. Finally, update the DELETE operation suitably:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping</span>(<span class="string">"/employees/&#123;id&#125;"</span>)</span><br><span class="line">ResponseEntity&lt;?&gt; deleteEmployee(<span class="meta">@PathVariable</span> Long id) &#123;</span><br><span class="line"></span><br><span class="line">  repository.deleteById(id);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ResponseEntity.noContent().build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This return an <strong>HTTP 204 No Content</strong> response.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ curl -v -X DELETE localhost:8080/employees/1</span><br><span class="line"></span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to localhost (::1) port 8080 (#0)</span><br><span class="line">&gt; DELETE /employees/1 HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.54.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt;</span><br><span class="line">&lt; HTTP/1.1 204</span><br><span class="line">&lt; Date: Fri, 10 Aug 2018 21:30:26 GMT</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Making changes to the fields in the <strong>Employee</strong> class will require coordination (协调) with your detabase team, so that they can properly (正确地) migrate existing content into the new columns.</p>
+</blockquote>
+<p>You are now ready for an upgrade that will NOT disturb existing clients while newer clients can take advantage of the enhancements (增强)!</p>
+<p>By the way, are you worried about sending too much information over the wire (电线)? In some systems where every byte counts, evolution of APIs may need to take a backseat (后座). But don’t pursue such premature (未成熟的) optimization until you measure.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-Started"><span class="toc-number">1.</span> <span class="toc-text">Getting Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Story-so-Far…"><span class="toc-number">2.</span> <span class="toc-text">The Story so Far…</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-is-the-Platform"><span class="toc-number">3.</span> <span class="toc-text">HTTP is the Platform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-makes-something-RESTful"><span class="toc-number">4.</span> <span class="toc-text">What makes something RESTful?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simplifying-Link-Creation"><span class="toc-number">5.</span> <span class="toc-text">Simplifying Link Creation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evolving-REST-APIs"><span class="toc-number">6.</span> <span class="toc-text">Evolving REST APIs</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&text=Building REST services with Spring"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&is_video=false&description=Building REST services with Spring"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Building REST services with Spring&body=Check out this article: http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&title=Building REST services with Spring"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/04/29/Spring Tutorial/Building REST services with Spring/&name=Building REST services with Spring&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

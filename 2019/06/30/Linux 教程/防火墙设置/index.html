@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="systemctlsystemctl 是 CentOS 7 的服务管理工具中主要的工具，它融合之前 service 和 chkconfig 的功能于一体。 123456789101112131415161718# 启动一个服务systemctl start firewalld.service# 关闭一个服务systemctl stop firewalld.service# 重启一个服务system">
+<meta name="keywords" content="Linux,防火墙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防火墙设置">
+<meta property="og:url" content="http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="systemctlsystemctl 是 CentOS 7 的服务管理工具中主要的工具，它融合之前 service 和 chkconfig 的功能于一体。 123456789101112131415161718# 启动一个服务systemctl start firewalld.service# 关闭一个服务systemctl stop firewalld.service# 重启一个服务system">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="防火墙设置">
+<meta name="twitter:description" content="systemctlsystemctl 是 CentOS 7 的服务管理工具中主要的工具，它融合之前 service 和 chkconfig 的功能于一体。 123456789101112131415161718# 启动一个服务systemctl start firewalld.service# 关闭一个服务systemctl stop firewalld.service# 重启一个服务system">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>防火墙设置</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/03/Java8 新特性/新时间与日期 API/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/30/Nginx 教程/3. 安装 Nginx/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&text=防火墙设置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&is_video=false&description=防火墙设置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=防火墙设置&body=Check out this article: http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&name=防火墙设置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#systemctl"><span class="toc-number">1.</span> <span class="toc-text">systemctl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firewall基本使用"><span class="toc-number">2.</span> <span class="toc-text">firewall基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firewalld-cmd命令"><span class="toc-number">3.</span> <span class="toc-text">firewalld-cmd命令</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        防火墙设置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-29T16:00:00.000Z" itemprop="datePublished">2019-06-30</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux-系列/">Linux 系列</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Linux/">Linux</a>, <a class="tag-link" href="/tags/防火墙/">防火墙</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="systemctl"><a href="#systemctl" class="headerlink" title="systemctl"></a>systemctl</h2><p><code>systemctl</code> 是 CentOS 7 的服务管理工具中主要的工具，它融合之前 <code>service</code> 和 <code>chkconfig</code> 的功能于一体。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动一个服务</span></span><br><span class="line">systemctl start firewalld.service</span><br><span class="line"><span class="comment"># 关闭一个服务</span></span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"><span class="comment"># 重启一个服务</span></span><br><span class="line">systemctl restart firewalld.service</span><br><span class="line"><span class="comment"># 显示一个服务的状态</span></span><br><span class="line">systemctl status firewalld.service</span><br><span class="line"><span class="comment"># 在开机时启用一个服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> firewalld.service</span><br><span class="line"><span class="comment"># 在开机时禁用一个服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld.service</span><br><span class="line"><span class="comment"># 查看服务是否开机启动</span></span><br><span class="line">systemctl is-enabled firewalld.service</span><br><span class="line"><span class="comment"># 查看已启动的服务列表</span></span><br><span class="line">systemctl list-unit-files|grep enabled</span><br><span class="line"><span class="comment"># 查看启动失败的服务列表</span></span><br><span class="line">systemctl --failed</span><br></pre></td></tr></table></figure>
+<h2 id="firewall基本使用"><a href="#firewall基本使用" class="headerlink" title="firewall基本使用"></a>firewall基本使用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动</span></span><br><span class="line">systemctl start firewalld</span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">systemctl stop firewalld</span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">systemctl status firewalld </span><br><span class="line"><span class="comment"># 开机启用</span></span><br><span class="line">systemctl <span class="built_in">enable</span> firewalld</span><br><span class="line"><span class="comment"># 开机禁用</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+<h2 id="firewalld-cmd命令"><a href="#firewalld-cmd命令" class="headerlink" title="firewalld-cmd命令"></a>firewalld-cmd命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">firewall-cmd --version</span><br><span class="line"><span class="comment"># 查看帮助</span></span><br><span class="line">firewall-cmd --<span class="built_in">help</span></span><br><span class="line"><span class="comment"># 显示状态</span></span><br><span class="line">firewall-cmd --state</span><br><span class="line"><span class="comment"># 查看所有打开的端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"><span class="comment"># 更新防火墙规则</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line"><span class="comment"># 查看区域信息</span></span><br><span class="line">firewall-cmd --get-active-zones</span><br><span class="line"><span class="comment"># 查看指定接口所属区域</span></span><br><span class="line">firewall-cmd --get-zone-of-interface=eth0</span><br><span class="line"><span class="comment"># 拒绝所有包</span></span><br><span class="line">firewall-cmd --panic-on</span><br><span class="line"><span class="comment"># 取消拒绝状态</span></span><br><span class="line">firewall-cmd --panic-off</span><br><span class="line"><span class="comment"># 查看是否拒绝</span></span><br><span class="line">firewall-cmd --query-panic</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某个端口是否开放</span></span><br><span class="line">firewall-cmd --zone=public --query-port=80/tcp</span><br><span class="line"><span class="comment"># 查看所有开启的端口</span></span><br><span class="line">firewall-cmd --permanent --zone=public --list-ports</span><br><span class="line"><span class="comment"># 开启一个端口（--permanent永久生效，没有此参数重启后失效）</span></span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent </span><br><span class="line"><span class="comment"># 关闭一个端口</span></span><br><span class="line">firewall-cmd --zone= public --remove-port=80/tcp --permanent</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某个服务是否开放</span></span><br><span class="line">firewall-cmd --zone=public --query-service=https</span><br><span class="line"><span class="comment"># 查看所有开启的服务</span></span><br><span class="line">firewall-cmd --permanent --zone=public --list-services</span><br><span class="line"><span class="comment"># 开启一个服务（--permanent永久生效，没有此参数重启后失效）</span></span><br><span class="line">firewall-cmd --zone=public --add-service=https --permanent</span><br><span class="line"><span class="comment"># 关闭一个服务</span></span><br><span class="line">firewall-cmd --zone=public --remove-service=https --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新加载配置（修改后要重新加载配置才生效）</span></span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#systemctl"><span class="toc-number">1.</span> <span class="toc-text">systemctl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firewall基本使用"><span class="toc-number">2.</span> <span class="toc-text">firewall基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firewalld-cmd命令"><span class="toc-number">3.</span> <span class="toc-text">firewalld-cmd命令</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&text=防火墙设置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&is_video=false&description=防火墙设置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=防火墙设置&body=Check out this article: http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&title=防火墙设置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/30/Linux 教程/防火墙设置/&name=防火墙设置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="用户系统，主要分为账号体系和用户信息两大类。账号体系包括，登陆验证、注册、第三方授权、以及权限管理。用户信息包括，用户地理位置、用户属性、用户设备信息、还有用户日志信息。 登陆验证在一般项目账号体系中，一般会要求支持手机、邮箱、账号、QQ、微信、微博实现登陆。后面三种方式都是基于第三方授权后，完成的身份验证。手机、邮箱、账号则是相对传统的登录方式。 用户身份与登录的授权方式是独立开的，即用户uid">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用户帐号系统设计">
+<meta property="og:url" content="http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用户系统，主要分为账号体系和用户信息两大类。账号体系包括，登陆验证、注册、第三方授权、以及权限管理。用户信息包括，用户地理位置、用户属性、用户设备信息、还有用户日志信息。 登陆验证在一般项目账号体系中，一般会要求支持手机、邮箱、账号、QQ、微信、微博实现登陆。后面三种方式都是基于第三方授权后，完成的身份验证。手机、邮箱、账号则是相对传统的登录方式。 用户身份与登录的授权方式是独立开的，即用户uid">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用户帐号系统设计">
+<meta name="twitter:description" content="用户系统，主要分为账号体系和用户信息两大类。账号体系包括，登陆验证、注册、第三方授权、以及权限管理。用户信息包括，用户地理位置、用户属性、用户设备信息、还有用户日志信息。 登陆验证在一般项目账号体系中，一般会要求支持手机、邮箱、账号、QQ、微信、微博实现登陆。后面三种方式都是基于第三方授权后，完成的身份验证。手机、邮箱、账号则是相对传统的登录方式。 用户身份与登录的授权方式是独立开的，即用户uid">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>用户帐号系统设计</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/11/其它/思维导图/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/07/业务汇总/用户登录系统/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&text=用户帐号系统设计"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&is_video=false&description=用户帐号系统设计"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用户帐号系统设计&body=Check out this article: http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&name=用户帐号系统设计&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#登陆验证"><span class="toc-number">1.</span> <span class="toc-text">登陆验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户信息"><span class="toc-number">2.</span> <span class="toc-text">用户信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户日志信息"><span class="toc-number">3.</span> <span class="toc-text">用户日志信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局uid"><span class="toc-number">4.</span> <span class="toc-text">全局uid</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-Token"><span class="toc-number">5.</span> <span class="toc-text">Access Token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#要点"><span class="toc-number">6.</span> <span class="toc-text">要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#划分"><span class="toc-number">7.</span> <span class="toc-text">划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户信息表"><span class="toc-number">8.</span> <span class="toc-text">用户信息表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户授权表"><span class="toc-number">9.</span> <span class="toc-text">用户授权表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交互流程"><span class="toc-number">10.</span> <span class="toc-text">交互流程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        用户帐号系统设计
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-06T16:00:00.000Z" itemprop="datePublished">2020-02-07</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/业务汇总/">业务汇总</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>用户系统，主要分为账号体系和用户信息两大类。账号体系包括，登陆验证、注册、第三方授权、以及权限管理。用户信息包括，用户地理位置、用户属性、用户设备信息、还有用户日志信息。</p>
+<h2 id="登陆验证"><a href="#登陆验证" class="headerlink" title="登陆验证"></a>登陆验证</h2><p>在一般项目账号体系中，一般会要求支持手机、邮箱、账号、QQ、微信、微博实现登陆。后面三种方式都是基于第三方授权后，完成的身份验证。手机、邮箱、账号则是相对传统的登录方式。</p>
+<p>用户身份与登录的授权方式是独立开的，即用户uid和登录方式是一对多的关系。举例来说，用户A在使用微博授权登陆后，服务端鉴别身份信息为uid=123。用户A下次使用微信登陆，服务端鉴别身份同样为uid=123。不存在同一用户A拥有多个账号信息的现象。</p>
+<h2 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h2><p>用户信息，为便于扩展，分成两类。用户基础信息和用户拓展信息。基本信息用来保存用户的基本属性，年龄、性别、生日、头像、手机号码等。扩展信息，用来保存用户的设备信息或其他可扩展的内容。另外还有位置信息，这个可独立出来，也可合并到扩展信息中，根据自己的使用场景来定。</p>
+<h2 id="用户日志信息"><a href="#用户日志信息" class="headerlink" title="用户日志信息"></a>用户日志信息</h2><p>日志信息，用来保存用户注册或者登陆行为的。另外会有一些修改密码或者修改重要信息的日志记录。</p>
+<h2 id="全局uid"><a href="#全局uid" class="headerlink" title="全局uid"></a>全局uid</h2><p>建议不要使用表的主键作为用户ID，而是使用ID生成器(发号器)生成用户的唯一标示guid。当用户量急剧上升时，往往会采取分库分表的方法，然后通过将uid取余写到不同的表中。如果单纯的以某个表主键作为ID。会限制插入性能和增加业务复杂度,其次在分布式数据库中也无法保证ID唯一性。全局ID生成，是有很多方案的。简单一点，可以采用redis自增属性，因为其具有原子性，在分布式坏境中，能保证ID的唯一性。</p>
+<h2 id="Access-Token"><a href="#Access-Token" class="headerlink" title="Access Token"></a>Access Token</h2><p>与传统的Session相比，Access Token比较适合做RESTful Api开发。传统Web应用中，用户登陆后会写用户信息到cookie中，服务端通过Session就能得到用户的身份。</p>
+<p>Access Token的是OAuth2.0中用户经过授权后，返回调用API的凭证。对于自己的应用来讲，用户在登录后，即返回Access Token。在token有效期内可凭借此凭证，调用其他接口。对于accesstoken的刷新有两种方案，第一种每次用户重启app时，重新refresh。第二种，在调用周期内服务端发现access token可能过期时，返回新的token给客户端。</p>
+<p>至于Access Token的生成，这个并没有规定，只要保证其唯一性即可。简单点，对用户uid和当前时间哈希得到新的Access Token，并设置过期时间。另外也可以采用JWT实现。</p>
+<h2 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h2><ol>
+<li>用户注册</li>
+<li>用户登录</li>
+<li>用户登录后身份校验</li>
+<li>用户基本信息修改</li>
+<li>用户安全中心</li>
+</ol>
+<h2 id="划分"><a href="#划分" class="headerlink" title="划分"></a>划分</h2><ol>
+<li>用户基本信息服务<br> 提供用户的基本信息的获取和修改，该服务需要能够扛住较大的访问压力（当然也可以在调用方做缓存）</li>
+<li>用户的注册和登录服务<br> 提供用户的注册、登录授权颁发用户的登录标识</li>
+<li>用户身份校验服务<br> 对用户的登录标识进行校验，该服务需要扛住能够较大的访问压力（当然也可以在调用方做缓存）</li>
+<li>用户安全中心服务<br> 提供用户的重要信息的修改如登录的邮箱手机号，密码等。用户在进行这些敏感信息的修改是需要进行身份认证，来保证用户的安全性。</li>
+</ol>
+<h2 id="用户信息表"><a href="#用户信息表" class="headerlink" title="用户信息表"></a>用户信息表</h2><h2 id="用户授权表"><a href="#用户授权表" class="headerlink" title="用户授权表"></a>用户授权表</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">id</th>
+<th style="text-align:left">user_id</th>
+<th style="text-align:left">identity_type</th>
+<th style="text-align:left">identifier</th>
+<th style="text-align:left">credential</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">email</td>
+<td style="text-align:left">123@example.com</td>
+<td style="text-align:left">123456</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">phone</td>
+<td style="text-align:left">13888888888</td>
+<td style="text-align:left">123456</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">weibo</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">微博Token</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">username</td>
+<td style="text-align:left">moliniao</td>
+<td style="text-align:left">123456</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">weixin</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">微信Token</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#登陆验证"><span class="toc-number">1.</span> <span class="toc-text">登陆验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户信息"><span class="toc-number">2.</span> <span class="toc-text">用户信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户日志信息"><span class="toc-number">3.</span> <span class="toc-text">用户日志信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局uid"><span class="toc-number">4.</span> <span class="toc-text">全局uid</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-Token"><span class="toc-number">5.</span> <span class="toc-text">Access Token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#要点"><span class="toc-number">6.</span> <span class="toc-text">要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#划分"><span class="toc-number">7.</span> <span class="toc-text">划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户信息表"><span class="toc-number">8.</span> <span class="toc-text">用户信息表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户授权表"><span class="toc-number">9.</span> <span class="toc-text">用户授权表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交互流程"><span class="toc-number">10.</span> <span class="toc-text">交互流程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&text=用户帐号系统设计"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&is_video=false&description=用户帐号系统设计"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用户帐号系统设计&body=Check out this article: http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&title=用户帐号系统设计"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/07/业务汇总/用户帐号系统设计/&name=用户帐号系统设计&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

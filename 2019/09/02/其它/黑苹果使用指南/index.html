@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这里是常用的黑苹果指南。 长按按键不能连续输入写代码时，会遇到连续输入同一个字符的情况，此时希望按住一个按键就能够连续输入，例如想要输入“*“，按住键就可以连续输入；但是实际情况是想要输入几个就要按几次，很麻烦； 解决方法:   打开终端输入  1defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false  或者  1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑苹果使用指南">
+<meta property="og:url" content="http://yoursite.com/2019/09/02/其它/黑苹果使用指南/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这里是常用的黑苹果指南。 长按按键不能连续输入写代码时，会遇到连续输入同一个字符的情况，此时希望按住一个按键就能够连续输入，例如想要输入“*“，按住键就可以连续输入；但是实际情况是想要输入几个就要按几次，很麻烦； 解决方法:   打开终端输入  1defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false  或者  1">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-08-21T12:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="黑苹果使用指南">
+<meta name="twitter:description" content="这里是常用的黑苹果指南。 长按按键不能连续输入写代码时，会遇到连续输入同一个字符的情况，此时希望按住一个按键就能够连续输入，例如想要输入“*“，按住键就可以连续输入；但是实际情况是想要输入几个就要按几次，很麻烦； 解决方法:   打开终端输入  1defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean false  或者  1">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>黑苹果使用指南</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/03/其它/Corn 表达式/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/29/Linux 教程/SSH原理与运用（一）：远程登录/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&text=黑苹果使用指南"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&is_video=false&description=黑苹果使用指南"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=黑苹果使用指南&body=Check out this article: http://yoursite.com/2019/09/02/其它/黑苹果使用指南/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&name=黑苹果使用指南&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#长按按键不能连续输入"><span class="toc-number">1.</span> <span class="toc-text">长按按键不能连续输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启F1-F12功能键"><span class="toc-number">2.</span> <span class="toc-text">开启F1-F12功能键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Karabiner映射Window键盘"><span class="toc-number">3.</span> <span class="toc-text">使用Karabiner映射Window键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示隐藏文件"><span class="toc-number">4.</span> <span class="toc-text">显示隐藏文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Homebrew"><span class="toc-number">5.</span> <span class="toc-text">Homebrew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装（2020-04-07）"><span class="toc-number">5.0.1.</span> <span class="toc-text">安装（2020-04-07）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#切换源（2020-04-07）"><span class="toc-number">5.0.2.</span> <span class="toc-text">切换源（2020-04-07）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bash-修改前缀"><span class="toc-number">5.0.3.</span> <span class="toc-text">Bash 修改前缀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#禁用虚拟内存"><span class="toc-number">5.0.4.</span> <span class="toc-text">禁用虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚焦搜索失效"><span class="toc-number">5.0.5.</span> <span class="toc-text">聚焦搜索失效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#苹果手机对比"><span class="toc-number">6.</span> <span class="toc-text">苹果手机对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-性能对比"><span class="toc-number">7.</span> <span class="toc-text">Mac 性能对比</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        黑苹果使用指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-09-01T16:00:00.000Z" itemprop="datePublished">2019-09-02</time>
+        
+        (Updated: <time datetime="2020-08-21T12:38:20.000Z" itemprop="dateModified">2020-08-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/其它/">其它</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这里是常用的黑苹果指南。</p>
+<h2 id="长按按键不能连续输入"><a href="#长按按键不能连续输入" class="headerlink" title="长按按键不能连续输入"></a>长按按键不能连续输入</h2><p>写代码时，会遇到连续输入同一个字符的情况，此时希望按住一个按键就能够连续输入，例如想要输入“<strong><strong><strong>*</strong></strong></strong>“，按住键就可以连续输入；但是实际情况是想要输入几个就要按几次，很麻烦；</p>
+<p>解决方法: </p>
+<ol>
+<li><p>打开终端输入</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write NSGlobalDomain ApplePressAndHoldEnabled -boolean <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p> 或者</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write -g ApplePressAndHoldEnabled -bool <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启电脑</p>
+</li>
+</ol>
+<blockquote>
+<p>备注：如果想要关闭只需要将上述命令行中的false改为true，重启电脑即可。</p>
+</blockquote>
+<h2 id="开启F1-F12功能键"><a href="#开启F1-F12功能键" class="headerlink" title="开启F1-F12功能键"></a>开启F1-F12功能键</h2><p>使用Mac系统的人都知道，Mac系统默认是没有开启F1-F12的使用的，平时我们使用的系统都可以使用键盘上的功能键，下面我们就可看看，如何设置才能使用Mac键盘上的功能键。</p>
+<ol>
+<li>首先在系统桌面的左上角点击苹果图标，找到“系统偏好设置”，点击打开“系统偏好设置”面板，如图所示。</li>
+<li>在打开的“系统偏好设置”面板里的“硬件”里找到“键盘”，点击它。</li>
+<li>在打开的“键盘”面板里找到“键盘”，这里有“键盘”和“键盘快捷键”两项，如图所示。</li>
+<li>在“键盘”选项里找到“将F1、F2”等键用作标准功能键，把它前面的勾选上，如图所示。</li>
+</ol>
+<h2 id="使用Karabiner映射Window键盘"><a href="#使用Karabiner映射Window键盘" class="headerlink" title="使用Karabiner映射Window键盘"></a>使用Karabiner映射Window键盘</h2><p><a href="https://link.jianshu.com/?t=https://github.com/wwwjfy/Karabiner-Elements/releases">Karabiner</a>是一款Mac平台修改键位映射的软件，有任何需要更改键位默认行为的需求都可以尝试用Karabiner做相应的映射，开源且免费。</p>
+<h2 id="显示隐藏文件"><a href="#显示隐藏文件" class="headerlink" title="显示隐藏文件"></a>显示隐藏文件</h2><p>显示隐藏文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.Finder AppleShowAllFiles YES;KillAll Finder</span><br></pre></td></tr></table></figure></p>
+<p>不显示隐藏文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.Finder AppleShowAllFiles NO;KillAll Finder</span><br></pre></td></tr></table></figure></p>
+<h2 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h2><p>Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载、更新、查看、搜索等很多实用的功能。由于众所周知的原因，Homebrew在国内使用受到诸多限制，以下为改进方法（2020-04-07 测试成功）。</p>
+<h4 id="安装（2020-04-07）"><a href="#安装（2020-04-07）" class="headerlink" title="安装（2020-04-07）"></a>安装（2020-04-07）</h4><p>执行以下命令安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/zsh -c <span class="string">"<span class="variable">$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)</span>"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="切换源（2020-04-07）"><a href="#切换源（2020-04-07）" class="headerlink" title="切换源（2020-04-07）"></a>切换源（2020-04-07）</h4><p>直接使用 Homebrew 还需要更改默认源，不然谁用谁想打人，原因你懂的。以下是将默认源替换为国内 USTC 源的方法。</p>
+<p>替换核心软件仓库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$(brew --repo)</span>/Library/Taps/homebrew/homebrew-core"</span></span><br><span class="line">git remote <span class="built_in">set</span>-url origin https://mirrors.ustc.edu.cn/homebrew-core.git</span><br></pre></td></tr></table></figure></p>
+<p>替换 cask 软件仓库（提供 macOS 应用和大型二进制文件）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$(brew --repo)</span>"</span>/Library/Taps/caskroom/homebrew-cask</span><br><span class="line">git remote <span class="built_in">set</span>-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git</span><br></pre></td></tr></table></figure></p>
+<p>替换 Bottles 源（Homebrew 预编译二进制软件包）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles'</span> &gt;&gt; ~/.bash_profile</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure></p>
+<h4 id="Bash-修改前缀"><a href="#Bash-修改前缀" class="headerlink" title="Bash 修改前缀"></a>Bash 修改前缀</h4><h4 id="禁用虚拟内存"><a href="#禁用虚拟内存" class="headerlink" title="禁用虚拟内存"></a>禁用虚拟内存</h4><p>Mac OS X有个很奇葩的设定，它把内存分为了可用内存、联动内存、活跃内存和非活跃内存，详情可以看《通过活动监视器了解系统内存使用情况》。</p>
+<p>其中，当你退出一个软件时，它所占用的部分内存并不会释放，而是标记为非活跃，下次运行它时可以转换成活跃内存。但如果你不幸把可用内存用完了，Mac OS X并不会使用这些非活跃内存，而是直接使用虚拟内存（交换文件），这会严重影响运行效率。</p>
+<p>如果你的内存有4GB以上，大部分情况下都已经够用了，于是就可以禁用虚拟内存，以获得更快的速度。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist</span><br></pre></td></tr></table></figure>
+<p>禁用以后，磁盘上还保留着这些交换文件，它们已经没用了，也可以删掉（如果没手工删掉，重启系统后，系统也会自动删掉下面文件）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /private/var/vm/swapfile*</span><br></pre></td></tr></table></figure>
+<p>如果要重新启用虚拟内存的话，可以执行这条命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist</span><br></pre></td></tr></table></figure>
+<p>如果要临时释放不活跃内存，可以执行这条命令（需要安装Xcode，执行时会比较卡）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">purge</span><br></pre></td></tr></table></figure>
+<h4 id="聚焦搜索失效"><a href="#聚焦搜索失效" class="headerlink" title="聚焦搜索失效"></a>聚焦搜索失效</h4><p>执行后重启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mdutil -a -i on</span><br></pre></td></tr></table></figure>
+<h2 id="苹果手机对比"><a href="#苹果手机对比" class="headerlink" title="苹果手机对比"></a>苹果手机对比</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th>年份</th>
+<th>CPU</th>
+<th>内存</th>
+<th>存储</th>
+<th>屏幕类型</th>
+<th>像素密度</th>
+<th>屏占比</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">iPhone X</td>
+<td>2017</td>
+<td>A11</td>
+<td>3G</td>
+<td>64G</td>
+<td>OLED</td>
+<td>458ppi</td>
+<td>81.15%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.14.75326638AXoyoy&amp;id=565554281931">2210¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone XS</td>
+<td>2018</td>
+<td>A12</td>
+<td>4G</td>
+<td>64G</td>
+<td>OLED</td>
+<td>458ppi</td>
+<td>81.15%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.19.75326638AXoyoy&amp;id=578296663612">2640¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone XS Max</td>
+<td>1028</td>
+<td>A12</td>
+<td>4G</td>
+<td>64G</td>
+<td>OLED</td>
+<td>458ppi</td>
+<td>85.14%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.19.75326638AXoyoy&amp;id=578296663612">3140¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 11 Pro</td>
+<td>2019</td>
+<td>A13</td>
+<td>4G</td>
+<td>64G</td>
+<td>OLED</td>
+<td>458ppi</td>
+<td>80.94%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.34.75326638AXoyoy&amp;id=605399497350">4550¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 11 Pro Max</td>
+<td>2019</td>
+<td>A13</td>
+<td>4G</td>
+<td>64G</td>
+<td>OLED</td>
+<td>458ppi</td>
+<td>86.19%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.34.75326638AXoyoy&amp;id=605399497350">4800¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone XR</td>
+<td>2018</td>
+<td>A12</td>
+<td>3G</td>
+<td>64G</td>
+<td>LED</td>
+<td>326ppi</td>
+<td>80.02%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.22.75326638AXoyoy&amp;id=579794000002">2280¥</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 11</td>
+<td>2019</td>
+<td>A13</td>
+<td>4G</td>
+<td>64G</td>
+<td>LED</td>
+<td>326ppi</td>
+<td>91.4%</td>
+<td><a href="https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-17536852751.40.75326638AXoyoy&amp;id=605831887474">3350¥</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Mac-性能对比"><a href="#Mac-性能对比" class="headerlink" title="Mac 性能对比"></a>Mac 性能对比</h2><p>测试工具：Geekbeanch 5。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">机器</th>
+<th>处理器</th>
+<th>内存</th>
+<th>显卡</th>
+<th>单核</th>
+<th>多核</th>
+<th>OpenGL</th>
+<th>Meltal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">黑苹果 13.6</td>
+<td>i7-3770 4Cores 3400MHz</td>
+<td>1600MHz 16GB</td>
+<td>GTX650 1GB</td>
+<td>761</td>
+<td>3090</td>
+<td>5015</td>
+<td>2422</td>
+</tr>
+<tr>
+<td style="text-align:left">黑苹果 13.6</td>
+<td>E3-1220 v3 4Cores 3090MHz</td>
+<td>1600MHz 12GB</td>
+<td>GTX1060 6GB</td>
+<td>842</td>
+<td>2691</td>
+<td>32862</td>
+<td>14328</td>
+</tr>
+<tr>
+<td style="text-align:left">黑苹果 15.3</td>
+<td>i5-9400 6Cores 2900MHz</td>
+<td>2666MHz 16GB</td>
+<td>RX5900 8GB</td>
+<td>1005</td>
+<td>4164</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">黑苹果 15.3</td>
+<td>R7-3800 8Cores 3900MHz</td>
+<td>3200MHz 32GB</td>
+<td>RX5500 8GB</td>
+<td>1343</td>
+<td>9410</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook Air 2020</td>
+<td>i5-1030 4Cores 1100MHz</td>
+<td></td>
+<td></td>
+<td>1075</td>
+<td>2836</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook Air 2020</td>
+<td>i7-1060 4Cores 1200MHz</td>
+<td></td>
+<td></td>
+<td>1139</td>
+<td>3022</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook pro 13-inch 2020</td>
+<td>i5-8257 4Cores 1400MHz</td>
+<td></td>
+<td></td>
+<td>915</td>
+<td>3873</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook pro 13-inch 2020</td>
+<td>i5-1038 4Cores 2000MHz</td>
+<td></td>
+<td></td>
+<td>1137</td>
+<td>4236</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook pro 13-inch 2020</td>
+<td>i7-1068 4Cores 2300MHz</td>
+<td></td>
+<td></td>
+<td>1228</td>
+<td>4509</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook Pro 15-inch 2019</td>
+<td>i9-9980 8Cores 2400MHz</td>
+<td></td>
+<td></td>
+<td>1119</td>
+<td>6774</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook Pro 16-inch 2019</td>
+<td>i9-9980 6Cores 2600MHz</td>
+<td></td>
+<td></td>
+<td>1034</td>
+<td>5535</td>
+<td>5059/25207</td>
+<td>4638/24050</td>
+</tr>
+<tr>
+<td style="text-align:left">MacBook Pro 16-inch 2019</td>
+<td>i9-9980 8Cores 2400MHz</td>
+<td></td>
+<td></td>
+<td>1112</td>
+<td>6957</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">Mac Mini 2018</td>
+<td>i3-8100 4Cores 3600MHz</td>
+<td></td>
+<td></td>
+<td>913</td>
+<td>3267</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">Mac Mini 2018</td>
+<td>i7-8700 6Cores 3200MHz</td>
+<td></td>
+<td></td>
+<td>1117</td>
+<td>5615</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">Mac 2019</td>
+<td>i9-9900 8Cores 3600MHz</td>
+<td></td>
+<td></td>
+<td>1243</td>
+<td>8285</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">Mac 2019</td>
+<td>i5-9600 6Cores 3700MHz</td>
+<td></td>
+<td></td>
+<td>1130</td>
+<td>5406</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#长按按键不能连续输入"><span class="toc-number">1.</span> <span class="toc-text">长按按键不能连续输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启F1-F12功能键"><span class="toc-number">2.</span> <span class="toc-text">开启F1-F12功能键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Karabiner映射Window键盘"><span class="toc-number">3.</span> <span class="toc-text">使用Karabiner映射Window键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示隐藏文件"><span class="toc-number">4.</span> <span class="toc-text">显示隐藏文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Homebrew"><span class="toc-number">5.</span> <span class="toc-text">Homebrew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装（2020-04-07）"><span class="toc-number">5.0.1.</span> <span class="toc-text">安装（2020-04-07）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#切换源（2020-04-07）"><span class="toc-number">5.0.2.</span> <span class="toc-text">切换源（2020-04-07）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bash-修改前缀"><span class="toc-number">5.0.3.</span> <span class="toc-text">Bash 修改前缀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#禁用虚拟内存"><span class="toc-number">5.0.4.</span> <span class="toc-text">禁用虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#聚焦搜索失效"><span class="toc-number">5.0.5.</span> <span class="toc-text">聚焦搜索失效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#苹果手机对比"><span class="toc-number">6.</span> <span class="toc-text">苹果手机对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-性能对比"><span class="toc-number">7.</span> <span class="toc-text">Mac 性能对比</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&text=黑苹果使用指南"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&is_video=false&description=黑苹果使用指南"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=黑苹果使用指南&body=Check out this article: http://yoursite.com/2019/09/02/其它/黑苹果使用指南/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&title=黑苹果使用指南"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/02/其它/黑苹果使用指南/&name=黑苹果使用指南&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/archives/">Articles</a></li>
+        
+        <li><a href="/categories/">Categories</a></li>
+        
+        <li><a href="/search/">Search</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+<script src='https://unpkg.com/mermaid@8.4.5/dist/mermaid.min.js'></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: 'dark' });
+  }
+</script>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
