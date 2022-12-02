@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper.cdc0426e.js";import{g as s,o,c as t,a as _}from"./app.76aaae20.js";const a=s({name:"as"}),n={class:"box"},c=_("div",{class:"content"},"111",-1),r=[c];function i(d,p,f,l,m,u){return o(),t("div",n,r)}const h=e(a,[["render",i],["__file","as.vue"]]);export{h as default};

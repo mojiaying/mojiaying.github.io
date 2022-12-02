@@ -1,0 +1,1 @@
+import{_ as t}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as a,c as o,a as e,b as r}from"./app.76aaae20.js";const c={},s=e("h1",{id:"边缘题",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#边缘题","aria-hidden":"true"},"#"),r(" 边缘题")],-1),n=[s];function _(l,d){return a(),o("div",null,n)}const f=t(c,[["render",_],["__file","level0.html.vue"]]);export{f as default};
