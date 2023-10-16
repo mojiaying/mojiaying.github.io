@@ -1,0 +1,1 @@
+import{_ as t}from"./_plugin-vue_export-helper.cdc0426e.js";import{g as o,o as s,c as n,d as a,t as r}from"./app.8a378504.js";const _=o({name:"reTime",props:{val:{type:String,default:"134"}}}),c={class:"box"},i={class:"content"};function p(e,d,l,m,f,u){return s(),n("div",c,[a("div",i,"复习时间："+r(e.val),1)])}const x=t(_,[["render",p],["__file","reTime.vue"]]);export{x as default};

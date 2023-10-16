@@ -1,0 +1,26 @@
+import{_ as s}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as n,c as a,b as e}from"./app.8a378504.js";const o={},t=e(`<h1 id="ts使用笔记" tabindex="-1"><a class="header-anchor" href="#ts使用笔记" aria-hidden="true">#</a> TS使用笔记</h1><h2 id="数据类型" tabindex="-1"><a class="header-anchor" href="#数据类型" aria-hidden="true">#</a> 数据类型</h2><div class="language-typescript line-numbers-mode" data-ext="ts"><pre class="language-typescript"><code><span class="token comment">// 1. 联合类型 / 字面量类型：是更具体的 string, number 或 boolean 类型</span>
+<span class="token keyword">type</span> <span class="token class-name">Greeting</span> <span class="token operator">=</span> <span class="token string">&quot;Hello&quot;</span> <span class="token operator">|</span> <span class="token string">&quot;Hi&quot;</span> <span class="token operator">|</span> <span class="token string">&quot;Welcome&quot;</span>
+<span class="token comment">// keyof T 联合字面量类型</span>
+<span class="token keyword">interface</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>
+    name<span class="token operator">:</span> <span class="token builtin">string</span>
+    age<span class="token operator">:</span> <span class="token builtin">number</span>
+    location<span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">type</span> <span class="token class-name">SomeNewType</span> <span class="token operator">=</span> <span class="token keyword">keyof</span> Person <span class="token comment">// &quot;name&quot; | &quot;age&quot; | &quot;location&quot;</span>
+<span class="token comment">// keyof typeof obj  获取对象的值的具体类型</span>
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">&quot;BMW&quot;</span><span class="token punctuation">,</span> power<span class="token operator">:</span> <span class="token string">&quot;1000hp&quot;</span> <span class="token punctuation">}</span>
+<span class="token keyword">type</span> <span class="token class-name">CarLiteralType</span> <span class="token operator">=</span> <span class="token keyword">keyof</span> <span class="token keyword">typeof</span> obj
+<span class="token comment">// 枚举类型编译时作为对象存在</span>
+<span class="token keyword">enum</span> ColorsEnum <span class="token punctuation">{</span>
+    white <span class="token operator">=</span> <span class="token string">&#39;#ffffff&#39;</span><span class="token punctuation">,</span>
+    black <span class="token operator">=</span> <span class="token string">&#39;#000000&#39;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">type</span> <span class="token class-name">Colors</span> <span class="token operator">=</span> <span class="token keyword">keyof</span> <span class="token keyword">typeof</span> ColorsEnum
+
+<span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">&#39;hello&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;world&#39;</span><span class="token punctuation">]</span> <span class="token keyword">as</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+<span class="token keyword">type</span> <span class="token class-name">Greeting</span> <span class="token operator">=</span> <span class="token keyword">typeof</span> data<span class="token punctuation">[</span><span class="token builtin">number</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// type Greeting = &quot;hello&quot; | &quot;world&quot;</span>
+<span class="token comment">// 从对象数组获取想要的类型</span>
+<span class="token keyword">type</span> <span class="token class-name">Locale</span> <span class="token operator">=</span> <span class="token keyword">typeof</span> locales<span class="token punctuation">[</span><span class="token builtin">number</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">&#39;locale&#39;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,3),p=[t];function l(c,i){return n(),a("div",null,p)}const u=s(o,[["render",l],["__file","TS.html.vue"]]);export{u as default};
